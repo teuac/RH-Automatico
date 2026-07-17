@@ -10,7 +10,8 @@ import {
   Building, 
   Settings, 
   User, 
-  LogOut 
+  LogOut,
+  HardHat
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -148,6 +149,13 @@ const Sidebar = () => {
           <NavItem to="/alimentacao">
             <Utensils size={18} />
             Controle de Alimentação
+          </NavItem>
+        )}
+
+        {isRH && (
+          <NavItem to="/colaboradores">
+            <HardHat size={18} />
+            Colaboradores
           </NavItem>
         )}
 

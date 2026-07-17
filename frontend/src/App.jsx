@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { theme } from './theme';
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -21,6 +21,7 @@ import ControleVT from './pages/ControleVT';
 import PrimeiroAcesso from './pages/PrimeiroAcesso';
 import NaoAutorizado from './pages/NaoAutorizado';
 import NotFound from './pages/404';
+import Colaboradores from './pages/Colaboradores';
 
 // Initialize React Query Client
 const queryClient = new QueryClient({
@@ -71,6 +72,7 @@ const App = () => {
               <Route element={<ProtectedRoute allowedRoles={['Administrador', 'RH']} />}>
                 <Route element={<SidebarLayout />}>
                   <Route path="/alimentacao" element={<Upload />} />
+                  <Route path="/colaboradores" element={<Colaboradores />} />
                 </Route>
               </Route>
 

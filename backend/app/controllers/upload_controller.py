@@ -18,11 +18,10 @@ class UploadController:
         planilha_id: int = Form(...),
         override_date: Optional[str] = Form(None),
         file: UploadFile = File(...),
-        db: Session = Depends(get_db),
-        current_user: User = Depends(get_active_user)
+        db: Session = Depends(get_db)
     ):
         file_bytes = await file.read()
-        return upload_service.preview_upload(
+        return upload_service.generate_preview(
             db=db,
             obra_id=obra_id,
             planilha_id=planilha_id,
@@ -36,8 +35,8 @@ class UploadController:
     def commit(
         request: Request,
         payload: UploadCommitRequest,
-        db: Session = Depends(get_db),
-        current_user: User = Depends(get_active_user)
+        db: Session,
+        current_user: User
     ):
         ip_address = request.client.host if request.client else "unknown"
         user_agent = request.headers.get("user-agent", "unknown")
@@ -94,8 +93,7 @@ class UploadController:
     def resolve_pending(
         record_id: int,
         status_action: str,  # 'RESOLVIDO' or 'IGNORADO'
-        db: Session = Depends(get_db),
-        current_user: User = Depends(get_active_user)
+        db: Session = Depends(get_db)
     ):
         """Resolves a pending presence record after administrator/RH takes action"""
         record = pending_record_repository.get(db, record_id)

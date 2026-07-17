@@ -29,8 +29,22 @@ class PlanilhaController:
         db: Session = Depends(get_db),
         current_user: User = Depends(get_active_user)
     ) -> PlanilhaResponse:
-        planilha = planilha_repository.create(db, payload.model_dump())
-        
+        data = payload.model_dump()
+
+        # Para ALIMENTACAO: abas criadas automaticamente por mês — nome_aba é opcional
+        if data.get('automacao') == 'ALIMENTACAO':
+            if not data.get('nome_aba'):
+                data['nome_aba'] = 'AUTO'
+        else:
+            # Para outros tipos, nome_aba é obrigatório
+            if not data.get('nome_aba'):
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail="Nome da aba é obrigatório para este tipo de automação."
+                )
+
+        planilha = planilha_repository.create(db, data)
+
         # Log Audit Trail
         audit_repository.log(
             db=db,
@@ -42,11 +56,11 @@ class PlanilhaController:
             module="Configuracoes",
             screen="Planilhas",
             action="CREATE",
-            description=f"Cadastrou nova planilha: {planilha.nome} (Aba: {planilha.nome_aba})",
+            description=f"Cadastrou nova planilha: {planilha.nome} (Automacao: {planilha.automacao})",
             object_changed="planilhas",
             object_id=str(planilha.id),
             result="SUCESSO",
-            after_state=json.dumps(payload.model_dump())
+            after_state=json.dumps(data)
         )
         return planilha
 

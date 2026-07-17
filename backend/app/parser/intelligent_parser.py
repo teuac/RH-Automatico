@@ -23,7 +23,40 @@ class IntelligentParser:
 
     @staticmethod
     def clean_string(val: str) -> str:
-        return str(val).strip() if val else ""
+        if pd.isna(val) if 'pd' in globals() else False:
+            return ""
+        val_str = str(val).strip()
+        if val_str.lower() in ("nan", "nat", "<na>", "none", "null"):
+            return ""
+        return val_str
+
+    @staticmethod
+    def is_valid_employee(matricula: str, nome: str) -> bool:
+        if not matricula or not nome:
+            return False
+            
+        mat_lower = matricula.lower().strip()
+        nome_lower = nome.lower().strip()
+        
+        # Filter typical empty/null/NaT/nan values
+        for val in (mat_lower, nome_lower):
+            if val in ("", "nan", "nat", "none", "null", "undefined", "<na>"):
+                return False
+                
+        # Filter footprint/copyright footer labels or page pagination info
+        if any(term in mat_lower or term in nome_lower for term in (
+            "página", "pagina", "by rhnydus", "rhnydus", "total", "relatório", "relatorio", "período", "periodo", "filtro"
+        )):
+            return False
+            
+        # Filter out cases where matricula is a date-like value (e.g. contains 00:00:00 or matches date patterns)
+        if "00:00:00" in mat_lower:
+            return False
+            
+        if re.search(r'\d{4}-\d{2}-\d{2}', mat_lower) or re.search(r'\d{2}/\d{2}/\d{4}', mat_lower):
+            return False
+            
+        return True
 
     @staticmethod
     def parse_date(date_str: str) -> Optional[str]:
@@ -157,7 +190,7 @@ class IntelligentParser:
             nome = self.clean_string(row[idx_nome])
             horarios_raw = self.clean_string(row[idx_horarios])
             
-            if not matricula or not nome:
+            if not self.is_valid_employee(matricula, nome):
                 continue
                 
             if idx_data < len(row):
@@ -221,7 +254,7 @@ class IntelligentParser:
             nome = self.clean_string(row_list[idx_nome])
             horarios_raw = self.clean_string(row_list[idx_horarios])
             
-            if not matricula or not nome or matricula == "nan" or nome == "nan":
+            if not self.is_valid_employee(matricula, nome):
                 continue
                 
             if idx_data < len(row_list):

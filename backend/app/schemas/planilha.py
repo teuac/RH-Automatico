@@ -5,7 +5,7 @@ from datetime import datetime
 class PlanilhaBase(BaseModel):
     nome: str = Field(..., min_length=2, max_length=255)
     planilha_google_id: str = Field(..., min_length=5)
-    nome_aba: str = Field(..., min_length=1)
+    nome_aba: Optional[str] = Field(None)  # Opcional para ALIMENTACAO: abas criadas automaticamente por mês
     automacao: str = Field("ALIMENTACAO")  # 'ALIMENTACAO', 'CONTROLE_VT'
     obra_id: Optional[int] = None
     status: str = Field("ATIVO")  # 'ATIVO', 'INATIVO'

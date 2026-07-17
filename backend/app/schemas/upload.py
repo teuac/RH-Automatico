@@ -6,6 +6,7 @@ class EmployeeSyncData(BaseModel):
     matricula: str
     nome: str
     horarios: List[str]
+    presenca: Optional[str] = "A"  # "A" = alimentou, "F" = falta
 
 class UploadCommitRequest(BaseModel):
     obra_id: int

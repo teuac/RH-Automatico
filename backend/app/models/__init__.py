@@ -3,6 +3,7 @@ from app.models.role import Role, user_roles, role_permissions
 from app.models.permission import Permission
 from app.models.user import User
 from app.models.obra import Obra
+from app.models.colaborador import Colaborador
 from app.models.planilha import Planilha
 from app.models.upload import Upload
 from app.models.audit_log import AuditLog
@@ -18,6 +19,7 @@ __all__ = [
     "Permission",
     "User",
     "Obra",
+    "Colaborador",
     "Planilha",
     "Upload",
     "AuditLog",

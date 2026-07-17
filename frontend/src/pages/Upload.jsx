@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import Loader from '../components/Loader';
 import Toast, { ToastContainer } from '../components/Toast';
 import { Table, Tr, Td } from '../components/Table';
-import { Play, ArrowLeft, Check, AlertCircle, RefreshCw } from 'lucide-react';
+import { Play, ArrowLeft, Check, AlertCircle, RefreshCw, Sparkles } from 'lucide-react';
 
 const ControlsRow = styled.div`
   display: grid;
@@ -84,6 +84,35 @@ const StatusBadge = styled.span`
     background-color: #fce8e6;
     color: #d93025;
   `}
+`;
+
+const PresencaBadge = styled.span`
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  
+  ${({ $presenca }) => $presenca === 'A' ? `
+    background-color: #e2f0d9;
+    color: #385723;
+  ` : `
+    background-color: #fce8e6;
+    color: #c00000;
+  `}
+`;
+
+const NewTabBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: linear-gradient(135deg, #e8f0fe 0%, #e6f4ea 100%);
+  border: 1px solid #1a73e8;
+  color: #1a73e8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  margin-top: 0.5rem;
 `;
 
 const Upload = () => {
@@ -176,7 +205,8 @@ const Upload = () => {
         funcionarios: previewData.funcionarios.map(f => ({
           matricula: f.matricula,
           nome: f.nome,
-          horarios: f.horarios
+          horarios: f.horarios,
+          presenca: f.presenca
         }))
       };
 
@@ -187,6 +217,9 @@ const Upload = () => {
         `Alimentação atualizada! Refeições gravadas: ${metrics.updated}, Ignorados: ${metrics.ignored}, Pendentes: ${metrics.pending}. Tempo: ${(metrics.processing_time_ms / 1000).toFixed(2)}s`,
         metrics.pending > 0 ? 'warning' : 'success'
       );
+      if (metrics.aba_criada) {
+        setTimeout(() => showToast(`✨ Nova aba "${metrics.nome_aba}" criada automaticamente no Google Sheets com todos os funcionários e dias do mês.`, 'info'), 400);
+      }
       
       // Clean up state
       setPreviewData(null);
@@ -303,20 +336,41 @@ const Upload = () => {
                 <strong>Planilha Google:</strong> {previewData.planilha_nome}<br />
                 <strong>ID Planilha:</strong> <span style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>{previewData.planilha_google_id}</span><br />
                 <strong>Aba:</strong> {previewData.nome_aba}
+                {previewData.aba_criada && (
+                  <NewTabBadge>
+                    <Sparkles size={13} />
+                    Nova aba criada automaticamente para {previewData.nome_aba}
+                  </NewTabBadge>
+                )}
               </div>
             </div>
 
-            <Table headers={["Matrícula", "Funcionário", "Horários Detectados", "Encontrado", "Situação"]}>
+            <Table headers={["Matrícula", "Funcionário", "Status", "Horários Detectados", "Encontrado", "Situação"]}>
               {previewData.funcionarios.map((emp, idx) => (
-                <Tr key={idx}>
+                <Tr key={idx} style={emp.presenca === 'F' ? { backgroundColor: '#fdf6f6' } : {}}>
                   <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
                   <Td><strong>{emp.nome}</strong></Td>
                   <Td>
-                    {emp.horarios.map((t, i) => (
-                      <span key={i} style={{ backgroundColor: '#f1f3f4', padding: '0.2rem 0.4rem', borderRadius: '4px', marginRight: '0.25rem', fontSize: '0.8rem', fontWeight: 500 }}>
-                        {t}
+                    <PresencaBadge $presenca={emp.presenca}>
+                      {emp.presenca === 'A' ? 'ALIMENTOU' : 'FALTA'}
+                    </PresencaBadge>
+                  </Td>
+                  <Td>
+                    {emp.presenca === 'F' ? (
+                      <span style={{ color: '#c00000', fontStyle: 'italic', fontSize: '0.8rem', fontWeight: 500 }}>
+                        Ausente no relatório (Falta)
                       </span>
-                    ))}
+                    ) : emp.horarios.length === 0 ? (
+                      <span style={{ color: '#9aa0a6', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                        Nenhum horário detectado
+                      </span>
+                    ) : (
+                      emp.horarios.map((t, i) => (
+                        <span key={i} style={{ backgroundColor: '#f1f3f4', padding: '0.2rem 0.4rem', borderRadius: '4px', marginRight: '0.25rem', fontSize: '0.8rem', fontWeight: 500 }}>
+                          {t}
+                        </span>
+                      ))
+                    )}
                   </Td>
                   <Td>
                     <StatusBadge $found={emp.encontrado}>

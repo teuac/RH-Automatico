@@ -137,7 +137,8 @@ const Configuracoes = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedPlanilha, setSelectedPlanilha] = useState(null);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  const watchedAutomacao = watch('automacao', 'ALIMENTACAO');
 
   // Fetch Settings
   const { data: settings, isLoading: loadingSettings } = useQuery({
@@ -291,7 +292,9 @@ const Configuracoes = () => {
   const onPlanilhaSubmit = (data) => {
     const payload = {
       ...data,
-      obra_id: data.obra_id ? Number(data.obra_id) : null
+      obra_id: data.obra_id ? Number(data.obra_id) : null,
+      // Para ALIMENTACAO, nome_aba é gerenciado automaticamente pelo backend
+      nome_aba: data.automacao === 'ALIMENTACAO' ? (data.nome_aba || null) : data.nome_aba
     };
     if (selectedPlanilha) {
       updatePlanilhaMutation.mutate({ id: selectedPlanilha.id, data: payload });
@@ -414,7 +417,13 @@ const Configuracoes = () => {
                       </a>
                     </div>
                   </Td>
-                  <Td>{p.nome_aba}</Td>
+                  <Td>
+                    {p.automacao === 'ALIMENTACAO' ? (
+                      <span style={{ color: '#1a73e8', fontSize: '0.8rem', fontStyle: 'italic' }}>Auto (por mês)</span>
+                    ) : (
+                      p.nome_aba
+                    )}
+                  </Td>
                   <Td>
                     {p.obra ? (
                       <span style={{ fontWeight: 500, color: '#202124' }}>{p.obra.nome}</span>
@@ -520,12 +529,30 @@ const Configuracoes = () => {
               error={errors.planilha_google_id?.message}
               {...register('planilha_google_id', { required: 'Spreadsheet ID é obrigatório.' })}
             />
-            <Input 
-              label="Nome da Aba" 
-              placeholder="Ex: Presenca_Julho"
-              error={errors.nome_aba?.message}
-              {...register('nome_aba', { required: 'Nome da aba é obrigatório.' })}
-            />
+            {watchedAutomacao !== 'ALIMENTACAO' && (
+              <Input 
+                label="Nome da Aba" 
+                placeholder="Ex: Presenca_Julho"
+                error={errors.nome_aba?.message}
+                {...register('nome_aba', {
+                  required: watchedAutomacao !== 'ALIMENTACAO' ? 'Nome da aba é obrigatório.' : false
+                })}
+              />
+            )}
+            {watchedAutomacao === 'ALIMENTACAO' && (
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '0.375rem' }}>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#3c4043', marginBottom: '0.375rem' }}>Nome da Aba</span>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  padding: '0.5rem 0.75rem', borderRadius: '6px',
+                  background: 'linear-gradient(135deg, #e8f0fe, #e6f4ea)',
+                  border: '1px solid #1a73e8', color: '#1a73e8',
+                  fontSize: '0.8rem', fontWeight: 600, minHeight: '38px'
+                }}>
+                  ✨ Criada automaticamente por mês
+                </div>
+              </div>
+            )}
           </FormGrid>
 
           <FormGroup style={{ marginTop: '0.5rem' }}>

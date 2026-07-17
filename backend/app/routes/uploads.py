@@ -12,24 +12,29 @@ router = APIRouter(prefix="/uploads", tags=["Uploads & Sincronização"])
 @router.post("/preview", dependencies=[Depends(RoleChecker(["Administrador", "RH"]))])
 async def preview_upload(
     obra_id: int = Form(...),
+    planilha_id: int = Form(...),
     override_date: Optional[str] = Form(None),
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
     return await upload_controller.preview(
         obra_id=obra_id,
+        planilha_id=planilha_id,
         override_date=override_date,
         file=file,
         db=db
     )
 
-@router.post("/commit", dependencies=[Depends(RoleChecker(["Administrador", "RH"]))])
+from app.models.user import User
+
+@router.post("/commit")
 def commit_upload(
     request: Request,
     payload: UploadCommitRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(RoleChecker(["Administrador", "RH"]))
 ):
-    return upload_controller.commit(request, payload, db)
+    return upload_controller.commit(request, payload, db, current_user)
 
 @router.get("/history", response_model=List[UploadResponse], dependencies=[Depends(RoleChecker(["Administrador", "RH", "Consulta"]))])
 def get_upload_history(
