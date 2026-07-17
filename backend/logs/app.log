@@ -1,0 +1,38 @@
+[2026-07-13 19:21:49] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:23:08] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:25:15] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:25:22] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 19:26:21] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:26:29] INFO [application:39] - Auto-registering user: admin@acengenharia.com.br
+[2026-07-13 16:28:27] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:30:23] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:30:32] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:30:40] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:30:51] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:01] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:13] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:34] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:38] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:46] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:31:56] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:36:23] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:36:28] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:42:07] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:43:14] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:45:20] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:45:30] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:45:34] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:45:39] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:45:41] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:48:16] WARNING [application:22] - Google Service Account file not found at credentials/service_account.json. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:48:27] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:48:31] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:54:22] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:55:50] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 16:55:56] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:08:16] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:09:49] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:16:21] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:17:23] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:18:56] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.
+[2026-07-13 17:19:03] WARNING [application:44] - Google Service Account credentials not found in env variable or credentials file. Google Sheets updates will be skipped or mocked in development.

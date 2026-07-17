@@ -1,0 +1,510 @@
+[2026-07-13 19:24:47] ERROR [error:39] - Google ID token verification failed: Wrong number of segments in token: b'mock-google-id-token'
+Traceback (most recent call last):
+  File "/app/app/auth/oauth.py", line 19, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 258, in decode
+    header, payload, signed_section, signature = _unverified_decode(token)
+                                                 ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 147, in _unverified_decode
+    raise exceptions.MalformedError(
+        "Wrong number of segments in token: {0}".format(token)
+    )
+google.auth.exceptions.MalformedError: Wrong number of segments in token: b'mock-google-id-token'
+[2026-07-13 19:25:33] ERROR [error:39] - Google ID token verification failed: Wrong number of segments in token: b'mock-google-id-token'
+Traceback (most recent call last):
+  File "/app/app/auth/oauth.py", line 19, in verify_google_id_token
+        "email": f"admin@{settings.ALLOWED_DOMAIN}",
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    }
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 258, in decode
+    header, payload, signed_section, signature = _unverified_decode(token)
+                                                 ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 147, in _unverified_decode
+    raise exceptions.MalformedError(
+        "Wrong number of segments in token: {0}".format(token)
+    )
+google.auth.exceptions.MalformedError: Wrong number of segments in token: b'mock-google-id-token'
+[2026-07-13 19:25:43] ERROR [error:39] - Google ID token verification failed: Wrong number of segments in token: b'mock-google-id-token'
+Traceback (most recent call last):
+  File "/app/app/auth/oauth.py", line 19, in verify_google_id_token
+        "email": f"admin@{settings.ALLOWED_DOMAIN}",
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    }
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 258, in decode
+    header, payload, signed_section, signature = _unverified_decode(token)
+                                                 ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 147, in _unverified_decode
+    raise exceptions.MalformedError(
+        "Wrong number of segments in token: {0}".format(token)
+    )
+google.auth.exceptions.MalformedError: Wrong number of segments in token: b'mock-google-id-token'
+[2026-07-13 19:25:46] ERROR [error:39] - Google ID token verification failed: Wrong number of segments in token: b'mock-google-id-token'
+Traceback (most recent call last):
+  File "/app/app/auth/oauth.py", line 19, in verify_google_id_token
+        "email": f"admin@{settings.ALLOWED_DOMAIN}",
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    }
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "/usr/local/lib/python3.13/site-packages/google/oauth2/id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 258, in decode
+    header, payload, signed_section, signature = _unverified_decode(token)
+                                                 ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/google/auth/jwt.py", line 147, in _unverified_decode
+    raise exceptions.MalformedError(
+        "Wrong number of segments in token: {0}".format(token)
+    )
+google.auth.exceptions.MalformedError: Wrong number of segments in token: b'mock-google-id-token'
+[2026-07-13 16:54:33] ERROR [error:56] - Unhandled Exception on /api/v1/obras/: 'Depends' object has no attribute 'id'
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\obras.py", line 24, in create_obra
+    return obra_controller.create(request, payload, db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\obra_controller.py", line 42, in create
+    user_id=current_user.id,
+            ^^^^^^^^^^^^^^^
+AttributeError: 'Depends' object has no attribute 'id'
+[2026-07-13 16:54:57] ERROR [error:56] - Unhandled Exception on /api/v1/obras/: 'Depends' object has no attribute 'id'
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\obras.py", line 24, in create_obra
+    return obra_controller.create(request, payload, db)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\obra_controller.py", line 42, in create
+    user_id=current_user.id,
+            ^^^^^^^^^^^^^^^
+AttributeError: 'Depends' object has no attribute 'id'
+[2026-07-13 16:55:48] ERROR [error:56] - Unhandled Exception on /api/v1/obras/: 'Depends' object has no attribute 'id'
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\obras.py", line 24, in create_obra
+    def create_obra(request: Request, payload: ObraCreate, db: Session = Depends(get_db), current_user: User = Depends(get_active_user)):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\obra_controller.py", line 42, in create
+    user_id=current_user.id,
+            ^^^^^^^^^^^^^^^
+AttributeError: 'Depends' object has no attribute 'id'
+[2026-07-13 17:13:33] ERROR [error:48] - Google ID token verification failed: Token used too early, 1783973613 < 1783973617. Check that your computer's clock is set correctly.
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\oauth.py", line 28, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+    ...<3 lines>...
+    )
+google.auth.exceptions.InvalidValue: Token used too early, 1783973613 < 1783973617. Check that your computer's clock is set correctly.
+[2026-07-13 17:13:40] ERROR [error:48] - Google ID token verification failed: Token used too early, 1783973620 < 1783973624. Check that your computer's clock is set correctly.
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\oauth.py", line 28, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+    ...<3 lines>...
+    )
+google.auth.exceptions.InvalidValue: Token used too early, 1783973620 < 1783973624. Check that your computer's clock is set correctly.
+[2026-07-13 17:13:46] ERROR [error:48] - Google ID token verification failed: Token used too early, 1783973626 < 1783973631. Check that your computer's clock is set correctly.
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\oauth.py", line 28, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+    ...<3 lines>...
+    )
+google.auth.exceptions.InvalidValue: Token used too early, 1783973626 < 1783973631. Check that your computer's clock is set correctly.
+[2026-07-13 17:16:48] ERROR [error:48] - Google ID token verification failed: Token used too early, 1783973808 < 1783973812. Check that your computer's clock is set correctly.
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\oauth.py", line 28, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+    ...<3 lines>...
+    )
+google.auth.exceptions.InvalidValue: Token used too early, 1783973808 < 1783973812. Check that your computer's clock is set correctly.
+[2026-07-13 17:18:07] ERROR [error:48] - Google ID token verification failed: Token used too early, 1783973887 < 1783973891. Check that your computer's clock is set correctly.
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\oauth.py", line 28, in verify_google_id_token
+    id_info = id_token.verify_oauth2_token(
+        token,
+        google_requests.Request(),
+        audience=settings.GOOGLE_CLIENT_ID
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 181, in verify_oauth2_token
+    idinfo = verify_token(
+        id_token,
+    ...<3 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\oauth2\id_token.py", line 153, in verify_token
+    return jwt.decode(
+           ~~~~~~~~~~^
+        id_token,
+        ^^^^^^^^^
+    ...<2 lines>...
+        clock_skew_in_seconds=clock_skew_in_seconds,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+    ...<3 lines>...
+    )
+google.auth.exceptions.InvalidValue: Token used too early, 1783973887 < 1783973891. Check that your computer's clock is set correctly.
