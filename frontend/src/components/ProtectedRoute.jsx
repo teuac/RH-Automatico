@@ -15,7 +15,10 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
   }
 
   // Handle auto-registered users waiting for approval
-  if (user && user.status === 'PENDENTE') {
+  const userRoles = user?.roles || [];
+  const isAdmin = userRoles.includes('Administrador');
+
+  if (user && user.status === 'PENDENTE' && !isAdmin) {
     return <Navigate to="/primeiro-acesso" replace />;
   }
 

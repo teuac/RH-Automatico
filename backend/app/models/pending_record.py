@@ -11,11 +11,11 @@ class PendingRecord(Base):
     
     employee_id = Column(String(50), nullable=True)  # Registration number, e.g. "001798"
     employee_name = Column(String(255), nullable=False)
-    date = Column(String(10), nullable=False)  # YYYY-MM-DD
+    date = Column(String(50), nullable=False)  # YYYY-MM-DD or date string
     times = Column(String(255), nullable=True)  # e.g., "05:58 11:30 12:30 18:03"
     
     status = Column(String(50), default="PENDENTE", nullable=False)  # 'PENDENTE', 'RESOLVIDO', 'IGNORADO'
-    reason = Column(String(255), nullable=True)  # Why it's pending (e.g. "Não cadastrado na planilha")
+    reason = Column(Text, nullable=True)  # Why it's pending (e.g. "Não cadastrado na planilha")
     
     created_at = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
 

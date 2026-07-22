@@ -53,7 +53,8 @@ def get_current_user(
 
 def get_active_user(user: User = Depends(get_current_user)) -> User:
     """Verifies that the user has been activated by an administrator"""
-    if user.status == "PENDENTE":
+    user_role_names = [role.name for role in user.roles]
+    if user.status == "PENDENTE" and "Administrador" not in user_role_names:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Aguarde a liberação do administrador."

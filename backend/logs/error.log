@@ -1357,3 +1357,265 @@ Traceback (most recent call last):
     raise HttpError(resp, content, uri=self.uri)
 googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid value at 'requests[10].add_conditional_format_rule.rule.boolean_rule.condition.type' (type.googleapis.com/google.apps.sheets.v4.BooleanCondition.ConditionType), "TEXT_EQUALS"
 Invalid value at 'requests[11].add_conditional_format_rule.rule.boolean_rule.condition.type' (type.googleapis.com/google.apps.sheets.v4.BooleanCondition.ConditionType), "TEXT_EQUALS"". Details: "[{'@type': 'type.googleapis.com/google.rpc.BadRequest', 'fieldViolations': [{'field': 'requests[10].add_conditional_format_rule.rule.boolean_rule.condition.type', 'description': 'Invalid value at \'requests[10].add_conditional_format_rule.rule.boolean_rule.condition.type\' (type.googleapis.com/google.apps.sheets.v4.BooleanCondition.ConditionType), "TEXT_EQUALS"'}, {'field': 'requests[11].add_conditional_format_rule.rule.boolean_rule.condition.type', 'description': 'Invalid value at \'requests[11].add_conditional_format_rule.rule.boolean_rule.condition.type\' (type.googleapis.com/google.apps.sheets.v4.BooleanCondition.ConditionType), "TEXT_EQUALS"'}]}]">
+[2026-07-17 00:51:55] ERROR [error:770] - Error ensuring tab 'Julho 2026' exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].updateSheetProperties: Sorry, you can't freeze columns which contain only part of a merged cell. Try to break apart merged cells or freeze more columns to include the complete merged cells.". Details: "Invalid requests[1].updateSheetProperties: Sorry, you can't freeze columns which contain only part of a merged cell. Try to break apart merged cells or freeze more columns to include the complete merged cells.">
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\google\sheets_service.py", line 764, in ensure_tab_exists
+    ).execute()
+      ~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].updateSheetProperties: Sorry, you can't freeze columns which contain only part of a merged cell. Try to break apart merged cells or freeze more columns to include the complete merged cells.". Details: "Invalid requests[1].updateSheetProperties: Sorry, you can't freeze columns which contain only part of a merged cell. Try to break apart merged cells or freeze more columns to include the complete merged cells.">
+[2026-07-22 16:58:17] ERROR [error:1277] - Error ensuring tab 'Agosto 2026' exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\google\sheets_service.py", line 1271, in ensure_tab_exists
+    ).execute()
+      ~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+[2026-07-22 17:01:03] ERROR [error:883] - Error ensuring tab 'Setembro 2026' exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\google\sheets_service.py", line 877, in ensure_tab_exists
+    ).execute()
+      ~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+[2026-07-22 17:04:07] ERROR [error:842] - Error ensuring tab 'Julho 2026' exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\google\sheets_service.py", line 836, in ensure_tab_exists
+    ).execute()
+      ~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+[2026-07-22 17:04:14] ERROR [error:56] - Unhandled Exception on /api/v1/uploads/commit: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(10)
+
+[SQL: INSERT INTO pending_records (upload_id, employee_id, employee_name, date, times, status, reason, created_at) VALUES (%(upload_id)s, %(employee_id)s, %(employee_name)s, %(date)s, %(times)s, %(status)s, %(reason)s, %(created_at)s) RETURNING pending_records.id]
+[parameters: {'upload_id': 55, 'employee_id': '001798', 'employee_name': 'Jose Carlos dos Santos', 'date': '05:58 11:30 12:30 18:03', 'times': '05:58 11:30 12:30 18:03', 'status': 'PENDENTE', 'reason': 'Coluna de data 05:58 11:30 12:30 18:03 não encontrada.', 'created_at': datetime.datetime(2026, 7, 22, 20, 4, 14, 547076)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(10)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\uploads.py", line 37, in commit_upload
+    return upload_controller.commit(request, payload, db, current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\upload_controller.py", line 47, in commit
+    return upload_service.commit_sync(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        db=db,
+        ^^^^^^
+    ...<7 lines>...
+        funcionarios_data=employees
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\services\upload_service.py", line 370, in commit_sync
+    pending_record_repository.create(db, pending_data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 20, in create
+    db.commit()
+    ~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1234, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(10)
+
+[SQL: INSERT INTO pending_records (upload_id, employee_id, employee_name, date, times, status, reason, created_at) VALUES (%(upload_id)s, %(employee_id)s, %(employee_name)s, %(date)s, %(times)s, %(status)s, %(reason)s, %(created_at)s) RETURNING pending_records.id]
+[parameters: {'upload_id': 55, 'employee_id': '001798', 'employee_name': 'Jose Carlos dos Santos', 'date': '05:58 11:30 12:30 18:03', 'times': '05:58 11:30 12:30 18:03', 'status': 'PENDENTE', 'reason': 'Coluna de data 05:58 11:30 12:30 18:03 não encontrada.', 'created_at': datetime.datetime(2026, 7, 22, 20, 4, 14, 547076)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+[2026-07-22 17:08:13] ERROR [error:842] - Error ensuring tab 'Agosto 2026' exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\google\sheets_service.py", line 836, in ensure_tab_exists
+    ).execute()
+      ~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds:batchUpdate?alt=json returned "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.". Details: "Invalid requests[1].mergeCells: You can't merge frozen and non-frozen columns.">

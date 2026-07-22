@@ -31,6 +31,23 @@ def get_portuguese_month_name(month: int) -> str:
     }
     return months.get(month, "Desconhecido")
 
+def sanitize_date_str(date_input: Optional[str]) -> str:
+    if not date_input or str(date_input).strip() in ("NaT", "nan", "NaN", "None", ""):
+        return datetime.datetime.utcnow().strftime("%Y-%m-%d")
+    
+    val = str(date_input).strip()
+    if len(val) == 10 and val.count("-") == 2:
+        parts = val.split("-")
+        if len(parts[0]) == 4 and parts[1].isdigit() and parts[2].isdigit():
+            return val
+            
+    if " " in val:
+        first_part = val.split()[0]
+        if len(first_part) == 10 and first_part.count("-") == 2:
+            return first_part
+            
+    return datetime.datetime.utcnow().strftime("%Y-%m-%d")
+
 def get_dynamic_tab_name(final_date: str, fallback_tab_name: str) -> tuple[str, int, int]:
     date_parts = final_date.split("-")
     if len(date_parts) == 3:
@@ -112,10 +129,7 @@ class UploadService:
         parsed = self._parse_file(file_bytes, filename, content_type)
 
         # 4. Determine Date
-        final_date = override_date or parsed.data
-        if not final_date or str(final_date).strip() in ("NaT", "nan", "NaN", "None", ""):
-            # Fallback to today's date formatted as YYYY-MM-DD
-            final_date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        final_date = sanitize_date_str(override_date or parsed.data)
 
         # Determine dynamic tab name based on final_date
         tab_name, year, month = get_dynamic_tab_name(final_date, planilha.nome_aba)
@@ -171,12 +185,15 @@ class UploadService:
                 db_colab = db_colabs_by_mat.get(clean_mat)
                 if db_colab:
                     matched_db_mats.add(clean_mat)
+                    existe_na_base = True
                 else:
                     # try matching by name
+                    existe_na_base = False
                     for c_mat, c_obj in db_colabs_by_mat.items():
                         if emp.nome.lower() == c_obj.nome.lower():
                             db_colab = c_obj
                             matched_db_mats.add(c_mat)
+                            existe_na_base = True
                             break
 
                 # Check match criteria in Sheet
@@ -196,6 +213,7 @@ class UploadService:
                     "nome": emp.nome,
                     "horarios": emp.horarios,
                     "encontrado": found,
+                    "existe_na_base": existe_na_base,
                     "situacao": situation,
                     "presenca": "A"  # Alimentação
                 })
@@ -218,6 +236,7 @@ class UploadService:
                         "nome": colab.nome,
                         "horarios": [],
                         "encontrado": found,
+                        "existe_na_base": True,
                         "situacao": situation,
                         "presenca": "F"  # Falta
                     })
@@ -225,12 +244,15 @@ class UploadService:
             # Fallback when Sheets connection fails/mocked
             for emp in parsed.funcionarios:
                 clean_mat = emp.matricula.strip().lstrip("0")
+                existe_na_base = False
                 if clean_mat in db_colabs_by_mat:
                     matched_db_mats.add(clean_mat)
+                    existe_na_base = True
                 else:
                     for c_mat, c_obj in db_colabs_by_mat.items():
                         if emp.nome.lower() == c_obj.nome.lower():
                             matched_db_mats.add(c_mat)
+                            existe_na_base = True
                             break
 
                 preview_rows.append({
@@ -238,6 +260,7 @@ class UploadService:
                     "nome": emp.nome,
                     "horarios": emp.horarios,
                     "encontrado": True,
+                    "existe_na_base": existe_na_base,
                     "situacao": "Pronto para importação (Planilha não pôde ser pré-validada)",
                     "presenca": "A"
                 })
@@ -249,6 +272,7 @@ class UploadService:
                         "nome": colab.nome,
                         "horarios": [],
                         "encontrado": True,
+                        "existe_na_base": True,
                         "situacao": "Falta (Não encontrado no arquivo - Planilha não pôde ser pré-validada)",
                         "presenca": "F"
                     })
@@ -316,34 +340,12 @@ class UploadService:
         pending_records_to_create = []
 
         # Normalize date_str
-        if not date_str or str(date_str).strip() in ("NaT", "nan", "NaN", "None", ""):
-            date_str = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        date_str = sanitize_date_str(date_str)
 
         # Determine dynamic tab name based on date_str
         tab_name, year, month = get_dynamic_tab_name(date_str, planilha.nome_aba)
 
         _, tab_criada = google_sheets_service.ensure_tab_exists(planilha.planilha_google_id, tab_name, year, month, obra.nome)
-        from app.repositories.colaborador import colaborador_repository
-        for emp in funcionarios_data:
-            matricula = emp.get("matricula", "")
-            nome = emp.get("nome", "")
-            presenca = emp.get("presenca", "A")
-
-            if presenca == "A" and matricula:
-                db_colab = colaborador_repository.get_by_matricula(db, matricula)
-                if not db_colab:
-                    try:
-                        colaborador_repository.create(db, {
-                            "matricula": matricula,
-                            "nome": nome,
-                            "obra_id": obra.id,
-                            "status": "ATIVO",
-                            "funcao": "Importado via Ponto"
-                        })
-                        app_logger.info(f"Auto-registered new colaborador in DB: {nome} ({matricula}) for obra {obra.nome}")
-                    except Exception as e:
-                        app_logger.warning(f"Could not auto-register database colaborador {matricula}: {str(e)}")
-
         # 4. Synchronize in batch via Sheets Service (1 Read + 1 Write API call)
         batch_results = google_sheets_service.batch_sync_presence(
             spreadsheet_id=planilha.planilha_google_id,
@@ -368,12 +370,12 @@ class UploadService:
                 pending_count += 1
                 pending_records_to_create.append({
                     "upload_id": db_upload.id,
-                    "employee_id": mat,
-                    "employee_name": nome,
-                    "date": date_str,
-                    "times": " ".join(horarios),
+                    "employee_id": str(mat)[:50] if mat else None,
+                    "employee_name": str(nome)[:255] if nome else "Desconhecido",
+                    "date": str(date_str)[:50],
+                    "times": " ".join(horarios)[:255] if horarios else "",
                     "status": "PENDENTE",
-                    "reason": details[:250] if details else None
+                    "reason": str(details)[:255] if details else None
                 })
 
         # Insert pending records if any

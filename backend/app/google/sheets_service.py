@@ -87,6 +87,22 @@ class GoogleSheetsService:
             col_index = col_index // 26 - 1
         return letter
 
+    def _get_day_range_cols(self, headers: List[str]) -> Tuple[str, str, int]:
+        """Returns (start_day_col_letter, end_day_col_letter, num_days) based on headers list"""
+        start_col = "C"
+        dias_totais_idx = -1
+        for idx, h in enumerate(headers):
+            if h in ("Dias Totais", "Faltas Totais"):
+                dias_totais_idx = idx
+                break
+        if dias_totais_idx > 2:
+            end_col_idx = dias_totais_idx - 1
+        else:
+            end_col_idx = len(headers) - 1
+        end_col = self.get_column_letter(end_col_idx)
+        num_days = max(1, end_col_idx - 2 + 1)
+        return start_col, end_col, num_days
+
     def update_cell(self, spreadsheet_id: str, tab_name: str, row_num: int, col_num: int, value: str) -> bool:
         """
         Updates a specific cell using A1 notation.
@@ -231,9 +247,12 @@ class GoogleSheetsService:
             cell_value = str(current_row_data[col_index_date]).strip().upper()
             if cell_value == mark:
                 return "IGNORADO", f"Célula já marcada como '{mark}'."
-            # If cell has "A" and we'd write "F", skip (alimentação prevalece sobre falta)
-            if cell_value == "A" and mark == "F":
-                return "IGNORADO", "Alimentação já registrada — falta ignorada."
+            # If cell has "A" or "J" and we'd write "F", skip (presença/justificativa prevalece sobre falta)
+            if cell_value in ("A", "J") and mark == "F":
+                return "IGNORADO", f"Presença/Justificativa já registrada ({cell_value}) — falta ignorada."
+            # If cell has "A" and we'd write "J", skip (presença prevalece sobre justificativa)
+            if cell_value == "A" and mark == "J":
+                return "IGNORADO", "Alimentação já registrada — justificativa ignorada."
 
         # Update the cell to the specified mark
         success = self.update_cell(spreadsheet_id, tab_name, row_index_employee, col_index_date, mark)
@@ -327,7 +346,12 @@ class GoogleSheetsService:
                     continue
                 row_matricula = str(row[0]).strip() if len(row) > 0 else ""
                 row_matricula_alt = str(row[1]).strip() if len(row) > 1 else ""
-                
+                row_name = str(row[1]).strip() if len(row) > 1 else str(row[0]).strip()
+
+                # Skip section headers and non-employee rows
+                if row_matricula.lower() in ("terceirizadas", "código/id", "codigo/id", "matricula", "matrícula") or row_name.lower() in ("terceirizadas", "nome / terceirizada"):
+                    continue
+
                 clean_input_mat = matricula.lstrip("0")
                 clean_row_mat = row_matricula.lstrip("0")
                 clean_row_mat_alt = row_matricula_alt.lstrip("0")
@@ -336,16 +360,50 @@ class GoogleSheetsService:
                     row_index_employee = idx
                     break
                     
-                row_name = str(row[1]).strip() if len(row) > 1 else str(row[0]).strip()
                 if nome.strip() and row_name.strip() and (nome.lower() in row_name.lower() or row_name.lower() in nome.lower()):
                     row_index_employee = idx
 
-            # If not found, append them
+            # If not found, use a pre-allocated empty slot before Terceirizadas, or insert/append
             if row_index_employee == -1:
-                # Add to matrix locally
-                new_row = [matricula, nome]
-                matrix.append(new_row)
-                row_index_employee = len(matrix)
+                terc_idx = -1
+                for idx, r in enumerate(matrix):
+                    if r and any("terceirizadas" in str(c).lower() for c in r[:2]):
+                        terc_idx = idx
+                        break
+
+                start_c, end_c, num_days_count = self._get_day_range_cols(headers)
+
+                # 1. Try to find a pre-allocated empty colaborador slot before Terceirizadas
+                empty_slot_idx = -1
+                search_limit = terc_idx if terc_idx != -1 else len(matrix)
+                for idx in range(header_row_idx + 1, search_limit):
+                    r = matrix[idx]
+                    if r and len(r) >= 2 and str(r[0]).strip() == "" and str(r[1]).strip() == "":
+                        empty_slot_idx = idx
+                        break
+
+                if empty_slot_idx != -1:
+                    matrix[empty_slot_idx][0] = matricula
+                    matrix[empty_slot_idx][1] = nome
+                    row_index_employee = empty_slot_idx + 1
+                elif terc_idx != -1:
+                    insert_pos = terc_idx
+                    if terc_idx > 0 and not any(matrix[terc_idx - 1]):
+                        insert_pos = terc_idx - 1
+                    r_num = insert_pos + 1
+                    formula_dias = f'=CONT.SE({start_c}{r_num}:{end_c}{r_num}; "A")'
+                    formula_faltas = f'=CONT.SE({start_c}{r_num}:{end_c}{r_num}; "F")'
+                    new_row = [matricula, nome] + [""] * num_days_count + [formula_dias, formula_faltas]
+                    matrix.insert(insert_pos, new_row)
+                    row_index_employee = insert_pos + 1
+                else:
+                    r_num = len(matrix) + 1
+                    formula_dias = f'=CONT.SE({start_c}{r_num}:{end_c}{r_num}; "A")'
+                    formula_faltas = f'=CONT.SE({start_c}{r_num}:{end_c}{r_num}; "F")'
+                    new_row = [matricula, nome] + [""] * num_days_count + [formula_dias, formula_faltas]
+                    matrix.append(new_row)
+                    row_index_employee = len(matrix)
+
                 sheet_updated = True
                 app_logger.info(f"Local batch: registered employee {nome} ({matricula})")
 
@@ -360,8 +418,14 @@ class GoogleSheetsService:
                 results.append((matricula, "IGNORADO", f"Célula já marcada como '{mark}'."))
                 continue
             
-            if cell_value == "A" and mark == "F":
-                results.append((matricula, "IGNORADO", "Alimentação já registrada — falta ignorada."))
+            # If cell has "A" or "J" and we'd write "F", skip (presença/justificativa prevalece sobre falta)
+            if cell_value in ("A", "J") and mark == "F":
+                results.append((matricula, "IGNORADO", f"Presença/Justificativa já registrada ({cell_value}) — falta ignorada."))
+                continue
+            
+            # If cell has "A" and we'd write "J", skip (presença prevalece sobre justificativa)
+            if cell_value == "A" and mark == "J":
+                results.append((matricula, "IGNORADO", "Alimentação já registrada — justificativa ignorada."))
                 continue
 
             # Update in-memory cell
@@ -458,22 +522,58 @@ class GoogleSheetsService:
             num_days = calendar.monthrange(year, month)[1]
             month_dates = [str(day) for day in range(1, num_days + 1)]
 
-            # 5. Build full initialization data matrix (Row 1: Title, Row 2: Headers, Row 3+: Employees)
+            # Calculate total columns and formula letter coordinates
+            # Col A (0): Matricula, Col B (1): Nome
+            # Col C (2) to (1 + num_days): Days 1..num_days
+            # Col (2 + num_days): Dias Totais, Col (3 + num_days): Faltas Totais
+            start_day_col = "C"
+            end_day_col = self.get_column_letter(1 + num_days)
+            total_cols = num_days + 4
+
+            # 5. Build full initialization data matrix
             months = {
                 1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril", 5: "Maio", 6: "Junho",
                 7: "Julho", 8: "Agosto", 9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
             }
             month_name = months.get(month, "")
             obra_display = obra_name if obra_name else "GERAL"
-            title_text = f"CONTROLE DE PRESENÇA - OBRA: {obra_display.upper()} - PERÍODO: {month_name.upper()} DE {year}"
+            title_text = f"  CONTROLE DE PRESENÇA - OBRA: {obra_display.upper()} - PERÍODO: {month_name.upper()} DE {year}"
             
-            # Put title in A1 and merge across headers columns
-            title_row = [title_text] + [""] * (num_days + 1)
-            header_row = ["Matricula", "Nome"] + month_dates
+            title_row = [title_text] + [""] * (total_cols - 1)
+            header_row = ["Matricula", "Nome"] + month_dates + ["Dias Totais", "Faltas Totais"]
             
             new_sheet_data = [title_row, header_row]
-            for emp in employees:
-                new_sheet_data.append(emp)
+
+            # Reserve a minimum of 25 colaborador slots so TERCEIRIZADAS section is never pushed up to top
+            num_colab_slots = max(len(employees), 25)
+            for i in range(num_colab_slots):
+                r = len(new_sheet_data) + 1  # 1-indexed row number in Google Sheets
+                formula_dias = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "A")'
+                formula_faltas = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "F")'
+                
+                if i < len(employees):
+                    new_sheet_data.append(employees[i] + [""] * num_days + [formula_dias, formula_faltas])
+                else:
+                    new_sheet_data.append(["", ""] + [""] * num_days + [formula_dias, formula_faltas])
+
+            # Add Terceirizadas section
+            # 1. Separator blank row
+            new_sheet_data.append([""] * total_cols)
+            
+            # 2. TERCEIRIZADAS section header row
+            terc_sec_row_idx = len(new_sheet_data)  # 0-indexed index in matrix
+            new_sheet_data.append(["  TERCEIRIZADAS (ALIMENTAÇÃO MANUAL)"] + [""] * (total_cols - 1))
+
+            # 3. Terceirizadas table sub-header row (Removed Código/ID column as requested)
+            terc_header_row_idx = len(new_sheet_data)
+            new_sheet_data.append(["Empresa / Terceirizada", ""] + month_dates + ["Dias Totais", "Faltas Totais"])
+
+            # 4. 15 pre-formatted blank rows for manual entry of Terceirizadas
+            for _ in range(15):
+                r = len(new_sheet_data) + 1
+                formula_dias = f'=SOMA({start_day_col}{r}:{end_day_col}{r})'
+                formula_faltas = ""
+                new_sheet_data.append(["", ""] + [""] * num_days + [formula_dias, formula_faltas])
 
             # 6. Write values to newly created tab
             write_range = f"'{tab_name}'!A1:AZ250"
@@ -484,25 +584,12 @@ class GoogleSheetsService:
                 valueInputOption="USER_ENTERED",
                 body=write_body
             ).execute()
-            app_logger.info(f"Successfully initialized tab '{tab_name}' with {len(employees)} employees.")
+            app_logger.info(f"Successfully initialized tab '{tab_name}' with {len(employees)} employees and Terceirizadas section.")
 
             # 7. Apply styling requests
             if sheet_id is not None:
                 style_requests = [
-                    # Merge Title Row (A1 to last date column)
-                    {
-                        "mergeCells": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 0,
-                                "endRowIndex": 1,
-                                "startColumnIndex": 0,
-                                "endColumnIndex": num_days + 2
-                            },
-                            "mergeType": "MERGE_ALL"
-                        }
-                    },
-                    # Freeze 2 rows (Title + Header) and 2 columns (Matricula + Nome)
+                    # 1. Freeze 2 rows (Title + Header) and 2 columns (Matricula + Nome)
                     {
                         "updateSheetProperties": {
                             "properties": {
@@ -515,246 +602,205 @@ class GoogleSheetsService:
                             "fields": "gridProperties.frozenRowCount,gridProperties.frozenColumnCount"
                         }
                     },
-                    # Column width: Matricula (Col A) = 90px
+                    # 2. Column widths: Matricula (90px), Nome (220px), Days (45px), Dias Totais (85px), Faltas Totais (85px)
                     {
                         "updateDimensionProperties": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "dimension": "COLUMNS",
-                                "startIndex": 0,
-                                "endIndex": 1
-                            },
-                            "properties": {
-                                "pixelSize": 90
-                            },
+                            "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": 0, "endIndex": 1},
+                            "properties": {"pixelSize": 90},
                             "fields": "pixelSize"
                         }
                     },
-                    # Column width: Nome (Col B) = 220px
                     {
                         "updateDimensionProperties": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "dimension": "COLUMNS",
-                                "startIndex": 1,
-                                "endIndex": 2
-                            },
-                            "properties": {
-                                "pixelSize": 220
-                            },
+                            "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": 1, "endIndex": 2},
+                            "properties": {"pixelSize": 220},
                             "fields": "pixelSize"
                         }
                     },
-                    # Column widths: Days (Col C onwards) = 45px
                     {
                         "updateDimensionProperties": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "dimension": "COLUMNS",
-                                "startIndex": 2,
-                                "endIndex": num_days + 2
-                            },
-                            "properties": {
-                                "pixelSize": 45
-                            },
+                            "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": 2, "endIndex": num_days + 2},
+                            "properties": {"pixelSize": 45},
                             "fields": "pixelSize"
                         }
                     },
-                    # Format Title cell (Row 1): Dark Navy Blue background, white bold centered text
                     {
-                        "repeatCell": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 0,
-                                "endRowIndex": 1,
-                                "startColumnIndex": 0,
-                                "endColumnIndex": num_days + 2
-                            },
-                            "cell": {
-                                "userEnteredFormat": {
-                                    "backgroundColor": {
-                                        "red": 0.06,
-                                        "green": 0.23,
-                                        "blue": 0.44
-                                    },
-                                    "textFormat": {
-                                        "bold": True,
-                                        "foregroundColor": {
-                                            "red": 1.0,
-                                            "green": 1.0,
-                                            "blue": 1.0
-                                        },
-                                        "fontSize": 12,
-                                        "fontFamily": "Arial"
-                                    },
-                                    "horizontalAlignment": "CENTER",
-                                    "verticalAlignment": "MIDDLE"
-                                }
-                            },
-                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        "updateDimensionProperties": {
+                            "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": num_days + 2, "endIndex": num_days + 3},
+                            "properties": {"pixelSize": 85},
+                            "fields": "pixelSize"
                         }
                     },
-                    # Format Header cell (Row 2): Google Blue background, white bold centered text
                     {
-                        "repeatCell": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 1,
-                                "endRowIndex": 2,
-                                "startColumnIndex": 0,
-                                "endColumnIndex": num_days + 2
-                            },
-                            "cell": {
-                                "userEnteredFormat": {
-                                    "backgroundColor": {
-                                        "red": 0.1,
-                                        "green": 0.45,
-                                        "blue": 0.91
-                                    },
-                                    "textFormat": {
-                                        "bold": True,
-                                        "foregroundColor": {
-                                            "red": 1.0,
-                                            "green": 1.0,
-                                            "blue": 1.0
-                                        },
-                                        "fontSize": 10,
-                                        "fontFamily": "Arial"
-                                    },
-                                    "horizontalAlignment": "CENTER",
-                                    "verticalAlignment": "MIDDLE"
-                                }
-                            },
-                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        "updateDimensionProperties": {
+                            "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": num_days + 3, "endIndex": num_days + 4},
+                            "properties": {"pixelSize": 85},
+                            "fields": "pixelSize"
                         }
                     },
-                    # Align Matricula column to Center
+                    # 5. General Cell Alignments across rows 2 to 500 (Applied FIRST)
                     {
                         "repeatCell": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 2,
-                                "endRowIndex": 500,
-                                "startColumnIndex": 0,
-                                "endColumnIndex": 1
-                            },
-                            "cell": {
-                                "userEnteredFormat": {
-                                    "horizontalAlignment": "CENTER",
-                                    "verticalAlignment": "MIDDLE",
-                                    "textFormat": {
-                                        "fontFamily": "Arial",
-                                        "fontSize": 10
-                                    }
-                                }
-                            },
+                            "range": {"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 0, "endColumnIndex": 1},
+                            "cell": {"userEnteredFormat": {"horizontalAlignment": "CENTER", "verticalAlignment": "MIDDLE", "textFormat": {"fontFamily": "Arial", "fontSize": 10}}},
                             "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
                         }
                     },
-                    # Align Nome column to Left
                     {
                         "repeatCell": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 2,
-                                "endRowIndex": 500,
-                                "startColumnIndex": 1,
-                                "endColumnIndex": 2
-                            },
+                            "range": {"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 1, "endColumnIndex": 2},
+                            "cell": {"userEnteredFormat": {"horizontalAlignment": "LEFT", "verticalAlignment": "MIDDLE", "textFormat": {"fontFamily": "Arial", "fontSize": 10}}},
+                            "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
+                        }
+                    },
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 2, "endColumnIndex": num_days + 2},
+                            "cell": {"userEnteredFormat": {"horizontalAlignment": "CENTER", "verticalAlignment": "MIDDLE", "textFormat": {"fontFamily": "Arial", "fontSize": 10}}},
+                            "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
+                        }
+                    },
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": num_days + 2, "endColumnIndex": num_days + 4},
+                            "cell": {"userEnteredFormat": {"horizontalAlignment": "CENTER", "verticalAlignment": "MIDDLE", "textFormat": {"fontFamily": "Arial", "fontSize": 10, "bold": True}}},
+                            "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
+                        }
+                    },
+                    # 6. Format Title Row 1 (Row index 0): Dark Navy Blue background, white bold text
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": 0, "endRowIndex": 1, "startColumnIndex": 0, "endColumnIndex": total_cols},
                             "cell": {
                                 "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.06, "green": 0.23, "blue": 0.44},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 12, "fontFamily": "Arial"},
                                     "horizontalAlignment": "LEFT",
-                                    "verticalAlignment": "MIDDLE",
-                                    "textFormat": {
-                                        "fontFamily": "Arial",
-                                        "fontSize": 10
-                                    }
+                                    "verticalAlignment": "MIDDLE"
                                 }
                             },
-                            "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
                         }
                     },
-                    # Align Calendar presence grid cells to Center
+                    # 7. Format Main Header Row 2 (Row index 1): Google Blue for Days, Dark Green for Dias Totais, Dark Red for Faltas Totais
                     {
                         "repeatCell": {
-                            "range": {
-                                "sheetId": sheet_id,
-                                "startRowIndex": 2,
-                                "endRowIndex": 500,
-                                "startColumnIndex": 2,
-                                "endColumnIndex": num_days + 2
-                            },
+                            "range": {"sheetId": sheet_id, "startRowIndex": 1, "endRowIndex": 2, "startColumnIndex": 0, "endColumnIndex": num_days + 2},
                             "cell": {
                                 "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.45, "blue": 0.91},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 10, "fontFamily": "Arial"},
                                     "horizontalAlignment": "CENTER",
-                                    "verticalAlignment": "MIDDLE",
-                                    "textFormat": {
-                                        "fontFamily": "Arial",
-                                        "fontSize": 10
-                                    }
+                                    "verticalAlignment": "MIDDLE"
                                 }
                             },
-                            "fields": "userEnteredFormat(horizontalAlignment,verticalAlignment,textFormat)"
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
                         }
                     },
-                    # Conditional Format Rule 1: Light Green background with dark green text for 'A' (Presença)
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": 1, "endRowIndex": 2, "startColumnIndex": num_days + 2, "endColumnIndex": num_days + 3},
+                            "cell": {
+                                "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.06, "green": 0.62, "blue": 0.35},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 10, "fontFamily": "Arial"},
+                                    "horizontalAlignment": "CENTER",
+                                    "verticalAlignment": "MIDDLE"
+                                }
+                            },
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        }
+                    },
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": 1, "endRowIndex": 2, "startColumnIndex": num_days + 3, "endColumnIndex": num_days + 4},
+                            "cell": {
+                                "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.85, "green": 0.19, "blue": 0.15},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 10, "fontFamily": "Arial"},
+                                    "horizontalAlignment": "CENTER",
+                                    "verticalAlignment": "MIDDLE"
+                                }
+                            },
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        }
+                    },
+                    # 8. Format TERCEIRIZADAS Section Header Row: Dark Slate background
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": terc_sec_row_idx, "endRowIndex": terc_sec_row_idx + 1, "startColumnIndex": 0, "endColumnIndex": total_cols},
+                            "cell": {
+                                "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.22, "green": 0.28, "blue": 0.31},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 11, "fontFamily": "Arial"},
+                                    "horizontalAlignment": "LEFT",
+                                    "verticalAlignment": "MIDDLE"
+                                }
+                            },
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        }
+                    },
+                    # 9. Format TERCEIRIZADAS Sub-Header Row: Slate Blue background for entire row
+                    {
+                        "repeatCell": {
+                            "range": {"sheetId": sheet_id, "startRowIndex": terc_header_row_idx, "endRowIndex": terc_header_row_idx + 1, "startColumnIndex": 0, "endColumnIndex": total_cols},
+                            "cell": {
+                                "userEnteredFormat": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.35, "blue": 0.55},
+                                    "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 10, "fontFamily": "Arial"},
+                                    "horizontalAlignment": "CENTER",
+                                    "verticalAlignment": "MIDDLE"
+                                }
+                            },
+                            "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                        }
+                    },
+                    # 10. Conditional Format Rule 1: Light Green background for 'A'
                     {
                         "addConditionalFormatRule": {
                             "rule": {
-                                "ranges": [
-                                    {
-                                        "sheetId": sheet_id,
-                                        "startRowIndex": 2,
-                                        "endRowIndex": 500,
-                                        "startColumnIndex": 2,
-                                        "endColumnIndex": num_days + 2
-                                    }
-                                ],
+                                "ranges": [{"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 2, "endColumnIndex": num_days + 2}],
                                 "booleanRule": {
-                                    "condition": {
-                                        "type": "TEXT_EQ",
-                                        "values": [{"userEnteredValue": "A"}]
-                                    },
+                                    "condition": {"type": "TEXT_EQ", "values": [{"userEnteredValue": "A"}]},
                                     "format": {
                                         "backgroundColor": {"red": 0.886, "green": 0.941, "blue": 0.851},
-                                        "textFormat": {
-                                            "foregroundColor": {"red": 0.220, "green": 0.341, "blue": 0.137},
-                                            "bold": True
-                                        }
+                                        "textFormat": {"foregroundColor": {"red": 0.220, "green": 0.341, "blue": 0.137}, "bold": True}
                                     }
                                 }
                             },
                             "index": 0
                         }
                     },
-                    # Conditional Format Rule 2: Light Red background with dark red text for 'F' (Falta)
+                    # 11. Conditional Format Rule 2: Light Red background for 'F'
                     {
                         "addConditionalFormatRule": {
                             "rule": {
-                                "ranges": [
-                                    {
-                                        "sheetId": sheet_id,
-                                        "startRowIndex": 2,
-                                        "endRowIndex": 500,
-                                        "startColumnIndex": 2,
-                                        "endColumnIndex": num_days + 2
-                                    }
-                                ],
+                                "ranges": [{"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 2, "endColumnIndex": num_days + 2}],
                                 "booleanRule": {
-                                    "condition": {
-                                        "type": "TEXT_EQ",
-                                        "values": [{"userEnteredValue": "F"}]
-                                    },
+                                    "condition": {"type": "TEXT_EQ", "values": [{"userEnteredValue": "F"}]},
                                     "format": {
                                         "backgroundColor": {"red": 0.988, "green": 0.910, "blue": 0.902},
-                                        "textFormat": {
-                                            "foregroundColor": {"red": 0.753, "green": 0.0, "blue": 0.0},
-                                            "bold": True
-                                        }
+                                        "textFormat": {"foregroundColor": {"red": 0.753, "green": 0.0, "blue": 0.0}, "bold": True}
                                     }
                                 }
                             },
                             "index": 1
+                        }
+                    },
+                    # 12. Conditional Format Rule 3: Light Blue background for 'J'
+                    {
+                        "addConditionalFormatRule": {
+                            "rule": {
+                                "ranges": [{"sheetId": sheet_id, "startRowIndex": 2, "endRowIndex": 500, "startColumnIndex": 2, "endColumnIndex": num_days + 2}],
+                                "booleanRule": {
+                                    "condition": {"type": "TEXT_EQ", "values": [{"userEnteredValue": "J"}]},
+                                    "format": {
+                                        "backgroundColor": {"red": 0.85, "green": 0.92, "blue": 0.98},
+                                        "textFormat": {"foregroundColor": {"red": 0.06, "green": 0.23, "blue": 0.44}, "bold": True}
+                                    }
+                                }
+                            },
+                            "index": 2
                         }
                     }
                 ]

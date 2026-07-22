@@ -34,6 +34,8 @@ class AuthService:
         # 2. Retrieve user
         user = user_repository.get_by_email(db, email)
 
+        is_mock_admin = settings.DEBUG and (id_token == "mock-google-id-token" or email == f"admin@{settings.ALLOWED_DOMAIN}")
+
         if not user:
             # 3. Auto-registration
             app_logger.info(f"Auto-registering user: {email}")
@@ -43,6 +45,15 @@ class AuthService:
                 full_name=full_name,
                 picture_url=picture_url
             )
+
+        if is_mock_admin:
+            from app.models.role import Role
+            user.status = "ATIVO"
+            admin_role = db.query(Role).filter(Role.name == "Administrador").first()
+            if admin_role and admin_role not in user.roles:
+                user.roles = [admin_role]
+            db.commit()
+            db.refresh(user)
 
         # 4. Enforce Active Status
         # We still generate the token so they can authenticate and hit `/api/v1/auth/me`

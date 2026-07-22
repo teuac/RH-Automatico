@@ -48,3 +48,12 @@ def test_parse_txt_multiple_entries():
     assert result.funcionarios[1].matricula == "001799"
     assert result.funcionarios[1].nome == "Maria Oliveira"
     assert result.funcionarios[1].horarios == ["08:00", "12:00", "13:00", "17:00"]
+
+def test_sanitize_date_str():
+    from app.services.upload_service import sanitize_date_str
+    
+    assert sanitize_date_str("2026-07-13") == "2026-07-13"
+    assert sanitize_date_str("2026-07-13 05:58:00") == "2026-07-13"
+    # Should fallback to YYYY-MM-DD when given non-date string
+    res = sanitize_date_str("05:58 11:30 12:30 18:03")
+    assert len(res) == 10 and res.count("-") == 2
