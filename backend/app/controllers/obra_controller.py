@@ -70,8 +70,6 @@ class ObraController:
         before_state = {
             "nome": obra.nome,
             "codigo": obra.codigo,
-            "planilha_google_id": obra.planilha_google_id,
-            "nome_aba": obra.nome_aba,
             "status": obra.status,
             "observacoes": obra.observacoes
         }
@@ -114,9 +112,8 @@ class ObraController:
         before_state = {
             "nome": obra.nome,
             "codigo": obra.codigo,
-            "planilha_google_id": obra.planilha_google_id,
-            "nome_aba": obra.nome_aba,
-            "status": obra.status
+            "status": obra.status,
+            "observacoes": obra.observacoes
         }
         
         obra_repository.remove(db, obra_id)

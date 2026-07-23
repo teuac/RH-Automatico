@@ -95,20 +95,20 @@ def test_ensure_tab_exists_builds_correct_matrix_and_styles():
     assert written_body[3][-2] == '=CONT.SE(C4:AG4; "A")'
     assert written_body[3][-1] == '=CONT.SE(C4:AG4; "F")'
 
-    # Separator row (Row 28, index 27)
-    assert all(cell == "" for cell in written_body[27])
+    # Separator row (Row 5, index 4)
+    assert all(cell == "" for cell in written_body[4])
 
-    # Terceirizadas Section Header row (Row 29, index 28)
-    assert "TERCEIRIZADAS" in written_body[28][0]
+    # Terceirizadas Section Header row (Row 6, index 5)
+    assert "TERCEIRIZADAS" in written_body[5][0]
 
-    # Terceirizadas Table Sub-Header row (Row 30, index 29)
-    assert written_body[29][0] == "Empresa / Terceirizada"
-    assert written_body[29][-2] == "Dias Totais"
-    assert written_body[29][-1] == "Faltas Totais"
+    # Terceirizadas Table Sub-Header row (Row 7, index 6)
+    assert written_body[6][0] == "Empresa / Terceirizada"
+    assert written_body[6][-2] == "Dias Totais"
+    assert written_body[6][-1] == "Faltas Totais"
 
-    # Check Terceirizadas blank rows have formula (Row 31 is first blank terceirizada row, index 30)
-    assert written_body[30][-2] == '=SOMA(C31:AG31)'
-    assert written_body[30][-1] == ''
+    # Check Terceirizadas blank rows have formula (Row 8 is first blank terceirizada row, index 7)
+    assert written_body[7][-2] == '=SOMA(C8:AG8)'
+    assert written_body[7][-1] == ''
 
     # Check batchUpdate style requests from mock return value
     mock_batch = service.service.spreadsheets.return_value.batchUpdate
@@ -131,3 +131,57 @@ def test_ensure_tab_exists_builds_correct_matrix_and_styles():
     rule_a = cond_rules[0]["addConditionalFormatRule"]["rule"]
     assert rule_a["booleanRule"]["condition"]["values"][0]["userEnteredValue"] == "A"
     assert rule_a["booleanRule"]["format"]["backgroundColor"]["green"] == 0.941
+
+def test_reenforce_total_formulas_repairs_static_values_and_sets_correct_formulas():
+    service = GoogleSheetsService()
+    
+    matrix = [
+        ["CONTROLE DE PRESENÇA", ""],
+        ["Matricula", "Nome", "1", "2", "3", "Dias Totais", "Faltas Totais"],
+        ["001", "João Silva", "A", "F", "A", "2", "1"],  # Static numbers "2", "1" previously read
+        ["", ""],
+        ["TERCEIRIZADAS (ALIMENTAÇÃO MANUAL)", ""],
+        ["Empresa / Terceirizada", "", "1", "2", "3", "Dias Totais", "Faltas Totais"],
+        ["Empresa X", "", "10", "15", "", "25", ""]       # Static number "25"
+    ]
+    
+    modified = service._reenforce_total_formulas(matrix)
+    
+    assert modified is True
+    # Row 3 (index 2): Colaborador formula
+    assert matrix[2][5] == '=CONT.SE(C3:E3; "A")'
+    assert matrix[2][6] == '=CONT.SE(C3:E3; "F")'
+    
+    # Row 7 (index 6): Terceirizada formula
+    assert matrix[6][5] == '=SOMA(C7:E7)'
+    assert matrix[6][6] == ''
+
+def test_clean_matrix_gaps_removes_unnecessary_empty_rows():
+    service = GoogleSheetsService()
+    
+    # Simulate a matrix with 10 empty rows before TERCEIRIZADAS
+    matrix = [
+        ["CONTROLE DE PRESENÇA", ""],
+        ["Matricula", "Nome", "1", "2", "3", "Dias Totais", "Faltas Totais"],
+        ["001", "João Silva", "A", "", "", "", ""],
+        ["002", "Maria Santos", "", "A", "", "", ""],
+        ["", ""],
+        ["", ""],
+        ["", ""],
+        ["", ""],
+        ["", ""],
+        ["TERCEIRIZADAS (ALIMENTAÇÃO MANUAL)", ""],
+        ["Empresa / Terceirizada", "", "1", "2", "3", "Dias Totais", "Faltas Totais"]
+    ]
+    
+    modified = service._clean_matrix_gaps(matrix)
+    
+    assert modified is True
+    # After cleaning, matrix should have 7 rows:
+    # 0: Title, 1: Header, 2: João, 3: Maria, 4: Blank Separator, 5: Terceirizadas Header, 6: Terceirizadas Sub-header
+    assert len(matrix) == 7
+    assert matrix[2][0] == "001"
+    assert matrix[3][0] == "002"
+    assert matrix[4][0] == ""
+    assert "TERCEIRIZADAS" in matrix[5][0]
+    assert matrix[6][0] == "Empresa / Terceirizada"

@@ -22,6 +22,8 @@ import PrimeiroAcesso from './pages/PrimeiroAcesso';
 import NaoAutorizado from './pages/NaoAutorizado';
 import NotFound from './pages/404';
 import Colaboradores from './pages/Colaboradores';
+import Contratacoes from './pages/Contratacoes';
+import Atestados from './pages/Atestados';
 
 // Initialize React Query Client
 const queryClient = new QueryClient({
@@ -73,6 +75,8 @@ const App = () => {
                 <Route element={<SidebarLayout />}>
                   <Route path="/alimentacao" element={<Upload />} />
                   <Route path="/colaboradores" element={<Colaboradores />} />
+                  <Route path="/contratacoes" element={<Contratacoes />} />
+                  <Route path="/atestados" element={<Atestados />} />
                 </Route>
               </Route>
 

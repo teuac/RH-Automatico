@@ -62,7 +62,7 @@ class GoogleSheetsService:
     def is_configured(self) -> bool:
         return self.service is not None
 
-    def read_sheet_values(self, spreadsheet_id: str, range_name: str) -> Optional[List[List]]:
+    def read_sheet_values(self, spreadsheet_id: str, range_name: str, value_render_option: Optional[str] = None) -> Optional[List[List]]:
         """Reads values from a spreadsheet range"""
         if not self.is_configured():
             # Mock data for dev when credentials are not available
@@ -73,7 +73,10 @@ class GoogleSheetsService:
             ]
         try:
             sheet = self.service.spreadsheets()
-            result = sheet.values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+            kwargs = {"spreadsheetId": spreadsheet_id, "range": range_name}
+            if value_render_option:
+                kwargs["valueRenderOption"] = value_render_option
+            result = sheet.values().get(**kwargs).execute()
             return result.get("values", [])
         except Exception as e:
             error_logger.exception(f"Error reading from Google Sheet {spreadsheet_id}: {str(e)}")
@@ -367,16 +370,146 @@ class GoogleSheetsService:
             # If cell has "A" or "J" and we'd write "F", skip (presença/justificativa prevalece sobre falta)
             if cell_value in ("A", "J") and mark == "F":
                 return "IGNORADO", f"Presença/Justificativa já registrada ({cell_value}) — falta ignorada."
-            # If cell has "A" and we'd write "J", skip (presença prevalece sobre justificativa)
-            if cell_value == "A" and mark == "J":
-                return "IGNORADO", "Alimentação já registrada — justificativa ignorada."
-
         # Update the cell to the specified mark
         success = self.update_cell(spreadsheet_id, tab_name, row_index_employee, col_index_date, mark)
         if success:
             return "ATUALIZADO", f"Status '{mark}' registrado na linha {row_index_employee} col {self.get_column_letter(col_index_date)}."
         else:
             return "PENDENTE", f"Falha ao gravar status '{mark}' na planilha."
+
+    def _clean_matrix_gaps(self, matrix: List[List]) -> bool:
+        """
+        Removes unnecessary empty colaborador rows between the last populated employee and
+        the TERCEIRIZADAS section, leaving exactly one clean separator row.
+        Returns True if matrix was modified, False otherwise.
+        """
+        if not matrix or len(matrix) < 4:
+            return False
+
+        header_row_idx = 0
+        if len(matrix) > 1 and any("matricula" in str(cell).lower() for cell in matrix[1]):
+            header_row_idx = 1
+
+        terc_sec_idx = -1
+        for idx, r in enumerate(matrix):
+            if r and any("terceirizadas" in str(c).lower() for c in r[:2]):
+                terc_sec_idx = idx
+                break
+
+        if terc_sec_idx == -1 or terc_sec_idx <= header_row_idx + 1:
+            return False
+
+        colab_slice = matrix[header_row_idx + 1 : terc_sec_idx]
+
+        def is_populated(row: List) -> bool:
+            if not row:
+                return False
+            mat = str(row[0]).strip() if len(row) > 0 else ""
+            name = str(row[1]).strip() if len(row) > 1 else ""
+            if mat.lower() in ("matricula", "matrícula", "terceirizadas") or name.lower() in ("nome", "funcionário", "funcionario"):
+                return False
+            return bool(mat or name)
+
+        last_populated_rel_idx = -1
+        for idx, row in enumerate(colab_slice):
+            if is_populated(row):
+                last_populated_rel_idx = idx
+
+        keep_end_rel_idx = last_populated_rel_idx + 1
+        current_colab_len = len(colab_slice)
+        target_colab_len = keep_end_rel_idx + 1
+
+        if current_colab_len > target_colab_len:
+            start_del = header_row_idx + 1 + target_colab_len
+            del matrix[start_del : terc_sec_idx]
+            return True
+
+        return False
+
+    def _reenforce_total_formulas(self, matrix: List[List]) -> bool:
+        """
+        Re-evaluates and ensures that every data row in matrix has the exact correct dynamic formulas:
+        - Colaboradores rows: =CONT.SE(C{r}:{end_c}{r}; "A") for Dias Totais, =CONT.SE(C{r}:{end_c}{r}; "F") for Faltas Totais
+        - Terceirizadas rows: =SOMA(C{r}:{end_c}{r}) for Dias Totais, "" for Faltas Totais
+        Returns True if any formula in matrix was modified/repaired, False otherwise.
+        """
+        if not matrix or len(matrix) < 2:
+            return False
+
+        header_row_idx = 0
+        if len(matrix) > 1 and any("matricula" in str(cell).lower() for cell in matrix[1]):
+            header_row_idx = 1
+
+        headers = [str(cell).strip() for cell in matrix[header_row_idx]]
+        start_c, end_c, num_days = self._get_day_range_cols(headers)
+        if num_days <= 0:
+            return False
+
+        col_dias = num_days + 2
+        col_faltas = num_days + 3
+
+        terc_sec_idx = -1
+        terc_header_idx = -1
+
+        for idx, r in enumerate(matrix):
+            if r:
+                row_str = " ".join([str(c).strip().lower() for c in r[:2] if c])
+                if "terceirizadas" in row_str and terc_sec_idx == -1:
+                    terc_sec_idx = idx
+                elif ("empresa / terceirizada" in row_str or "nome / terceirizada" in row_str) and terc_header_idx == -1:
+                    terc_header_idx = idx
+
+        modified = False
+
+        for r_idx in range(header_row_idx + 1, len(matrix)):
+            r = r_idx + 1  # 1-indexed row number in Google Sheets
+            row = matrix[r_idx]
+
+            if r_idx in (header_row_idx, terc_sec_idx):
+                continue
+
+            if r_idx == terc_header_idx:
+                while len(row) <= col_faltas:
+                    row.append("")
+                if row[col_dias] != "Dias Totais":
+                    row[col_dias] = "Dias Totais"
+                    modified = True
+                if row[col_faltas] != "Faltas Totais":
+                    row[col_faltas] = "Faltas Totais"
+                    modified = True
+                continue
+
+            # Skip separator empty row between Colaboradores and Terceirizadas
+            if terc_sec_idx != -1 and r_idx == terc_sec_idx - 1:
+                continue
+
+            while len(row) <= col_faltas:
+                row.append("")
+
+            if terc_header_idx != -1 and r_idx > terc_header_idx:
+                # Terceirizada data row: Dias Totais = SOMA, Faltas Totais = ""
+                expected_dias = f'=SOMA({start_c}{r}:{end_c}{r})'
+                expected_faltas = ""
+                if row[col_dias] != expected_dias:
+                    row[col_dias] = expected_dias
+                    modified = True
+                if row[col_faltas] != expected_faltas:
+                    row[col_faltas] = expected_faltas
+                    modified = True
+            elif terc_sec_idx != -1 and r_idx > terc_sec_idx:
+                continue
+            else:
+                # Colaborador data row: Dias Totais = CONT.SE "A", Faltas Totais = CONT.SE "F"
+                expected_dias = f'=CONT.SE({start_c}{r}:{end_c}{r}; "A")'
+                expected_faltas = f'=CONT.SE({start_c}{r}:{end_c}{r}; "F")'
+                if row[col_dias] != expected_dias:
+                    row[col_dias] = expected_dias
+                    modified = True
+                if row[col_faltas] != expected_faltas:
+                    row[col_faltas] = expected_faltas
+                    modified = True
+
+        return modified
 
     def batch_sync_presence(
         self,
@@ -396,9 +529,9 @@ class GoogleSheetsService:
             return results
 
         try:
-            # 1. Read sheet values once
+            # 1. Read sheet values once with value_render_option="FORMULA" to preserve formula expressions
             range_name = f"'{tab_name}'!A1:AZ500"
-            values = self.read_sheet_values(spreadsheet_id, range_name)
+            values = self.read_sheet_values(spreadsheet_id, range_name, value_render_option="FORMULA")
         except Exception as e:
             return [(emp.get("matricula", ""), "PENDENTE", f"Erro de comunicação com a planilha: {str(e)}") for emp in employees]
 
@@ -550,8 +683,12 @@ class GoogleSheetsService:
             sheet_updated = True
             results.append((matricula, "ATUALIZADO", f"Status '{mark}' marcado."))
 
-        # 3. Write the entire updated matrix back in a single API call if any updates occurred
-        if sheet_updated:
+        # 3. Always clean matrix gaps and re-enforce/repair total formulas for all rows in matrix
+        gaps_cleaned = self._clean_matrix_gaps(matrix)
+        formulas_repaired = self._reenforce_total_formulas(matrix)
+
+        # Write the entire updated matrix back in a single API call if any updates occurred
+        if sheet_updated or gaps_cleaned or formulas_repaired:
             try:
                 write_body = {"values": matrix}
                 self.service.spreadsheets().values().update(
@@ -669,8 +806,8 @@ class GoogleSheetsService:
             
             new_sheet_data = [title_row, header_row]
 
-            # Reserve a minimum of 25 colaborador slots so TERCEIRIZADAS section is never pushed up to top
-            num_colab_slots = max(len(employees), 25)
+            # Fit exact number of colaborador slots so TERCEIRIZADAS section follows right after without empty gaps
+            num_colab_slots = max(len(employees), 1)
             for i in range(num_colab_slots):
                 r = len(new_sheet_data) + 1  # 1-indexed row number in Google Sheets
                 formula_dias = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "A")'
