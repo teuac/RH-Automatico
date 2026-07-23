@@ -103,6 +103,123 @@ class GoogleSheetsService:
         num_days = max(1, end_col_idx - 2 + 1)
         return start_col, end_col, num_days
 
+    def get_sheet_id(self, spreadsheet_id: str, tab_name: str) -> Optional[int]:
+        """Fetches the numeric sheetId for a given tab_name in a spreadsheet"""
+        if not self.is_configured():
+            return 0
+        try:
+            sheet_metadata = self.service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+            for s in sheet_metadata.get('sheets', []):
+                props = s.get('properties', {})
+                if props.get('title') == tab_name:
+                    return props.get('sheetId')
+        except Exception as e:
+            error_logger.exception(f"Error fetching sheetId for tab '{tab_name}': {str(e)}")
+        return None
+
+    def restyle_terceirizadas_headers(self, spreadsheet_id: str, sheet_id: int, matrix: List[List]):
+        """
+        Dynamically locates TERCEIRIZADAS section header and sub-header in matrix,
+        cleans background color of any previous rows, and applies Dark Slate and Slate Blue header styling
+        to the exact current row indices.
+        """
+        if not self.is_configured() or sheet_id is None or not matrix:
+            return
+
+        terc_sec_row_idx = -1
+        terc_header_row_idx = -1
+
+        for idx, r in enumerate(matrix):
+            if r:
+                row_str = " ".join([str(c).strip().lower() for c in r[:2] if c])
+                if "terceirizadas" in row_str:
+                    terc_sec_row_idx = idx
+                elif "empresa / terceirizada" in row_str or "nome / terceirizada" in row_str:
+                    terc_header_row_idx = idx
+
+        if terc_sec_row_idx == -1:
+            return
+
+        headers = matrix[1] if len(matrix) > 1 else []
+        _, _, num_days = self._get_day_range_cols(headers)
+        total_cols = num_days + 4 if num_days > 0 else 35
+
+        requests = []
+
+        # 1. Reset background color for rows 2 to (terc_sec_row_idx - 1) to clean any old header color when section moves down
+        if terc_sec_row_idx > 2:
+            requests.append({
+                "repeatCell": {
+                    "range": {
+                        "sheetId": sheet_id,
+                        "startRowIndex": 2,
+                        "endRowIndex": terc_sec_row_idx,
+                        "startColumnIndex": 0,
+                        "endColumnIndex": total_cols
+                    },
+                    "cell": {
+                        "userEnteredFormat": {
+                            "backgroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}
+                        }
+                    },
+                    "fields": "userEnteredFormat.backgroundColor"
+                }
+            })
+
+        # 2. Format TERCEIRIZADAS Section Header Row: Dark Slate background (#37474F)
+        requests.append({
+            "repeatCell": {
+                "range": {
+                    "sheetId": sheet_id,
+                    "startRowIndex": terc_sec_row_idx,
+                    "endRowIndex": terc_sec_row_idx + 1,
+                    "startColumnIndex": 0,
+                    "endColumnIndex": total_cols
+                },
+                "cell": {
+                    "userEnteredFormat": {
+                        "backgroundColor": {"red": 0.22, "green": 0.28, "blue": 0.31},
+                        "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 11, "fontFamily": "Arial"},
+                        "horizontalAlignment": "LEFT",
+                        "verticalAlignment": "MIDDLE"
+                    }
+                },
+                "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+            }
+        })
+
+        # 3. Format TERCEIRIZADAS Sub-Header Row: Slate Blue (#33598C) for entire row
+        if terc_header_row_idx != -1:
+            requests.append({
+                "repeatCell": {
+                    "range": {
+                        "sheetId": sheet_id,
+                        "startRowIndex": terc_header_row_idx,
+                        "endRowIndex": terc_header_row_idx + 1,
+                        "startColumnIndex": 0,
+                        "endColumnIndex": total_cols
+                    },
+                    "cell": {
+                        "userEnteredFormat": {
+                            "backgroundColor": {"red": 0.2, "green": 0.35, "blue": 0.55},
+                            "textFormat": {"bold": True, "foregroundColor": {"red": 1.0, "green": 1.0, "blue": 1.0}, "fontSize": 10, "fontFamily": "Arial"},
+                            "horizontalAlignment": "CENTER",
+                            "verticalAlignment": "MIDDLE"
+                        }
+                    },
+                    "fields": "userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)"
+                }
+            })
+
+        try:
+            self.service.spreadsheets().batchUpdate(
+                spreadsheetId=spreadsheet_id,
+                body={"requests": requests}
+            ).execute()
+            app_logger.info(f"Successfully restyled Terceirizadas header at row {terc_sec_row_idx + 1} and subheader at row {terc_header_row_idx + 1}.")
+        except Exception as e:
+            error_logger.exception(f"Error restyling Terceirizadas section: {str(e)}")
+
     def update_cell(self, spreadsheet_id: str, tab_name: str, row_num: int, col_num: int, value: str) -> bool:
         """
         Updates a specific cell using A1 notation.
@@ -444,6 +561,11 @@ class GoogleSheetsService:
                     body=write_body
                 ).execute()
                 app_logger.info(f"Batch Sincronização: Gravado com sucesso na aba {tab_name}.")
+
+                # Dynamically restyle Terceirizadas header rows so colors ALWAYS follow the actual text position
+                sheet_id = self.get_sheet_id(spreadsheet_id, tab_name)
+                if sheet_id is not None:
+                    self.restyle_terceirizadas_headers(spreadsheet_id, sheet_id, matrix)
             except Exception as e:
                 # If the batch write fails, all updates fail
                 return [(emp.get("matricula", ""), "PENDENTE", f"Falha na gravação em lote: {str(e)}") for emp in employees]
@@ -511,6 +633,9 @@ class GoogleSheetsService:
                         if row and len(row) >= 1:
                             mat = str(row[0]).strip()
                             name = str(row[1]).strip() if len(row) > 1 else ""
+                            # Stop if we reach Terceirizadas section in existing tab
+                            if any("terceirizadas" in str(cell).lower() for cell in row):
+                                break
                             if mat or name:
                                 # Skip header labels
                                 if mat.lower() in ("matricula", "matrícula", "nome", "funcionário", "funcionario"):
@@ -561,11 +686,9 @@ class GoogleSheetsService:
             new_sheet_data.append([""] * total_cols)
             
             # 2. TERCEIRIZADAS section header row
-            terc_sec_row_idx = len(new_sheet_data)  # 0-indexed index in matrix
             new_sheet_data.append(["  TERCEIRIZADAS (ALIMENTAÇÃO MANUAL)"] + [""] * (total_cols - 1))
 
-            # 3. Terceirizadas table sub-header row (Removed Código/ID column as requested)
-            terc_header_row_idx = len(new_sheet_data)
+            # 3. Terceirizadas table sub-header row
             new_sheet_data.append(["Empresa / Terceirizada", ""] + month_dates + ["Dias Totais", "Faltas Totais"])
 
             # 4. 15 pre-formatted blank rows for manual entry of Terceirizadas
@@ -585,6 +708,17 @@ class GoogleSheetsService:
                 body=write_body
             ).execute()
             app_logger.info(f"Successfully initialized tab '{tab_name}' with {len(employees)} employees and Terceirizadas section.")
+
+            # Dynamically locate Terceirizadas section header and sub-header row indices in new_sheet_data
+            terc_sec_row_idx = 28
+            terc_header_row_idx = 29
+            for idx, r in enumerate(new_sheet_data):
+                if r:
+                    row_str = " ".join([str(c).strip().lower() for c in r[:2] if c])
+                    if "terceirizadas" in row_str:
+                        terc_sec_row_idx = idx
+                    elif "empresa / terceirizada" in row_str or "nome / terceirizada" in row_str:
+                        terc_header_row_idx = idx
 
             # 7. Apply styling requests
             if sheet_id is not None:
