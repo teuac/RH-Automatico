@@ -12,7 +12,7 @@ import Modal from '../components/Modal';
 import ConfirmDialog from '../components/ConfirmDialog';
 import Toast, { ToastContainer } from '../components/Toast';
 import { Table, Tr, Td } from '../components/Table';
-import { Save, ShieldAlert, KeyRound, Globe, Plus, Edit2, Trash2, Check, ExternalLink, FileSpreadsheet } from 'lucide-react';
+import { Save, ShieldAlert, KeyRound, Globe, Plus, Edit2, Trash2, Check, ExternalLink, FileSpreadsheet, Bus } from 'lucide-react';
 
 const FormContainer = styled.form`
   display: flex;
@@ -132,6 +132,7 @@ const Configuracoes = () => {
   const queryClient = useQueryClient();
   const [toast, setToast] = useState(null);
   const [allowedDomain, setAllowedDomain] = useState('');
+  const [valorDiarioVT, setValorDiarioVT] = useState('12.00');
 
   // Planilha CRUD states
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -179,6 +180,7 @@ const Configuracoes = () => {
   useEffect(() => {
     if (settings) {
       setAllowedDomain(settings.ALLOWED_DOMAIN || 'acengenharia.com.br');
+      setValorDiarioVT(settings.valor_diario_vt || '12.00');
     }
   }, [settings]);
 
@@ -254,6 +256,7 @@ const Configuracoes = () => {
   const handleSaveSettings = (e) => {
     e.preventDefault();
     updateSettingsMutation.mutate({ key: 'ALLOWED_DOMAIN', value: allowedDomain });
+    updateSettingsMutation.mutate({ key: 'valor_diario_vt', value: valorDiarioVT });
   };
 
   const handleOpenCreatePlanilha = () => {
@@ -343,6 +346,22 @@ const Configuracoes = () => {
                 value={allowedDomain} 
                 onChange={(e) => setAllowedDomain(e.target.value)} 
                 placeholder="Ex: acengenharia.com.br"
+              />
+            </div>
+
+            <div>
+              <SectionHeader>
+                <Bus size={18} color="#1a73e8" />
+                <SectionTitle>Parâmetros de Vale Transporte (VT)</SectionTitle>
+              </SectionHeader>
+              <InfoText>
+                Defina o valor padrão por dia (R$) utilizado para o cálculo dos totais de Vale Transporte.
+              </InfoText>
+              <Input 
+                label="Valor Padrão por Dia (R$)" 
+                value={valorDiarioVT} 
+                onChange={(e) => setValorDiarioVT(e.target.value)} 
+                placeholder="Ex: 12.00"
               />
             </div>
 

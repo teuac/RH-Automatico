@@ -154,6 +154,11 @@ const Sidebar = () => {
           </NavItem>
         )}
 
+        <NavItem to="/controle-vt">
+          <Bus size={18} />
+          Controle VT
+        </NavItem>
+
         {isRH && (
           <NavItem to="/colaboradores">
             <HardHat size={18} />
@@ -174,16 +179,6 @@ const Sidebar = () => {
             Atestados
           </NavItem>
         )}
-
-        <NavItem to="/controle-vt">
-          <Bus size={18} />
-          Controle VT
-        </NavItem>
-
-        <NavItem to="/perfil">
-          <User size={18} />
-          Meu Perfil
-        </NavItem>
 
         {isAdmin && (
           <>

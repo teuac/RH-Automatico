@@ -41,8 +41,10 @@ class UploadController:
         ip_address = request.client.host if request.client else "unknown"
         user_agent = request.headers.get("user-agent", "unknown")
         
-        # Format the employees back to list of dicts for service call
-        employees = [emp.model_dump() for emp in payload.funcionarios]
+        funcs = payload.funcionarios or payload.linhas_preview or []
+        employees = [emp.model_dump() for emp in funcs]
+        date_val = payload.date or payload.date_str or ""
+        filename_val = payload.filename or "upload.txt"
         
         return upload_service.commit_sync(
             db=db,
@@ -51,8 +53,8 @@ class UploadController:
             user_agent=user_agent,
             obra_id=payload.obra_id,
             planilha_id=payload.planilha_id,
-            date_str=payload.date,
-            filename=payload.filename,
+            date_str=date_val,
+            filename=filename_val,
             funcionarios_data=employees
         )
 

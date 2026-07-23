@@ -1249,3 +1249,360 @@
 [2026-07-23 15:37:28] INFO [application:1082] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
 [2026-07-23 15:37:28] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
 [2026-07-23 15:37:28] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 15:49:50] INFO [application:732] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 15:49:51] INFO [application:753] - Tab 'Julho 2026' successfully created with ID 1584311632.
+[2026-07-23 15:49:52] INFO [application:847] - Successfully initialized tab 'Julho 2026' with 0 employees and Terceirizadas section.
+[2026-07-23 15:49:52] INFO [application:1082] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 15:52:05] INFO [application:729] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Pedro Conceicao dos Santos (001883)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Djalma Francisco Pereira (004731)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Gilson Santos (004776)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edson Matos da Silva (005127)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Dionizio de Jesus Silva (005165)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Sergio Rodrigues Ramos (005478)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Fernando Rodrigues Santos (005555)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Josue Pereira dos Santos Junior (005562)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Joao Marcello Maciel de Carvalho (005611)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Willams Leite de Oliveira Santos (005625)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Rodrigo Silveira Linhares (005662)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Andre Batista da Silva (005672)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Aguinaldo Domingos dos Santos (005751)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ronaldo da Conceicao (005822)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Luzinaldo Cosme de Oliveira (005872)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Josenildo Santana da Silva (005873)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edson Pereira Frutuoso (005911)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Celio Roberto Alves Santos (005923)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Adriano Costa da Conceicao (006030)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Marcio Oliveira Feitosa (006031)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Barbara dos Santos (006053)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Jalmi dos Santos (006060)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Maksuel dos Santos (006094)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Paulo Henrique dos Santos (006141)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jeffson Torres de Araujo (006162)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Nascimento de Souza (006205)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Rizonaldo Santos Souza (006206)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Denilson Leal Oliveira (006226)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Welliton Ramos Rocha de Araujo (006272)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Romualdo dos Santos (006338)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ruan Lima dos Santos (006347)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Rafael Santos de Oliveira (006391)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Carlos Alberto Santos Alves (006393)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Lucas Alves de Oliveira Souza (006403)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Claudio Cerqueira dos Santos (006436)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Daniel Lucas Santos de Brito (006446)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Anderson dos Santos Dantas (006491)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Alessandra Santos de Santana (006519)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Ricardo dos Santos (006558)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Arimario Santana dos Santos (006576)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Ailton dos Santos (006597)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jhonatan Santos Silva (006605)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Anderson da Silva Conceicao (006613)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edissandro dos Santos Chagas (006614)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edson Leal Pereira (006620)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Antonio Carlos Dortas Santos (006622)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ronaldo Alves da Silva (006633)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Rafael Borges de Andrade (006636)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Antonio Medeiros Bonfim (006639)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Daniel Alves dos Santos (006640)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Emerson Fraga de Menezes (006652)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jailson Lima dos Santos (006653)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ricardo Francisco da Cruz (006668)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Dornelys Silva Bonifacio (006672)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edimilson dos Santos Silva (006679)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Victor de Vasconcelos Barreto Cartaxo (006688)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ian Pereira dos Santos (006690)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Thalison de Jesus Mota (006699)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Daniel dos Santos (006713)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Basilio de Jesus Filho (006721)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Marcos Aurelio Matos Rodrigues (006726)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Thaiandrey Gomes (006727)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Wesley Alves dos Santos (006728)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Flavio Paixao de Oliveira Santos (006732)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Sebastiao Cavalcante da Silva (006733)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Evangelino da Paixao Neto (006738)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Geneci Cicero Macelino (006742)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Josevaldo Pereira dos Santos (006745)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jarbas Cruz dos Santos (006747)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Daniel Dias Correia (006752)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Renilson Francisco da Cruz (006755)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Kaique Gomes Alves (006756)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edson Marques da Silva (006759)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Damiao Santana da Costa (006762)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Claudson da Conceicao (006763)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jurandir dos Anjos Santos (006764)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Alves dos Santos (006765)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jucelino Silva Santos (006773)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Maycon Santos Ferreira da Mota (006781)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Carlos Fernandes Azevedo (006784)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Cleverton Messias da Rocha Lopes (006787)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Gabriel Monteiro Santos (006788)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Ginaldo dos Santos (006789)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edivaldo Feitoza Leite (006790)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Marcos de Jesus (006791)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Marcos Lima dos Santos (006797)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Georvanio Barbosa de Araujo (006802)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Luan Nascimento Pereira (006803)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Mauricio dos Santos Fagundes (006804)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Wilames Gomes Santos (006814)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Carlos de Souza (006817)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Welison Santos da Ressureicao (006827)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Marcelo dos Santos Neris (006828)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Luiz Henrique dos Santos (006829)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Goncalo da Silva Junior (006830)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Luis Otavio dos Santos Oliveira (006832)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Clenilton Santos (006833)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edson Bispo de Aquino Junior (006854)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Raul Celestino dos Santos (006858)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Maria Aline de Jesus Santos (006859)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Joao Victor de Oliveira Carvalho (006866)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee FLADSON DOS SANTOS (006879)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee JACONIAS DA CONCEICAO SANTOS (006881)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee JOSENILTON ANDRADE DA CRUZ (006882)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee JESSICA CRISTINA SANTANA FERREIRA (006886)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee HELAIDO FREITAS DE ALMEIDA (006890)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee SEBASTIAO JONY SANTOS (006892)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee EMANUELLE SAMPAIO FONSECA TEIXEIRA (006907)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Mariana Cardoso dos Santos (E06867)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee ARTHUR GOMES DOS SANTOS (6877)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Adenilton de Menezes Fontes (6005)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Adilson Santos Nascimento (6064)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Alfredo Passos de Olivindo (5463)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Aylton Jose Rocha de Souza Junior (6631)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee DAVID KELVIN RAMOS DOS SANTOS (6917)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee DJAVAN DANTAS DOS SANTOS (6894)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Daniel Aparecido dos Santos (5896)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Dayane Pereira de Jesus (6776)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee ERINALDO VIEIRA DOS SANTOS (6919)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Edesio Oliveira (5530)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Erivanio Jesus de Araujo (6770)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Estevesson dos Santos Silva (6748)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee GILVAN DOS SANTOS (6916)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee GUSTAVO DE ALMEIDA PRADO (6873)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Gabriel Augusto Nascimento Belmiro (6820)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Gabrielly de Souza Dantas (6508)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Isaac Marcos dos Santos (6771)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Italo Cauã Campos Ferreira (6908)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee JHON ANDERSON LIMA SAMPAIO (6914)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee JONATHA DA SILVA (6915)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jamisson Santos (6805)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jefersson Nascimento Batista (6749)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Joao Guilherme Nascimento Lima (6824)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Joao Ricardo Fernandes Vieira dos Santos (6825)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jonas Santos de Oliveira (4277)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Daniel Souza Leal (6730)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jose Ricardo Santos (6816)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Jozivaldo Bispo da Silva (6812)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee LAZARO FONTES CASTRO (6884)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Lenilza Santos (5353)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee MAIKON SANTOS RAMOS (6883)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Manoel Messias Rezende dos Santos (5253)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Maria Jandira Barbosa da Silva (6768)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Max Danilo Caetano Aleixo (6475)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Rafael Bispo da Conceicao (6852)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Raylaine Vitoria Lima dos Santos (6823)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee THALES AUGUSTO SILVA SANTOS (6893)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Valeria Vieira dos Santos (6483)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Vinicius Santos de Oliveira (6831)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Wesley Breno Teles da Silva (6691)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Willames Alves de Oliveira (6503)
+[2026-07-23 15:52:06] INFO [application:658] - Local batch: registered employee Yan Anthony Neres Andrade (6821)
+[2026-07-23 15:52:06] INFO [application:700] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-23 15:52:07] INFO [application:222] - Successfully restyled Terceirizadas header at row 156 and subheader at row 157.
+[2026-07-23 15:52:57] INFO [application:729] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-23 15:53:09] INFO [application:729] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-23 15:53:10] INFO [application:658] - Local batch: registered employee Gilson Santos (004776)
+[2026-07-23 15:53:10] INFO [application:658] - Local batch: registered employee Edson Matos da Silva (005127)
+[2026-07-23 15:53:10] INFO [application:700] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-23 15:53:11] INFO [application:222] - Successfully restyled Terceirizadas header at row 156 and subheader at row 157.
+[2026-07-23 16:08:15] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:09:00] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:09:13] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:09:43] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:09:56] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:17] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:44] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:45] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 16:10:45] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 16:10:45] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 16:10:45] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 16:10:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:57] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 16:10:58] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 16:10:58] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 16:10:58] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 16:10:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:04] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:14] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:20] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:20] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:20] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:20] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:20] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:29:20] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:29:20] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:29:20] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:29:20] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:21] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:21] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:28] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:34] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:29:35] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:29:35] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:29:35] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:29:35] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:39:14] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:39:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:15] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:30] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:40:54] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:40:54] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:40:54] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:40:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:43:52] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:44:03] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:44:15] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:44:32] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:44:44] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:10] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:45:11] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:45:11] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:45:11] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:45:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:11] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:12] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:12] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:46:12] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:46:12] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:46:12] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:46:12] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:12] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:46:12] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:50:54] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:743] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 17:51:19] INFO [application:764] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 17:51:19] INFO [application:858] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 17:51:19] INFO [application:1093] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 17:51:19] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 18:13:09] INFO [application:740] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 18:13:39] INFO [application:740] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 18:13:39] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-23 18:13:40] INFO [application:222] - Successfully restyled Terceirizadas header at row 44 and subheader at row 45.
+[2026-07-23 18:13:56] INFO [application:740] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 18:59:50] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 18:59:57] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:00] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:00] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:01] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:01] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:01] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:00:01] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:00:01] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:00:01] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:00:01] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:01] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:00:01] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:23] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:06:24] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:06:24] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:06:24] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:06:57] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:07:21] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:08:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:04] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:09:09] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:09:09] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:09:09] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:09:09] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:10:09] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:11:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:05] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:12:06] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:12:06] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:12:06] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:12:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:22:25] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:23:16] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:23:22] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:23:22] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:23:22] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:22] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:23:56] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:24:41] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:52] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-23 19:24:58] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 12345.
+[2026-07-23 19:24:58] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 2 employees and Terceirizadas section.
+[2026-07-23 19:24:58] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.

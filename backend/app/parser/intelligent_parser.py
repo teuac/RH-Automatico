@@ -9,6 +9,7 @@ class ParsedFuncionario(BaseModel):
     matricula: str
     nome: str
     horarios: List[str]
+    data: Optional[str] = None
 
 class ParsedData(BaseModel):
     obra_nome: Optional[str] = None
@@ -72,13 +73,34 @@ class IntelligentParser:
         match_br = re.match(r'^(\d{2})/(\d{2})/(\d{4})$', date_str)
         if match_br:
             return f"{match_br.group(3)}-{match_br.group(2)}-{match_br.group(1)}"
-        return date_str
+        return None
+
+    @staticmethod
+    def extract_date_from_row(row_cells: List[Any]) -> Optional[str]:
+        """
+        Scans row cells for any standalone date string (DD/MM/YYYY or YYYY-MM-DD)
+        commonly found in section headers before employee rows.
+        """
+        for cell in row_cells:
+            if not cell:
+                continue
+            val = str(cell).strip()
+            # Search DD/MM/YYYY
+            match_br = re.search(r'\b(\d{2})/(\d{2})/(\d{4})\b', val)
+            if match_br:
+                return f"{match_br.group(3)}-{match_br.group(2)}-{match_br.group(1)}"
+            # Search YYYY-MM-DD
+            match_iso = re.search(r'\b(\d{4})-(\d{2})-(\d{2})\b', val)
+            if match_iso:
+                return f"{match_iso.group(1)}-{match_iso.group(2)}-{match_iso.group(3)}"
+        return None
 
     def parse_txt(self, file_content: str) -> ParsedData:
         lines = [line.strip() for line in file_content.splitlines()]
         
         obra_nome = None
         data_ponto = None
+        current_active_date = None
         funcionarios: List[ParsedFuncionario] = []
         
         # Regex helpers
@@ -97,6 +119,13 @@ class IntelligentParser:
                 i += 1
                 continue
                 
+            # Check for header date line
+            line_found_date = self.extract_date_from_row([line])
+            if line_found_date:
+                current_active_date = line_found_date
+                if not data_ponto:
+                    data_ponto = line_found_date
+
             # Try to match metadata headers first
             obra_match = obra_pattern.match(line)
             if obra_match:
@@ -109,6 +138,7 @@ class IntelligentParser:
                 parsed_date = self.parse_date(self.clean_string(date_match.group(1)))
                 if parsed_date:
                     data_ponto = parsed_date
+                    current_active_date = parsed_date
                 i += 1
                 continue
             
@@ -126,7 +156,8 @@ class IntelligentParser:
                     funcionarios.append(ParsedFuncionario(
                         matricula=potential_id,
                         nome=potential_name,
-                        horarios=horarios
+                        horarios=horarios,
+                        data=current_active_date or data_ponto
                     ))
                     i += 3
                     continue
@@ -173,6 +204,7 @@ class IntelligentParser:
                 
         funcionarios = []
         data_ponto = None
+        current_active_date = None
         
         # If headers not clearly mapped, fallback to first 4 columns
         if idx_matricula == -1: idx_matricula = 0
@@ -183,6 +215,15 @@ class IntelligentParser:
         # Read contents
         start_row = 1 if len(headers) > 1 else 0
         for row in rows[start_row:]:
+            if not row or all(not str(c).strip() for c in row):
+                continue
+                
+            row_found_date = self.extract_date_from_row(row)
+            if row_found_date:
+                current_active_date = row_found_date
+                if not data_ponto:
+                    data_ponto = row_found_date
+
             if len(row) <= max(idx_matricula, idx_nome, idx_horarios):
                 continue
                 
@@ -193,19 +234,21 @@ class IntelligentParser:
             if not self.is_valid_employee(matricula, nome):
                 continue
                 
+            row_date = None
             if idx_data < len(row):
                 raw_date = self.clean_string(row[idx_data])
-                parsed_date = self.parse_date(raw_date)
-                if parsed_date and not data_ponto:
-                    data_ponto = parsed_date
+                row_date = self.parse_date(raw_date)
                     
+            final_date = row_date or current_active_date or data_ponto
+
             # Times could be space or comma separated
             horarios = re.findall(r'\d{2}:\d{2}', horarios_raw)
             
             funcionarios.append(ParsedFuncionario(
                 matricula=matricula,
                 nome=nome,
-                horarios=horarios
+                horarios=horarios,
+                data=final_date
             ))
             
         return ParsedData(
@@ -244,9 +287,19 @@ class IntelligentParser:
         
         funcionarios = []
         data_ponto = None
+        current_active_date = None
         
         for _, row in df.iterrows():
             row_list = list(row)
+            if not row_list or all(pd.isna(c) for c in row_list):
+                continue
+                
+            row_found_date = self.extract_date_from_row(row_list)
+            if row_found_date:
+                current_active_date = row_found_date
+                if not data_ponto:
+                    data_ponto = row_found_date
+
             if len(row_list) <= max(idx_matricula, idx_nome, idx_horarios):
                 continue
                 
@@ -257,18 +310,20 @@ class IntelligentParser:
             if not self.is_valid_employee(matricula, nome):
                 continue
                 
+            row_date = None
             if idx_data < len(row_list):
                 raw_date = self.clean_string(row_list[idx_data])
-                parsed_date = self.parse_date(raw_date)
-                if parsed_date and not data_ponto:
-                    data_ponto = parsed_date
+                row_date = self.parse_date(raw_date)
                     
+            final_date = row_date or current_active_date or data_ponto
+
             horarios = re.findall(r'\d{2}:\d{2}', str(horarios_raw))
             
             funcionarios.append(ParsedFuncionario(
                 matricula=matricula,
                 nome=nome,
-                horarios=horarios
+                horarios=horarios,
+                data=final_date
             ))
             
         return ParsedData(

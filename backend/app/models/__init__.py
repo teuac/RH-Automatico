@@ -10,6 +10,7 @@ from app.models.audit_log import AuditLog
 from app.models.system_log import SystemLog
 from app.models.pending_record import PendingRecord
 from app.models.settings import SystemSettings
+from app.models.atestado import Atestado
 
 __all__ = [
     "Base",
@@ -25,5 +26,6 @@ __all__ = [
     "AuditLog",
     "SystemLog",
     "PendingRecord",
-    "SystemSettings"
+    "SystemSettings",
+    "Atestado"
 ]

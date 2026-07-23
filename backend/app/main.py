@@ -31,15 +31,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import os
+from fastapi.staticfiles import StaticFiles
+
 # Register consolidated API routes under /api/v1
 app.include_router(api_router, prefix="/api/v1")
+
+# Static files for document uploads (Atestados)
+uploads_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "uploads"))
+os.makedirs(uploads_dir, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
 # Global Exception handling mapping
 register_exception_handlers(app)
 
 @app.on_event("startup")
 def setup_initial_database_fixtures():
-    """Seeds default Roles into PostgreSQL upon startup if missing"""
+    """Ensures DB tables exist and seeds default Roles into PostgreSQL upon startup if missing"""
+    import app.models  # Ensure all models are registered in Base.metadata
+    Base.metadata.create_all(bind=engine)
+    
     db = SessionLocal()
     try:
         # Create roles

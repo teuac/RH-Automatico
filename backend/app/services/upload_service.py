@@ -152,6 +152,15 @@ class UploadService:
         except Exception as e:
             sheet_rows = None
 
+        # Query active atestados for target date
+        from app.repositories.atestado import atestado_repository
+        try:
+            target_dt = datetime.datetime.strptime(final_date, "%Y-%m-%d").date()
+            active_atestados = atestado_repository.get_active_atestados_for_date(db, target_dt, obra_id=obra_id)
+            atestado_colab_ids = {a.colaborador_id for a in active_atestados}
+        except Exception:
+            atestado_colab_ids = set()
+
         if sheet_rows and len(sheet_rows) > 1:
             headers = [str(cell).strip() for cell in sheet_rows[0]]
             
@@ -162,20 +171,28 @@ class UploadService:
 
             date_col_exists = any(h == final_date or h == dd_mm_yyyy or h == dd_mm for h in headers)
             
-            # Index of employees
+            # Index of employees on Google Sheet
             sheet_employees_matricula = set()
             sheet_employees_name = []
+            sheet_employees_list = []
             
             for r in sheet_rows[1:]:
                 if not r:
                     continue
-                mat = str(r[0]).strip().lstrip("0")
-                if mat:
-                    sheet_employees_matricula.add(mat)
+                mat_raw = str(r[0]).strip()
+                nome_raw = str(r[1]).strip() if len(r) > 1 else ""
                 
-                name_cell = str(r[1]).strip() if len(r) > 1 else str(r[0]).strip()
-                if name_cell:
-                    sheet_employees_name.append(name_cell.lower())
+                if any("terceirizadas" in str(cell).lower() for cell in r[:2]):
+                    break
+                if mat_raw or nome_raw:
+                    if mat_raw.lower() in ("matricula", "matrícula", "nome", "funcionário", "funcionario"):
+                        continue
+                    clean_m = mat_raw.lstrip("0")
+                    if clean_m:
+                        sheet_employees_matricula.add(clean_m)
+                    if nome_raw:
+                        sheet_employees_name.append(nome_raw.lower())
+                    sheet_employees_list.append({"raw_mat": mat_raw, "clean_mat": clean_m, "nome": nome_raw})
 
             # 1. Process parsed employees (Present/Alimentou)
             for emp in parsed.funcionarios:
@@ -218,18 +235,24 @@ class UploadService:
                     "presenca": "A"  # Alimentação
                 })
 
-            # 2. Process active db colaboradores not in file (Absent / Falta)
+            # 2. Process active db colaboradores not in file (Absent / Falta / Atestado)
             for c_mat, colab in db_colabs_by_mat.items():
                 if c_mat not in matched_db_mats:
                     mat_match = c_mat in sheet_employees_matricula
                     name_match = any(colab.nome.lower() in n or n in colab.nome.lower() for n in sheet_employees_name)
                     found = mat_match or name_match
                     
-                    situation = "Falta (Não encontrado no arquivo)"
-                    if not found:
-                        situation = "Falta (Não encontrado no arquivo e nem na planilha)"
-                    elif not date_col_exists:
-                        situation = f"Falta - Coluna de data {dd_mm_yyyy} não encontrada na planilha"
+                    is_atestado = colab.id in atestado_colab_ids
+                    presenca_mark = "J" if is_atestado else "F"
+                    
+                    if is_atestado:
+                        situation = "Atestado Médico Vigente (Justificado)"
+                    else:
+                        situation = "Falta (Não encontrado no arquivo)"
+                        if not found:
+                            situation = "Falta (Não encontrado no arquivo e nem na planilha)"
+                        elif not date_col_exists:
+                            situation = f"Falta - Coluna de data {dd_mm_yyyy} não encontrada na planilha"
 
                     preview_rows.append({
                         "matricula": colab.matricula,
@@ -238,7 +261,40 @@ class UploadService:
                         "encontrado": found,
                         "existe_na_base": True,
                         "situacao": situation,
-                        "presenca": "F"  # Falta
+                        "presenca": presenca_mark
+                    })
+
+            # 3. Process employees present on Google Sheet but not in file or DB
+            processed_mats = {p["matricula"].strip().lstrip("0") for p in preview_rows if p.get("matricula")}
+            processed_names = {p["nome"].strip().lower() for p in preview_rows if p.get("nome")}
+
+            for s_emp in sheet_employees_list:
+                cm = s_emp["clean_mat"]
+                nm = s_emp["nome"].strip().lower()
+                if (cm and cm not in processed_mats) and (nm not in processed_names):
+                    db_colab = db_colabs_by_mat.get(cm)
+                    if not db_colab and nm:
+                        for c_obj in db_colabs_by_mat.values():
+                            if c_obj.nome.strip().lower() == nm:
+                                db_colab = c_obj
+                                break
+
+                    is_atestado = db_colab.id in atestado_colab_ids if db_colab else False
+                    presenca_mark = "J" if is_atestado else "F"
+
+                    if is_atestado:
+                        situation = "Atestado Médico Vigente (Justificado)"
+                    else:
+                        situation = "Falta (Registrado na planilha, ausente no arquivo)"
+
+                    preview_rows.append({
+                        "matricula": s_emp["raw_mat"],
+                        "nome": s_emp["nome"],
+                        "horarios": [],
+                        "encontrado": True,
+                        "existe_na_base": True if db_colab else False,
+                        "situacao": situation,
+                        "presenca": presenca_mark
                     })
         else:
             # Fallback when Sheets connection fails/mocked
@@ -267,14 +323,17 @@ class UploadService:
 
             for c_mat, colab in db_colabs_by_mat.items():
                 if c_mat not in matched_db_mats:
+                    is_atestado = colab.id in atestado_colab_ids
+                    presenca_mark = "J" if is_atestado else "F"
+                    situation = "Atestado Médico Vigente (Justificado)" if is_atestado else "Falta (Não encontrado no arquivo)"
                     preview_rows.append({
                         "matricula": colab.matricula,
                         "nome": colab.nome,
                         "horarios": [],
                         "encontrado": True,
                         "existe_na_base": True,
-                        "situacao": "Falta (Não encontrado no arquivo - Planilha não pôde ser pré-validada)",
-                        "presenca": "F"
+                        "situacao": situation,
+                        "presenca": presenca_mark
                     })
 
         return {
@@ -286,7 +345,8 @@ class UploadService:
             "planilha_google_id": planilha.planilha_google_id,
             "nome_aba": tab_name,
             "aba_criada": tab_criada,
-            "funcionarios": preview_rows
+            "funcionarios": preview_rows,
+            "linhas_preview": preview_rows
         }
 
     def commit_sync(

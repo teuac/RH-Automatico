@@ -426,11 +426,11 @@ class GoogleSheetsService:
 
         return False
 
-    def _reenforce_total_formulas(self, matrix: List[List]) -> bool:
+    def _reenforce_total_formulas(self, matrix: List[List], valor_diario_vt: Optional[float] = None) -> bool:
         """
         Re-evaluates and ensures that every data row in matrix has the exact correct dynamic formulas:
-        - Colaboradores rows: =CONT.SE(C{r}:{end_c}{r}; "A") for Dias Totais, =CONT.SE(C{r}:{end_c}{r}; "F") for Faltas Totais
-        - Terceirizadas rows: =SOMA(C{r}:{end_c}{r}) for Dias Totais, "" for Faltas Totais
+        - Colaboradores rows: =CONT.SE(C{r}:{end_c}{r}; "A") (* valor_diario_vt if provided) for Dias Totais/Valor VT, =CONT.SE(C{r}:{end_c}{r}; "F") for Faltas Totais
+        - Terceirizadas rows: =SOMA(C{r}:{end_c}{r}) (* valor_diario_vt if provided) for Dias Totais, "" for Faltas Totais
         Returns True if any formula in matrix was modified/repaired, False otherwise.
         """
         if not matrix or len(matrix) < 2:
@@ -487,8 +487,11 @@ class GoogleSheetsService:
                 row.append("")
 
             if terc_header_idx != -1 and r_idx > terc_header_idx:
-                # Terceirizada data row: Dias Totais = SOMA, Faltas Totais = ""
-                expected_dias = f'=SOMA({start_c}{r}:{end_c}{r})'
+                # Terceirizada data row: Dias Totais = SOMA (* valor_diario_vt if specified)
+                if valor_diario_vt and valor_diario_vt > 0:
+                    expected_dias = f'=SOMA({start_c}{r}:{end_c}{r}) * {valor_diario_vt}'
+                else:
+                    expected_dias = f'=SOMA({start_c}{r}:{end_c}{r})'
                 expected_faltas = ""
                 if row[col_dias] != expected_dias:
                     row[col_dias] = expected_dias
@@ -499,8 +502,15 @@ class GoogleSheetsService:
             elif terc_sec_idx != -1 and r_idx > terc_sec_idx:
                 continue
             else:
-                # Colaborador data row: Dias Totais = CONT.SE "A", Faltas Totais = CONT.SE "F"
-                expected_dias = f'=CONT.SE({start_c}{r}:{end_c}{r}; "A")'
+                # Colaborador data row: Dias Totais = CONT.SE "A" (* valor_diario_vt if specified), Faltas Totais = CONT.SE "F"
+                if valor_diario_vt and valor_diario_vt > 0:
+                    expected_dias = f'=CONT.SE({start_c}{r}:{end_c}{r}; "A") * {valor_diario_vt}'
+                elif row[col_dias] and "*" in str(row[col_dias]):
+                    mult = str(row[col_dias]).split("*")[-1].strip()
+                    expected_dias = f'=CONT.SE({start_c}{r}:{end_c}{r}; "A") * {mult}'
+                else:
+                    expected_dias = f'=CONT.SE({start_c}{r}:{end_c}{r}; "A")'
+
                 expected_faltas = f'=CONT.SE({start_c}{r}:{end_c}{r}; "F")'
                 if row[col_dias] != expected_dias:
                     row[col_dias] = expected_dias
@@ -516,7 +526,8 @@ class GoogleSheetsService:
         spreadsheet_id: str,
         tab_name: str,
         date_str: str,
-        employees: List[Dict[str, Any]]
+        employees: List[Dict[str, Any]],
+        valor_diario_vt: Optional[float] = None
     ) -> List[Tuple[str, str, str]]:
         """
         Syncs presence for multiple employees in a batch (1 Read + 1 Write call).
@@ -685,7 +696,7 @@ class GoogleSheetsService:
 
         # 3. Always clean matrix gaps and re-enforce/repair total formulas for all rows in matrix
         gaps_cleaned = self._clean_matrix_gaps(matrix)
-        formulas_repaired = self._reenforce_total_formulas(matrix)
+        formulas_repaired = self._reenforce_total_formulas(matrix, valor_diario_vt=valor_diario_vt)
 
         # Write the entire updated matrix back in a single API call if any updates occurred
         if sheet_updated or gaps_cleaned or formulas_repaired:
@@ -709,10 +720,18 @@ class GoogleSheetsService:
 
         return results
 
-    def ensure_tab_exists(self, spreadsheet_id: str, tab_name: str, year: int, month: int, obra_name: str = "") -> tuple[bool, bool]:
+    def ensure_tab_exists(
+        self,
+        spreadsheet_id: str,
+        tab_name: str,
+        year: int,
+        month: int,
+        obra_name: str = "",
+        valor_diario_vt: Optional[float] = None
+    ) -> tuple[bool, bool]:
         """
         Verifies if a tab with tab_name exists in the spreadsheet.
-        If it doesn't, creates it, copies employee list (Matrícula/Nome) from the first sheet,
+        If it doesn't, creates it, copies employee list (Matrícula/Nome) from the first sheet or DB,
         and initializes headers with all the calendar days of the month.
         Returns: (success: bool, tab_was_created: bool)
         """
@@ -779,6 +798,21 @@ class GoogleSheetsService:
                                     continue
                                 employees.append([mat, name])
 
+            # Fallback: query active db colaboradores for this obra if no employees found in master sheet
+            if not employees and obra_name:
+                try:
+                    from app.database.session import SessionLocal
+                    from app.models.obra import Obra
+                    from app.models.colaborador import Colaborador
+                    db_sess = SessionLocal()
+                    o_db = db_sess.query(Obra).filter(Obra.nome.ilike(f"%{obra_name}%")).first()
+                    if o_db:
+                        c_list = db_sess.query(Colaborador).filter(Colaborador.obra_id == o_db.id, Colaborador.status == "ATIVO").all()
+                        employees = [[c.matricula, c.nome] for c in c_list]
+                    db_sess.close()
+                except Exception as e_db:
+                    app_logger.warning(f"Could not fetch colaboradores fallback: {str(e_db)}")
+
             # 4. Generate calendar dates for the month (Only Day Numbers)
             import calendar
             num_days = calendar.monthrange(year, month)[1]
@@ -787,7 +821,7 @@ class GoogleSheetsService:
             # Calculate total columns and formula letter coordinates
             # Col A (0): Matricula, Col B (1): Nome
             # Col C (2) to (1 + num_days): Days 1..num_days
-            # Col (2 + num_days): Dias Totais, Col (3 + num_days): Faltas Totais
+            # Col (2 + num_days): Dias Totais / Valor VT, Col (3 + num_days): Faltas Totais
             start_day_col = "C"
             end_day_col = self.get_column_letter(1 + num_days)
             total_cols = num_days + 4
@@ -799,7 +833,11 @@ class GoogleSheetsService:
             }
             month_name = months.get(month, "")
             obra_display = obra_name if obra_name else "GERAL"
-            title_text = f"  CONTROLE DE PRESENÇA - OBRA: {obra_display.upper()} - PERÍODO: {month_name.upper()} DE {year}"
+
+            if valor_diario_vt and valor_diario_vt > 0:
+                title_text = f"  CONTROLE DE VT - OBRA: {obra_display.upper()} - PERÍODO: {month_name.upper()} DE {year}"
+            else:
+                title_text = f"  CONTROLE DE PRESENÇA - OBRA: {obra_display.upper()} - PERÍODO: {month_name.upper()} DE {year}"
             
             title_row = [title_text] + [""] * (total_cols - 1)
             header_row = ["Matricula", "Nome"] + month_dates + ["Dias Totais", "Faltas Totais"]
@@ -810,7 +848,11 @@ class GoogleSheetsService:
             num_colab_slots = max(len(employees), 1)
             for i in range(num_colab_slots):
                 r = len(new_sheet_data) + 1  # 1-indexed row number in Google Sheets
-                formula_dias = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "A")'
+                if valor_diario_vt and valor_diario_vt > 0:
+                    formula_dias = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "A") * {valor_diario_vt}'
+                else:
+                    formula_dias = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "A")'
+
                 formula_faltas = f'=CONT.SE({start_day_col}{r}:{end_day_col}{r}; "F")'
                 
                 if i < len(employees):
@@ -831,7 +873,10 @@ class GoogleSheetsService:
             # 4. 15 pre-formatted blank rows for manual entry of Terceirizadas
             for _ in range(15):
                 r = len(new_sheet_data) + 1
-                formula_dias = f'=SOMA({start_day_col}{r}:{end_day_col}{r})'
+                if valor_diario_vt and valor_diario_vt > 0:
+                    formula_dias = f'=SOMA({start_day_col}{r}:{end_day_col}{r}) * {valor_diario_vt}'
+                else:
+                    formula_dias = f'=SOMA({start_day_col}{r}:{end_day_col}{r})'
                 formula_faltas = ""
                 new_sheet_data.append(["", ""] + [""] * num_days + [formula_dias, formula_faltas])
 

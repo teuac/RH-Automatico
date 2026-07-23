@@ -185,3 +185,27 @@ def test_clean_matrix_gaps_removes_unnecessary_empty_rows():
     assert matrix[4][0] == ""
     assert "TERCEIRIZADAS" in matrix[5][0]
     assert matrix[6][0] == "Empresa / Terceirizada"
+
+def test_reenforce_total_formulas_with_valor_diario_vt():
+    service = GoogleSheetsService()
+    
+    matrix = [
+        ["CONTROLE DE PRESENÇA (VT)", ""],
+        ["Matricula", "Nome", "1", "2", "3", "Dias Totais", "Faltas Totais"],
+        ["001", "João Silva", "A", "F", "A", "", ""],
+        ["", ""],
+        ["TERCEIRIZADAS", ""],
+        ["Empresa / Terceirizada", "", "1", "2", "3", "Dias Totais", "Faltas Totais"],
+        ["Empresa VT", "", "5", "10", "", "", ""]
+    ]
+    
+    modified = service._reenforce_total_formulas(matrix, valor_diario_vt=15.0)
+    
+    assert modified is True
+    # Row 3 (index 2): Colaborador formula multiplied by 15.0
+    assert matrix[2][5] == '=CONT.SE(C3:E3; "A") * 15.0'
+    assert matrix[2][6] == '=CONT.SE(C3:E3; "F")'
+    
+    # Row 7 (index 6): Terceirizada formula multiplied by 15.0
+    assert matrix[6][5] == '=SOMA(C7:E7) * 15.0'
+    assert matrix[6][6] == ''

@@ -1841,3 +1841,978 @@ Traceback (most recent call last):
     "planilha_google_id": obra.planilha_google_id,
                           ^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Obra' object has no attribute 'planilha_google_id'
+[2026-07-23 17:40:40] ERROR [error:56] - Unhandled Exception on /api/v1/atestados/: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\atestados.py", line 20, in get_atestados
+    return atestado_controller.get_all(db=db, obra_id=obra_id, status=status, current_user=current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\atestado_controller.py", line 23, in get_all
+    return atestado_repository.get_multi_with_relations(db, obra_id=obra_id, status=status)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\atestado.py", line 28, in get_multi_with_relations
+    return query.order_by(Atestado.data_inicio.desc()).offset(skip).limit(limit).all()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2711, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-07-23 17:40:41] ERROR [error:56] - Unhandled Exception on /api/v1/atestados/: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\atestados.py", line 20, in get_atestados
+    return atestado_controller.get_all(db=db, obra_id=obra_id, status=status, current_user=current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\atestado_controller.py", line 23, in get_all
+    return atestado_repository.get_multi_with_relations(db, obra_id=obra_id, status=status)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\atestado.py", line 28, in get_multi_with_relations
+    return query.order_by(Atestado.data_inicio.desc()).offset(skip).limit(limit).all()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2711, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-07-23 17:45:26] ERROR [error:56] - Unhandled Exception on /api/v1/atestados/: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.documento_url AS atestados_documento_url, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\atestados.py", line 20, in get_atestados
+    return atestado_controller.get_all(db=db, obra_id=obra_id, status=status, current_user=current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\atestado_controller.py", line 23, in get_all
+    return atestado_repository.get_multi_with_relations(db, obra_id=obra_id, status=status)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\atestado.py", line 28, in get_multi_with_relations
+    return query.order_by(Atestado.data_inicio.desc()).offset(skip).limit(limit).all()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2711, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.documento_url AS atestados_documento_url, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-07-23 17:45:27] ERROR [error:56] - Unhandled Exception on /api/v1/atestados/: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.documento_url AS atestados_documento_url, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\atestados.py", line 20, in get_atestados
+    return atestado_controller.get_all(db=db, obra_id=obra_id, status=status, current_user=current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\atestado_controller.py", line 23, in get_all
+    return atestado_repository.get_multi_with_relations(db, obra_id=obra_id, status=status)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\atestado.py", line 28, in get_multi_with_relations
+    return query.order_by(Atestado.data_inicio.desc()).offset(skip).limit(limit).all()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2711, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 2: FROM atestados JOIN colaboradores ON colaboradores.id = ates...
+             ^
+
+[SQL: SELECT atestados.id AS atestados_id, atestados.colaborador_id AS atestados_colaborador_id, atestados.data_inicio AS atestados_data_inicio, atestados.data_fim AS atestados_data_fim, atestados.dias AS atestados_dias, atestados.cid AS atestados_cid, atestados.motivo AS atestados_motivo, atestados.status AS atestados_status, atestados.observacoes AS atestados_observacoes, atestados.documento_url AS atestados_documento_url, atestados.created_at AS atestados_created_at, atestados.updated_at AS atestados_updated_at, colaboradores_1.id AS colaboradores_1_id, colaboradores_1.matricula AS colaboradores_1_matricula, colaboradores_1.nome AS colaboradores_1_nome, colaboradores_1.funcao AS colaboradores_1_funcao, colaboradores_1.obra_id AS colaboradores_1_obra_id, colaboradores_1.status AS colaboradores_1_status, colaboradores_1.created_at AS colaboradores_1_created_at, colaboradores_1.updated_at AS colaboradores_1_updated_at 
+FROM atestados JOIN colaboradores ON colaboradores.id = atestados.colaborador_id LEFT OUTER JOIN colaboradores AS colaboradores_1 ON colaboradores_1.id = atestados.colaborador_id ORDER BY atestados.data_inicio DESC 
+ LIMIT %(param_1)s OFFSET %(param_2)s]
+[parameters: {'param_1': 1000, 'param_2': 0}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2026-07-23 17:50:05] ERROR [error:56] - Unhandled Exception on /api/v1/atestados/: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 1: INSERT INTO atestados (colaborador_id, data_inicio, data_fim...
+                    ^
+
+[SQL: INSERT INTO atestados (colaborador_id, data_inicio, data_fim, dias, cid, motivo, status, observacoes, documento_url, created_at, updated_at) VALUES (%(colaborador_id)s, %(data_inicio)s, %(data_fim)s, %(dias)s, %(cid)s, %(motivo)s, %(status)s, %(observacoes)s, %(documento_url)s, %(created_at)s, %(updated_at)s) RETURNING atestados.id]
+[parameters: {'colaborador_id': 40, 'data_inicio': datetime.date(2026, 7, 1), 'data_fim': datetime.date(2026, 7, 31), 'dias': 31, 'cid': '32', 'motivo': 'Dor de Viado', 'status': 'HOMOLOGADO', 'observacoes': 'Colaborador ja mete atestado frequentemente', 'documento_url': None, 'created_at': datetime.datetime(2026, 7, 23, 20, 50, 5, 883180), 'updated_at': datetime.datetime(2026, 7, 23, 20, 50, 5, 883184)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "atestados" does not exist
+LINE 1: INSERT INTO atestados (colaborador_id, data_inicio, data_fim...
+                    ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 346, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\routes\atestados.py", line 37, in create_atestado
+    return atestado_controller.create(request=request, payload=payload, db=db, current_user=current_user)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\controllers\atestado_controller.py", line 54, in create
+    atestado = atestado_repository.create(db, data_dict)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 20, in create
+    db.commit()
+    ~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1234, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "atestados" does not exist
+LINE 1: INSERT INTO atestados (colaborador_id, data_inicio, data_fim...
+                    ^
+
+[SQL: INSERT INTO atestados (colaborador_id, data_inicio, data_fim, dias, cid, motivo, status, observacoes, documento_url, created_at, updated_at) VALUES (%(colaborador_id)s, %(data_inicio)s, %(data_fim)s, %(dias)s, %(cid)s, %(motivo)s, %(status)s, %(observacoes)s, %(documento_url)s, %(created_at)s, %(updated_at)s) RETURNING atestados.id]
+[parameters: {'colaborador_id': 40, 'data_inicio': datetime.date(2026, 7, 1), 'data_fim': datetime.date(2026, 7, 31), 'dias': 31, 'cid': '32', 'motivo': 'Dor de Viado', 'status': 'HOMOLOGADO', 'observacoes': 'Colaborador ja mete atestado frequentemente', 'documento_url': None, 'created_at': datetime.datetime(2026, 7, 23, 20, 50, 5, 883180), 'updated_at': datetime.datetime(2026, 7, 23, 20, 50, 5, 883184)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)

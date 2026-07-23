@@ -17,3 +17,4 @@ class Colaborador(Base):
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow, nullable=False)
 
     obra = relationship("Obra", back_populates="colaboradores")
+    atestados = relationship("Atestado", back_populates="colaborador", cascade="all, delete-orphan")

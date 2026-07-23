@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
 import { Shield, Briefcase, Eye } from 'lucide-react';
@@ -18,10 +19,19 @@ const Container = styled.header`
   z-index: 99;
 `;
 
-const ProfileContainer = styled.div`
+const ProfileLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.375rem 0.625rem;
+  border-radius: 24px;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: #f1f3f4;
+  }
 `;
 
 const Info = styled.div`
@@ -84,7 +94,7 @@ const Header = () => {
 
   return (
     <Container>
-      <ProfileContainer>
+      <ProfileLink to="/perfil" title="Meu Perfil">
         <Info>
           <Name>{user.full_name}</Name>
           <RoleBadge $role={role}>
@@ -93,7 +103,7 @@ const Header = () => {
           </RoleBadge>
         </Info>
         <Avatar src={user.picture_url || 'https://www.gravatar.com/avatar/?d=mp'} alt={user.full_name} />
-      </ProfileContainer>
+      </ProfileLink>
     </Container>
   );
 };

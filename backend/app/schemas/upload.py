@@ -3,17 +3,19 @@ from typing import List, Optional
 from datetime import datetime
 
 class EmployeeSyncData(BaseModel):
-    matricula: str
-    nome: str
-    horarios: List[str]
-    presenca: Optional[str] = "A"  # "A" = alimentou, "F" = falta
+    matricula: Optional[str] = ""
+    nome: Optional[str] = ""
+    horarios: Optional[List[str]] = []
+    presenca: Optional[str] = "A"
 
 class UploadCommitRequest(BaseModel):
     obra_id: int
     planilha_id: int
-    date: str  # YYYY-MM-DD
-    filename: str
-    funcionarios: List[EmployeeSyncData]
+    date: Optional[str] = None
+    date_str: Optional[str] = None
+    filename: Optional[str] = "upload.txt"
+    funcionarios: Optional[List[EmployeeSyncData]] = []
+    linhas_preview: Optional[List[EmployeeSyncData]] = []
 
 class ObraShortResponse(BaseModel):
     id: int

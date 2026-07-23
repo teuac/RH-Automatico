@@ -28,6 +28,7 @@ async def preview_upload(
 from app.models.user import User
 
 @router.post("/commit")
+@router.post("/process")
 def commit_upload(
     request: Request,
     payload: UploadCommitRequest,

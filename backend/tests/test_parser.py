@@ -57,3 +57,23 @@ def test_sanitize_date_str():
     # Should fallback to YYYY-MM-DD when given non-date string
     res = sanitize_date_str("05:58 11:30 12:30 18:03")
     assert len(res) == 10 and res.count("-") == 2
+
+def test_parse_csv_section_header_dates():
+    parser = IntelligentParser()
+    sample_csv = """Matricula,Nome,Horarios
+867,Mariana Cardoso dos Santos,07:00 11:59 11:59
+,,02/06/2026
+731,Djalma Francisco Pereira,06:47 06:47 12:00 13:00
+776,Gilson Santos,06:58 06:58 12:00 13:00
+"""
+    result = parser.parse_csv(sample_csv)
+    
+    assert len(result.funcionarios) == 3
+    assert result.funcionarios[0].matricula == "867"
+    
+    # Djalma and Gilson appear after 02/06/2026 date header
+    assert result.funcionarios[1].matricula == "731"
+    assert result.funcionarios[1].data == "2026-06-02"
+    
+    assert result.funcionarios[2].matricula == "776"
+    assert result.funcionarios[2].data == "2026-06-02"

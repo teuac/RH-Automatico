@@ -8,10 +8,15 @@ from app.auth.rbac import RoleChecker
 
 router = APIRouter(prefix="/settings", tags=["Configurações do Sistema"])
 
-@router.get("/", dependencies=[Depends(RoleChecker(["Administrador"]))])
+@router.get("/", dependencies=[Depends(RoleChecker(["Administrador", "RH"]))])
 def get_settings(db: Session = Depends(get_db)):
     settings_list = system_settings_repository.get_multi(db)
-    return {s.key: s.value for s in settings_list}
+    res = {s.key: s.value for s in settings_list}
+    if "valor_diario_vt" not in res:
+        res["valor_diario_vt"] = "12.00"
+    if "ALLOWED_DOMAIN" not in res:
+        res["ALLOWED_DOMAIN"] = "acengenharia.com.br"
+    return res
 
 @router.post("/", dependencies=[Depends(RoleChecker(["Administrador"]))])
 def update_setting(

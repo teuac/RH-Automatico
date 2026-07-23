@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.routes import auth, obras, planilhas, uploads, usuarios, auditoria, dashboard, settings, colaboradores
+from app.routes import auth, obras, planilhas, uploads, usuarios, auditoria, dashboard, settings, colaboradores, controle_vt, atestados
 
 api_router = APIRouter()
 
@@ -13,3 +13,5 @@ api_router.include_router(auditoria.router)
 api_router.include_router(dashboard.router)
 api_router.include_router(settings.router)
 api_router.include_router(colaboradores.router)
+api_router.include_router(controle_vt.router)
+api_router.include_router(atestados.router)

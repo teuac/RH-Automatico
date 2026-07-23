@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import Loader from '../components/Loader';
 import Toast, { ToastContainer } from '../components/Toast';
 import { Table, Tr, Td } from '../components/Table';
-import { Play, ArrowLeft, Check, AlertCircle, RefreshCw, Sparkles, Info, Edit } from 'lucide-react';
+import { Play, ArrowLeft, Check, AlertCircle, RefreshCw, Sparkles, Info, Edit, Stethoscope, FileText, CheckCircle2 } from 'lucide-react';
 
 const ControlsRow = styled.div`
   display: grid;
@@ -218,7 +218,7 @@ const Upload = () => {
     queryKey: ['activeObras'],
     queryFn: async () => {
       const response = await axios.get('/api/v1/obras/');
-      return response.data;
+      return response.data.filter(o => o.status === 'ATIVO');
     }
   });
 
@@ -231,31 +231,19 @@ const Upload = () => {
     }
   });
 
-  const showToast = (message, variant = 'success') => {
-    setToastMessage(message);
-    setToastVariant(variant);
-  };
-
   const handlePreview = async () => {
-    if (!selectedObraId) {
-      setUploaderError('Por favor, selecione uma obra.');
+    if (!file || !selectedObraId || !selectedPlanilhaId) {
+      setUploaderError('Preencha a obra, planilha e selecione o arquivo.');
       return;
     }
-    if (!selectedPlanilhaId) {
-      setUploaderError('Por favor, selecione uma planilha de destino.');
-      return;
-    }
-    if (!file) {
-      setUploaderError('Por favor, selecione um arquivo.');
-      return;
-    }
+
     setUploaderError(null);
     setIsProcessing(true);
 
     const formData = new FormData();
+    formData.append('file', file);
     formData.append('obra_id', selectedObraId);
     formData.append('planilha_id', selectedPlanilhaId);
-    formData.append('file', file);
     if (selectedDate) {
       formData.append('override_date', selectedDate);
     }
@@ -265,54 +253,50 @@ const Upload = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setPreviewData(response.data);
-      setFuncionariosList(response.data.funcionarios);
+      const rows = response.data.linhas_preview || response.data.funcionarios || [];
+      setFuncionariosList(rows);
       
-      const unregisteredMats = response.data.funcionarios
-        .filter(f => f.presenca === 'A' && !f.existe_na_base)
-        .map(f => f.matricula);
-      setSelectedForRegistration(unregisteredMats);
+      // Auto-select unregistered employees by default
+      const unregistered = rows.filter(f => f.presenca === 'A' && !f.existe_na_base);
+      setSelectedForRegistration(unregistered.map(f => f.matricula));
+      
       setStep(1);
-
-      // Pre-set date if extracted from parser
-      if (response.data.data && !selectedDate) {
-        setSelectedDate(response.data.data);
-      }
-      showToast('Visualização gerada com sucesso.');
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Erro ao processar visualização do arquivo.', 'error');
+      const msg = err.response?.data?.detail || 'Erro ao processar prévia do arquivo.';
+      setToastMessage(msg);
+      setToastVariant('error');
     } finally {
       setIsProcessing(false);
     }
   };
 
+  const handlePresencaChange = (matricula, newPresenca) => {
+    setFuncionariosList(prev => prev.map(f => 
+      f.matricula === matricula ? { ...f, presenca: newPresenca } : f
+    ));
+  };
+
   const handleRegisterMissingAndNext = async () => {
-    const toRegister = unregisteredEmployees.filter(f => selectedForRegistration.includes(f.matricula));
-    if (toRegister.length > 0) {
+    if (selectedForRegistration.length > 0) {
       setIsProcessing(true);
       try {
-        await Promise.all(toRegister.map(emp => 
-          axios.post('/api/v1/colaboradores/', {
+        const selectedEmps = funcionariosList.filter(f => selectedForRegistration.includes(f.matricula));
+        for (const emp of selectedEmps) {
+          await axios.post('/api/v1/colaboradores/', {
             matricula: emp.matricula,
             nome: emp.nome,
             obra_id: Number(selectedObraId),
-            funcao: "Importado via Ponto",
-            status: "ATIVO"
-          })
+            status: 'ATIVO'
+          });
+        }
+        setFuncionariosList(prev => prev.map(f => 
+          selectedForRegistration.includes(f.matricula) ? { ...f, existe_na_base: True } : f
         ));
-        
-        // Update local state to mark them as registered
-        setFuncionariosList(prev => prev.map(f => {
-          if (selectedForRegistration.includes(f.matricula)) {
-            return { ...f, existe_na_base: true };
-          }
-          return f;
-        }));
-        
-        showToast(`${toRegister.length} colaborador(es) cadastrado(s) com sucesso.`);
+        setToastMessage(`${selectedForRegistration.length} novo(s) colaborador(es) cadastrado(s) na base.`);
+        setToastVariant('success');
       } catch (err) {
-        showToast('Falha ao cadastrar alguns colaboradores.', 'error');
-        setIsProcessing(false);
-        return; // Stop here if failed
+        setToastMessage('Erro ao cadastrar alguns colaboradores novos.');
+        setToastVariant('error');
       } finally {
         setIsProcessing(false);
       }
@@ -320,25 +304,14 @@ const Upload = () => {
     setStep(3);
   };
 
-  const handlePresencaChange = (matricula, newStatus) => {
-    setFuncionariosList(prev => prev.map(f => {
-      if (f.matricula === matricula) {
-        return { ...f, presenca: newStatus };
-      }
-      return f;
-    }));
-  };
-
   const handleCommit = async () => {
-    if (!previewData) return;
     setIsProcessing(true);
-
     try {
       const payload = {
-        obra_id: previewData.obra_id,
-        planilha_id: previewData.planilha_id,
+        obra_id: Number(selectedObraId),
+        planilha_id: Number(selectedPlanilhaId),
+        filename: previewData.filename,
         date: previewData.data,
-        filename: file.name,
         funcionarios: funcionariosList.map(f => ({
           matricula: f.matricula,
           nome: f.nome,
@@ -347,28 +320,19 @@ const Upload = () => {
         }))
       };
 
-      const response = await axios.post('/api/v1/uploads/commit', payload);
-      const metrics = response.data;
+      await axios.post('/api/v1/uploads/process', payload);
+      setToastMessage('Presenças registradas com sucesso no Google Sheets!');
+      setToastVariant('success');
       
-      showToast(
-        `Alimentação atualizada! Refeições gravadas: ${metrics.updated}, Ignorados: ${metrics.ignored}, Pendentes: ${metrics.pending}. Tempo: ${(metrics.processing_time_ms / 1000).toFixed(2)}s`,
-        metrics.pending > 0 ? 'warning' : 'success'
-      );
-      if (metrics.aba_criada) {
-        setTimeout(() => showToast(`✨ Nova aba "${metrics.nome_aba}" criada automaticamente no Google Sheets com todos os funcionários e dias do mês.`, 'info'), 400);
-      }
-      
-      // Clean up state
+      // Reset form
       setPreviewData(null);
       setFile(null);
-      setSelectedObraId('');
-      setSelectedPlanilhaId('');
-      setSelectedDate('');
       setFuncionariosList([]);
       setSelectedForRegistration([]);
       setStep(1);
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Falha ao sincronizar presença.', 'error');
+      setToastMessage(err.response?.data?.detail || 'Erro ao registrar presenças no Google Sheets.');
+      setToastVariant('error');
     } finally {
       setIsProcessing(false);
     }
@@ -389,6 +353,8 @@ const Upload = () => {
   ) || [];
 
   const unregisteredEmployees = funcionariosList.filter(f => f.presenca === 'A' && !f.existe_na_base);
+  const atestadoEmployees = funcionariosList.filter(f => f.presenca === 'J' && (f.situacao || '').includes('Atestado'));
+  const faltasEmployees = funcionariosList.filter(f => f.presenca === 'F' || (f.presenca === 'J' && !(f.situacao || '').includes('Atestado')));
 
   const renderWizardBar = () => {
     return (
@@ -399,21 +365,31 @@ const Upload = () => {
           </StepCircle>
           Presentes no Ponto
         </WizardStep>
+
         <WizardStep $active={step === 2} $completed={step > 2}>
           <StepCircle $active={step === 2} $completed={step > 2}>
             {step > 2 ? <Check size={12} /> : "2"}
           </StepCircle>
           Não Cadastrados
         </WizardStep>
+
         <WizardStep $active={step === 3} $completed={step > 3}>
           <StepCircle $active={step === 3} $completed={step > 3}>
             {step > 3 ? <Check size={12} /> : "3"}
           </StepCircle>
+          Atestados Médicos
+        </WizardStep>
+
+        <WizardStep $active={step === 4} $completed={step > 4}>
+          <StepCircle $active={step === 4} $completed={step > 4}>
+            {step > 4 ? <Check size={12} /> : "4"}
+          </StepCircle>
           Faltas e Justificativas
         </WizardStep>
-        <WizardStep $active={step === 4}>
-          <StepCircle $active={step === 4}>
-            4
+
+        <WizardStep $active={step === 5}>
+          <StepCircle $active={step === 5}>
+            5
           </StepCircle>
           Revisão Geral
         </WizardStep>
@@ -574,7 +550,6 @@ const Upload = () => {
                     <Info size={32} color="#1a73e8" style={{ marginBottom: '0.5rem' }} />
                     <p style={{ fontWeight: 600, color: '#1a73e8', marginBottom: '0.25rem' }}>Excelente!</p>
                     <p style={{ fontSize: '0.875rem', color: '#3c4043' }}>Todos os colaboradores presentes no arquivo já estão cadastrados na base do sistema.</p>
-                    <p style={{ fontSize: '0.8125rem', color: '#5f6368', marginTop: '0.5rem' }}>Esta etapa será pulada automaticamente.</p>
                   </div>
                 ) : (
                   <div>
@@ -637,36 +612,46 @@ const Upload = () => {
               </div>
             )}
 
-            {/* STEP 3: Faltas e Justificativas */}
+            {/* STEP 3: Colaboradores em Atestado Médico (NOVA ETAPA DO WORKFLOW) */}
             {step === 3 && (
               <div>
-                <StepTitle>Etapa 3: Faltas e Justificativas</StepTitle>
-                <StepDesc>Os colaboradores abaixo constam na base, mas não foram detectados no arquivo (Falta). Você pode marcar faltas justificadas (J) para que apareçam em azul na planilha.</StepDesc>
-                
-                <Table headers={["Matrícula", "Funcionário", "Status da Presença", "Situação"]}>
-                  {funcionariosList.filter(f => f.presenca === 'F' || f.presenca === 'J').map((emp, idx) => (
-                    <Tr key={idx} style={emp.presenca === 'J' ? { backgroundColor: '#f4f8fd' } : {}}>
-                      <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
-                      <Td><strong>{emp.nome}</strong></Td>
-                      <Td>
-                        <Select 
-                          value={emp.presenca} 
-                          onChange={(e) => handlePresencaChange(emp.matricula, e.target.value)}
-                          style={{ minHeight: '32px', padding: '0.25rem 0.5rem', width: '180px' }}
-                        >
-                          <option value="F">❌ FALTA NORMAL (F)</option>
-                          <option value="J">📘 JUSTIFICADA (J)</option>
-                        </Select>
-                      </Td>
-                      <Td>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 500, color: emp.presenca === 'J' ? '#1a73e8' : '#c00000' }}>
-                          {emp.presenca === 'J' ? 'Falta Justificada (Cor azul na planilha)' : 'Falta comum (Cor vermelha na planilha)'}
-                        </span>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Table>
-                
+                <StepTitle>Etapa 3: Colaboradores com Atestado Médico Vigente</StepTitle>
+                <StepDesc>
+                  Consulta automática da base de atestados do sistema para a data <strong>{previewData.data}</strong>. 
+                  Os colaboradores abaixo possuem atestado médico homologado vigente na data e foram justificados automaticamente.
+                </StepDesc>
+
+                {atestadoEmployees.length === 0 ? (
+                  <div style={{ backgroundColor: '#e8f0fe', border: '1px solid #1a73e8', borderRadius: '8px', padding: '1.5rem', textAlign: 'center', margin: '1rem 0' }}>
+                    <Stethoscope size={32} color="#1a73e8" style={{ marginBottom: '0.5rem' }} />
+                    <p style={{ fontWeight: 600, color: '#1a73e8', marginBottom: '0.25rem' }}>Nenhum Atestado Médico Vigente</p>
+                    <p style={{ fontSize: '0.875rem', color: '#3c4043' }}>
+                      Nenhum colaborador da obra possui atestado médico cadastrado na base do sistema para a data <strong>{previewData.data}</strong>.
+                    </p>
+                  </div>
+                ) : (
+                  <Table headers={["Matrícula", "Funcionário", "Situação no Sistema", "Registro na Planilha"]}>
+                    {atestadoEmployees.map((emp, idx) => (
+                      <Tr key={idx} style={{ backgroundColor: '#f4f8fd' }}>
+                        <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
+                        <Td><strong>{emp.nome}</strong></Td>
+                        <Td>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1a73e8', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <Stethoscope size={14} />
+                            {emp.situacao || 'Atestado Médico Vigente (Justificado)'}
+                          </span>
+                        </Td>
+                        <Td>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 700, backgroundColor: '#e8f0fe', color: '#1a73e8', padding: '0.2rem 0.6rem', borderRadius: '50px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <CheckCircle2 size={13} />
+                            JUSTIFICADA / ATESTADO (J)
+                          </span>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Table>
+                )}
+
                 <PreviewActions>
                   <Button variant="secondary" onClick={() => setStep(2)}>
                     Voltar
@@ -678,14 +663,63 @@ const Upload = () => {
               </div>
             )}
 
-            {/* STEP 4: Revisão Geral */}
+            {/* STEP 4: Faltas e Justificativas */}
             {step === 4 && (
               <div>
-                <StepTitle>Etapa 4: Revisão Geral antes do Registro</StepTitle>
-                <StepDesc>Revise os dados antes de gravar. Se necessário, clique em "Editar" para voltar para uma etapa e fazer ajustes.</StepDesc>
+                <StepTitle>Etapa 4: Faltas e Justificativas Manuais</StepTitle>
+                <StepDesc>Os colaboradores abaixo constam na base, mas não foram detectados no arquivo de ponto nem possuem atestado ativo (Falta). Você pode alterar manualmente para justificativa (J) se necessário.</StepDesc>
+                
+                {faltasEmployees.length === 0 ? (
+                  <div style={{ backgroundColor: '#e6f4ea', border: '1px solid #0f9d58', borderRadius: '8px', padding: '1.5rem', textAlign: 'center', margin: '1rem 0' }}>
+                    <CheckCircle2 size={32} color="#0f9d58" style={{ marginBottom: '0.5rem' }} />
+                    <p style={{ fontWeight: 600, color: '#0f9d58', marginBottom: '0.25rem' }}>Nenhuma Falta a Tratar</p>
+                    <p style={{ fontSize: '0.875rem', color: '#3c4043' }}>Todos os colaboradores da obra estão presentes ou em atestado médico vigente nesta data.</p>
+                  </div>
+                ) : (
+                  <Table headers={["Matrícula", "Funcionário", "Status da Presença", "Situação"]}>
+                    {faltasEmployees.map((emp, idx) => (
+                      <Tr key={idx} style={emp.presenca === 'J' ? { backgroundColor: '#f4f8fd' } : {}}>
+                        <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
+                        <Td><strong>{emp.nome}</strong></Td>
+                        <Td>
+                          <Select 
+                            value={emp.presenca} 
+                            onChange={(e) => handlePresencaChange(emp.matricula, e.target.value)}
+                            style={{ minHeight: '32px', padding: '0.25rem 0.5rem', width: '180px' }}
+                          >
+                            <option value="F">❌ FALTA NORMAL (F)</option>
+                            <option value="J">📘 JUSTIFICADA (J)</option>
+                          </Select>
+                        </Td>
+                        <Td>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: emp.presenca === 'J' ? '#1a73e8' : '#c00000' }}>
+                            {emp.presenca === 'J' ? 'Falta Justificada Manual (Cor azul)' : 'Falta comum (Cor vermelha)'}
+                          </span>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Table>
+                )}
+                
+                <PreviewActions>
+                  <Button variant="secondary" onClick={() => setStep(3)}>
+                    Voltar
+                  </Button>
+                  <Button onClick={() => setStep(5)}>
+                    Avançar
+                  </Button>
+                </PreviewActions>
+              </div>
+            )}
+
+            {/* STEP 5: Revisão Geral */}
+            {step === 5 && (
+              <div>
+                <StepTitle>Etapa 5: Revisão Geral antes do Registro</StepTitle>
+                <StepDesc>Revise o resumo completo antes de gravar na planilha Google Sheets.</StepDesc>
                 
                 {/* Presentes section */}
-                <div style={{ marginBottom: '2rem' }}>
+                <div style={{ marginBottom: '1.5rem' }}>
                   <SectionHeader>
                     <span>👥 Presentes na Obra ({funcionariosList.filter(f => f.presenca === 'A').length})</span>
                     <EditLink onClick={() => setStep(1)}>
@@ -716,17 +750,44 @@ const Upload = () => {
                   </Table>
                 </div>
 
+                {/* Atestados section */}
+                {atestadoEmployees.length > 0 && (
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <SectionHeader>
+                      <span>🏥 Colaboradores em Atestado Médico ({atestadoEmployees.length})</span>
+                      <EditLink onClick={() => setStep(3)}>
+                        <Edit size={12} />
+                        Editar Atestados
+                      </EditLink>
+                    </SectionHeader>
+                    <Table headers={["Matrícula", "Funcionário", "Situação", "Registro na Planilha"]}>
+                      {atestadoEmployees.map((emp, idx) => (
+                        <Tr key={idx} style={{ backgroundColor: '#f4f8fd' }}>
+                          <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
+                          <Td><strong>{emp.nome}</strong></Td>
+                          <Td>{emp.situacao || 'Atestado Médico Vigente'}</Td>
+                          <Td>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 700, backgroundColor: '#e8f0fe', color: '#1a73e8', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                              JUSTIFICADA (J)
+                            </span>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Table>
+                  </div>
+                )}
+
                 {/* Absent section */}
                 <div>
                   <SectionHeader>
-                    <span>❌ Faltas e Justificativas ({funcionariosList.filter(f => f.presenca === 'F' || f.presenca === 'J').length})</span>
-                    <EditLink onClick={() => setStep(3)}>
+                    <span>❌ Faltas e Justificativas ({faltasEmployees.length})</span>
+                    <EditLink onClick={() => setStep(4)}>
                       <Edit size={12} />
                       Editar Justificativas
                     </EditLink>
                   </SectionHeader>
                   <Table headers={["Matrícula", "Funcionário", "Status Final", "Registro na Planilha"]}>
-                    {funcionariosList.filter(f => f.presenca === 'F' || f.presenca === 'J').map((emp, idx) => (
+                    {faltasEmployees.map((emp, idx) => (
                       <Tr key={idx} style={emp.presenca === 'J' ? { backgroundColor: '#f4f8fd' } : {}}>
                         <Td style={{ fontFamily: 'monospace' }}>{emp.matricula}</Td>
                         <Td><strong>{emp.nome}</strong></Td>
@@ -752,7 +813,7 @@ const Upload = () => {
                 </div>
 
                 <PreviewActions>
-                  <Button variant="secondary" onClick={() => setStep(3)}>
+                  <Button variant="secondary" onClick={() => setStep(4)}>
                     Voltar
                   </Button>
                   <Button variant="success" onClick={handleCommit}>
