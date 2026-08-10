@@ -7,6 +7,8 @@ class EmployeeSyncData(BaseModel):
     nome: Optional[str] = ""
     horarios: Optional[List[str]] = []
     presenca: Optional[str] = "A"
+    date: Optional[str] = None
+    data: Optional[str] = None
 
 class UploadCommitRequest(BaseModel):
     obra_id: int

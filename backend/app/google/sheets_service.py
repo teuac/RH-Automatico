@@ -549,41 +549,39 @@ class GoogleSheetsService:
         if not values or len(values) < 1:
             return [(emp.get("matricula", ""), "PENDENTE", "Planilha vazia ou sem cabeçalhos.") for emp in employees]
 
-        # 2. Find date column index
-        date_parts = date_str.split("-")
-        dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else date_str
-        dd_mm = f"{date_parts[2]}/{date_parts[1]}" if len(date_parts) == 3 else date_str
-        
-        alt_dates = set([date_str, dd_mm_yyyy, dd_mm])
-        if len(date_parts) == 3:
-            try:
-                day_int = int(date_parts[2])
-                month_int = int(date_parts[1])
-                alt_dates.add(str(day_int))
-                alt_dates.add(f"{day_int:02d}")
-                alt_dates.add(f"{day_int}/{date_parts[1]}/{date_parts[0]}")
-                alt_dates.add(f"{day_int}/{month_int}/{date_parts[0]}")
-                alt_dates.add(f"{date_parts[2]}/{month_int}/{date_parts[0]}")
-                alt_dates.add(f"{day_int}/{date_parts[1]}")
-                alt_dates.add(f"{day_int}/{month_int}")
-                alt_dates.add(f"{date_parts[2]}/{month_int}")
-            except ValueError:
-                pass
-
         # Dynamically locate the header row (index 1 if row 0 is a Title row, otherwise index 0)
         header_row_idx = 0
         if len(values) > 1 and any("matricula" in str(cell).lower() for cell in values[1]):
             header_row_idx = 1
 
         headers = [str(cell).strip() for cell in values[header_row_idx]]
-        col_index_date = -1
-        for idx, header in enumerate(headers):
-            if header in alt_dates:
-                col_index_date = idx
-                break
 
-        if col_index_date == -1:
-            return [(emp.get("matricula", ""), "PENDENTE", f"Coluna de data {dd_mm_yyyy} não encontrada.") for emp in employees]
+        def get_col_index_for_date(d_str: str) -> int:
+            if not d_str:
+                return -1
+            date_parts = d_str.split("-")
+            dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d_str
+            dd_mm = f"{date_parts[2]}/{date_parts[1]}" if len(date_parts) == 3 else d_str
+            
+            alt_dates = set([d_str, dd_mm_yyyy, dd_mm])
+            if len(date_parts) == 3:
+                try:
+                    day_int = int(date_parts[2])
+                    month_int = int(date_parts[1])
+                    alt_dates.add(str(day_int))
+                    alt_dates.add(f"{day_int:02d}")
+                    alt_dates.add(f"{day_int}/{date_parts[1]}/{date_parts[0]}")
+                    alt_dates.add(f"{day_int}/{month_int}/{date_parts[0]}")
+                    alt_dates.add(f"{date_parts[2]}/{month_int}/{date_parts[0]}")
+                    alt_dates.add(f"{day_int}/{date_parts[1]}")
+                    alt_dates.add(f"{day_int}/{month_int}")
+                    alt_dates.add(f"{date_parts[2]}/{month_int}")
+                except ValueError:
+                    pass
+            for idx, header in enumerate(headers):
+                if header in alt_dates:
+                    return idx
+            return -1
 
         # Convert values matrix to list of lists of strings
         matrix = []
@@ -598,6 +596,12 @@ class GoogleSheetsService:
             matricula = emp.get("matricula", "")
             nome = emp.get("nome", "")
             mark = emp.get("presenca", "A")
+            emp_date = emp.get("date") or emp.get("data") or date_str
+
+            col_index_date = get_col_index_for_date(emp_date)
+            if col_index_date == -1:
+                results.append((matricula, "PENDENTE", f"Coluna de data {emp_date} não encontrada."))
+                continue
 
             # Match employee in matrix
             row_index_employee = -1

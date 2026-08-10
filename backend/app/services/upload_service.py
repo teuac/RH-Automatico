@@ -128,83 +128,94 @@ class UploadService:
         # 3. Parse file contents
         parsed = self._parse_file(file_bytes, filename, content_type)
 
-        # 4. Determine Date
-        final_date = sanitize_date_str(override_date or parsed.data)
-
-        # Determine dynamic tab name based on final_date
-        tab_name, year, month = get_dynamic_tab_name(final_date, planilha.nome_aba)
-
-        # Ensure the sheet tab exists in Google Sheets before fetching
-        _, tab_criada = google_sheets_service.ensure_tab_exists(planilha.planilha_google_id, tab_name, year, month, obra.nome)
+        # 4. Determine Date & list of dates to process
+        if override_date:
+            dates_list = [sanitize_date_str(override_date)]
+        else:
+            dates_list = parsed.datas_detectadas or [sanitize_date_str(parsed.data)]
 
         # Fetch active colaboradores for this Obra
         from app.repositories.colaborador import colaborador_repository
         active_colaboradores = colaborador_repository.get_multi(db, limit=1000, obra_id=obra_id, status="ATIVO")
         db_colabs_by_mat = {c.matricula.strip().lstrip("0"): c for c in active_colaboradores}
-        matched_db_mats = set()
 
         # 5. Perform lightweight pre-validation using Sheets values
-        # Load sheets values to check employee existence locally before sync
         preview_rows = []
-        try:
-            range_name = f"'{tab_name}'!A1:AZ200"
-            sheet_rows = google_sheets_service.read_sheet_values(planilha.planilha_google_id, range_name)
-        except Exception as e:
-            sheet_rows = None
-
-        # Query active atestados for target date
+        sheets_data_by_tab = {}
+        
         from app.repositories.atestado import atestado_repository
-        try:
-            target_dt = datetime.datetime.strptime(final_date, "%Y-%m-%d").date()
-            active_atestados = atestado_repository.get_active_atestados_for_date(db, target_dt, obra_id=obra_id)
-            atestado_colab_ids = {a.colaborador_id for a in active_atestados}
-        except Exception:
-            atestado_colab_ids = set()
 
-        if sheet_rows and len(sheet_rows) > 1:
-            headers = [str(cell).strip() for cell in sheet_rows[0]]
+        for d in dates_list:
+            # Determine dynamic tab name based on date d
+            tab_name, year, month = get_dynamic_tab_name(d, planilha.nome_aba)
             
-            # Check if date column exists
-            date_parts = final_date.split("-")
-            dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else final_date
-            dd_mm = f"{date_parts[2]}/{date_parts[1]}" if len(date_parts) == 3 else final_date
+            # Ensure the sheet tab exists in Google Sheets
+            _, tab_criada = google_sheets_service.ensure_tab_exists(planilha.planilha_google_id, tab_name, year, month, obra.nome)
+            
+            if tab_name not in sheets_data_by_tab:
+                try:
+                    range_name = f"'{tab_name}'!A1:AZ200"
+                    sheet_rows = google_sheets_service.read_sheet_values(planilha.planilha_google_id, range_name)
+                except Exception:
+                    sheet_rows = None
+                sheets_data_by_tab[tab_name] = sheet_rows
+            else:
+                sheet_rows = sheets_data_by_tab[tab_name]
 
-            date_col_exists = any(h == final_date or h == dd_mm_yyyy or h == dd_mm for h in headers)
-            
-            # Index of employees on Google Sheet
+            # Query active atestados for target date d
+            try:
+                target_dt = datetime.datetime.strptime(d, "%Y-%m-%d").date()
+                active_atestados = atestado_repository.get_active_atestados_for_date(db, target_dt, obra_id=obra_id)
+                atestado_colab_ids = {a.colaborador_id for a in active_atestados}
+            except Exception:
+                atestado_colab_ids = set()
+
+            # Separate matching data structures for sheet
             sheet_employees_matricula = set()
             sheet_employees_name = []
             sheet_employees_list = []
-            
-            for r in sheet_rows[1:]:
-                if not r:
-                    continue
-                mat_raw = str(r[0]).strip()
-                nome_raw = str(r[1]).strip() if len(r) > 1 else ""
-                
-                if any("terceirizadas" in str(cell).lower() for cell in r[:2]):
-                    break
-                if mat_raw or nome_raw:
-                    if mat_raw.lower() in ("matricula", "matrícula", "nome", "funcionário", "funcionario"):
-                        continue
-                    clean_m = mat_raw.lstrip("0")
-                    if clean_m:
-                        sheet_employees_matricula.add(clean_m)
-                    if nome_raw:
-                        sheet_employees_name.append(nome_raw.lower())
-                    sheet_employees_list.append({"raw_mat": mat_raw, "clean_mat": clean_m, "nome": nome_raw})
+            date_col_exists = False
 
-            # 1. Process parsed employees (Present/Alimentou)
-            for emp in parsed.funcionarios:
-                clean_mat = emp.matricula.strip().lstrip("0")
+            if sheet_rows and len(sheet_rows) > 1:
+                headers = [str(cell).strip() for cell in sheet_rows[0]]
+                date_parts = d.split("-")
+                dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
+                dd_mm = f"{date_parts[2]}/{date_parts[1]}" if len(date_parts) == 3 else d
+                date_col_exists = any(h == d or h == dd_mm_yyyy or h == dd_mm for h in headers)
                 
-                # Check matching db colaborador
+                for r in sheet_rows[1:]:
+                    if not r:
+                        continue
+                    mat_raw = str(r[0]).strip()
+                    nome_raw = str(r[1]).strip() if len(r) > 1 else ""
+                    if any("terceirizadas" in str(cell).lower() for cell in r[:2]):
+                        break
+                    if mat_raw or nome_raw:
+                        if mat_raw.lower() in ("matricula", "matrícula", "nome", "funcionário", "funcionario"):
+                            continue
+                        clean_m = mat_raw.lstrip("0")
+                        if clean_m:
+                            sheet_employees_matricula.add(clean_m)
+                        if nome_raw:
+                            sheet_employees_name.append(nome_raw.lower())
+                        sheet_employees_list.append({"raw_mat": mat_raw, "clean_mat": clean_m, "nome": nome_raw})
+
+            # Filter parsed employees who belong to this date
+            if override_date:
+                parsed_for_date = parsed.funcionarios
+            else:
+                parsed_for_date = [emp for emp in parsed.funcionarios if emp.data == d]
+
+            matched_db_mats = set()
+
+            # 1. Process parsed employees (Present/Alimentou) for this date
+            for emp in parsed_for_date:
+                clean_mat = emp.matricula.strip().lstrip("0")
                 db_colab = db_colabs_by_mat.get(clean_mat)
                 if db_colab:
                     matched_db_mats.add(clean_mat)
                     existe_na_base = True
                 else:
-                    # try matching by name
                     existe_na_base = False
                     for c_mat, c_obj in db_colabs_by_mat.items():
                         if emp.nome.lower() == c_obj.nome.lower():
@@ -213,17 +224,16 @@ class UploadService:
                             existe_na_base = True
                             break
 
-                # Check match criteria in Sheet
-                mat_match = clean_mat in sheet_employees_matricula
-                name_match = any(emp.nome.lower() in n or n in emp.nome.lower() for n in sheet_employees_name)
-                
-                found = mat_match or name_match
+                found = (clean_mat in sheet_employees_matricula) or any(emp.nome.lower() in n or n in emp.nome.lower() for n in sheet_employees_name) if sheet_rows else True
                 
                 situation = "Pronto para importação"
-                if not found:
-                    situation = "Funcionário não encontrado na planilha"
-                elif not date_col_exists:
-                    situation = f"Coluna de data {dd_mm_yyyy} não encontrada na planilha"
+                if sheet_rows:
+                    if not found:
+                        situation = "Funcionário não encontrado na planilha"
+                    elif not date_col_exists:
+                        date_parts = d.split("-")
+                        dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
+                        situation = f"Coluna de data {dd_mm_yyyy} não encontrada na planilha"
 
                 preview_rows.append({
                     "matricula": emp.matricula,
@@ -232,16 +242,15 @@ class UploadService:
                     "encontrado": found,
                     "existe_na_base": existe_na_base,
                     "situacao": situation,
-                    "presenca": "A"  # Alimentação
+                    "presenca": "A",
+                    "date": d,
+                    "data": d
                 })
 
-            # 2. Process active db colaboradores not in file (Absent / Falta / Atestado)
+            # 2. Process active db colaboradores not in file for this date (Absent / Falta / Atestado)
             for c_mat, colab in db_colabs_by_mat.items():
                 if c_mat not in matched_db_mats:
-                    mat_match = c_mat in sheet_employees_matricula
-                    name_match = any(colab.nome.lower() in n or n in colab.nome.lower() for n in sheet_employees_name)
-                    found = mat_match or name_match
-                    
+                    found = (c_mat in sheet_employees_matricula) or any(colab.nome.lower() in n or n in colab.nome.lower() for n in sheet_employees_name) if sheet_rows else True
                     is_atestado = colab.id in atestado_colab_ids
                     presenca_mark = "J" if is_atestado else "F"
                     
@@ -249,10 +258,13 @@ class UploadService:
                         situation = "Atestado Médico Vigente (Justificado)"
                     else:
                         situation = "Falta (Não encontrado no arquivo)"
-                        if not found:
-                            situation = "Falta (Não encontrado no arquivo e nem na planilha)"
-                        elif not date_col_exists:
-                            situation = f"Falta - Coluna de data {dd_mm_yyyy} não encontrada na planilha"
+                        if sheet_rows:
+                            if not found:
+                                situation = "Falta (Não encontrado no arquivo e nem na planilha)"
+                            elif not date_col_exists:
+                                date_parts = d.split("-")
+                                dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
+                                situation = f"Falta - Coluna de data {dd_mm_yyyy} não encontrada na planilha"
 
                     preview_rows.append({
                         "matricula": colab.matricula,
@@ -261,89 +273,59 @@ class UploadService:
                         "encontrado": found,
                         "existe_na_base": True,
                         "situacao": situation,
-                        "presenca": presenca_mark
+                        "presenca": presenca_mark,
+                        "date": d,
+                        "data": d
                     })
 
-            # 3. Process employees present on Google Sheet but not in file or DB
-            processed_mats = {p["matricula"].strip().lstrip("0") for p in preview_rows if p.get("matricula")}
-            processed_names = {p["nome"].strip().lower() for p in preview_rows if p.get("nome")}
+            # 3. Process sheet employees who are in this tab but not in file or DB for this date
+            if sheet_rows:
+                processed_mats = {p["matricula"].strip().lstrip("0") for p in preview_rows if p.get("date") == d and p.get("matricula")}
+                processed_names = {p["nome"].strip().lower() for p in preview_rows if p.get("date") == d and p.get("nome")}
+                
+                for s_emp in sheet_employees_list:
+                    cm = s_emp["clean_mat"]
+                    nm = s_emp["nome"].strip().lower()
+                    if (cm and cm not in processed_mats) and (nm not in processed_names):
+                        db_colab = db_colabs_by_mat.get(cm)
+                        if not db_colab and nm:
+                            for c_obj in db_colabs_by_mat.values():
+                                if c_obj.nome.strip().lower() == nm:
+                                    db_colab = c_obj
+                                    break
+                                    
+                        is_atestado = db_colab.id in atestado_colab_ids if db_colab else False
+                        presenca_mark = "J" if is_atestado else "F"
+                        
+                        situation = "Atestado Médico Vigente (Justificado)" if is_atestado else "Falta (Registrado na planilha, ausente no arquivo)"
+                        
+                        preview_rows.append({
+                            "matricula": s_emp["raw_mat"],
+                            "nome": s_emp["nome"],
+                            "horarios": [],
+                            "encontrado": True,
+                            "existe_na_base": True if db_colab else False,
+                            "situacao": situation,
+                            "presenca": presenca_mark,
+                            "date": d,
+                            "data": d
+                        })
 
-            for s_emp in sheet_employees_list:
-                cm = s_emp["clean_mat"]
-                nm = s_emp["nome"].strip().lower()
-                if (cm and cm not in processed_mats) and (nm not in processed_names):
-                    db_colab = db_colabs_by_mat.get(cm)
-                    if not db_colab and nm:
-                        for c_obj in db_colabs_by_mat.values():
-                            if c_obj.nome.strip().lower() == nm:
-                                db_colab = c_obj
-                                break
-
-                    is_atestado = db_colab.id in atestado_colab_ids if db_colab else False
-                    presenca_mark = "J" if is_atestado else "F"
-
-                    if is_atestado:
-                        situation = "Atestado Médico Vigente (Justificado)"
-                    else:
-                        situation = "Falta (Registrado na planilha, ausente no arquivo)"
-
-                    preview_rows.append({
-                        "matricula": s_emp["raw_mat"],
-                        "nome": s_emp["nome"],
-                        "horarios": [],
-                        "encontrado": True,
-                        "existe_na_base": True if db_colab else False,
-                        "situacao": situation,
-                        "presenca": presenca_mark
-                    })
-        else:
-            # Fallback when Sheets connection fails/mocked
-            for emp in parsed.funcionarios:
-                clean_mat = emp.matricula.strip().lstrip("0")
-                existe_na_base = False
-                if clean_mat in db_colabs_by_mat:
-                    matched_db_mats.add(clean_mat)
-                    existe_na_base = True
-                else:
-                    for c_mat, c_obj in db_colabs_by_mat.items():
-                        if emp.nome.lower() == c_obj.nome.lower():
-                            matched_db_mats.add(c_mat)
-                            existe_na_base = True
-                            break
-
-                preview_rows.append({
-                    "matricula": emp.matricula,
-                    "nome": emp.nome,
-                    "horarios": emp.horarios,
-                    "encontrado": True,
-                    "existe_na_base": existe_na_base,
-                    "situacao": "Pronto para importação (Planilha não pôde ser pré-validada)",
-                    "presenca": "A"
-                })
-
-            for c_mat, colab in db_colabs_by_mat.items():
-                if c_mat not in matched_db_mats:
-                    is_atestado = colab.id in atestado_colab_ids
-                    presenca_mark = "J" if is_atestado else "F"
-                    situation = "Atestado Médico Vigente (Justificado)" if is_atestado else "Falta (Não encontrado no arquivo)"
-                    preview_rows.append({
-                        "matricula": colab.matricula,
-                        "nome": colab.nome,
-                        "horarios": [],
-                        "encontrado": True,
-                        "existe_na_base": True,
-                        "situacao": situation,
-                        "presenca": presenca_mark
-                    })
-
+        tab_name_last = None
+        tab_criada_last = False
+        if dates_list:
+            last_date = dates_list[-1]
+            tab_name_last, year, month = get_dynamic_tab_name(last_date, planilha.nome_aba)
+            
         return {
             "obra_id": obra.id,
             "obra_nome": obra.nome,
             "planilha_id": planilha.id,
             "planilha_nome": planilha.nome,
-            "data": final_date,
+            "data": dates_list[0] if dates_list else final_date,
+            "datas_detectadas": dates_list,
             "planilha_google_id": planilha.planilha_google_id,
-            "nome_aba": tab_name,
+            "nome_aba": tab_name_last,
             "aba_criada": tab_criada,
             "funcionarios": preview_rows,
             "linhas_preview": preview_rows
@@ -399,44 +381,71 @@ class UploadService:
 
         pending_records_to_create = []
 
-        # Normalize date_str
+        # Normalize main date_str (used as fallback for employees without individual date)
         date_str = sanitize_date_str(date_str)
 
-        # Determine dynamic tab name based on date_str
-        tab_name, year, month = get_dynamic_tab_name(date_str, planilha.nome_aba)
+        # Group employees by sheet tab name
+        from collections import defaultdict
+        groups_by_tab: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+        tab_dates_map = defaultdict(set)
+        
+        for emp in funcionarios_data:
+            emp_date = sanitize_date_str(emp.get("date") or emp.get("data") or date_str)
+            tab_name, year, month = get_dynamic_tab_name(emp_date, planilha.nome_aba)
+            groups_by_tab[tab_name].append(emp)
+            tab_dates_map[tab_name].add(emp_date)
 
-        _, tab_criada = google_sheets_service.ensure_tab_exists(planilha.planilha_google_id, tab_name, year, month, obra.nome)
-        # 4. Synchronize in batch via Sheets Service (1 Read + 1 Write API call)
-        batch_results = google_sheets_service.batch_sync_presence(
-            spreadsheet_id=planilha.planilha_google_id,
-            tab_name=tab_name,
-            date_str=date_str,
-            employees=funcionarios_data
-        )
+        aba_criada = False
+        tab_name_last = None
 
-        # 5. Process results and tally statistics
-        emp_map = {e.get("matricula", ""): e for e in funcionarios_data}
+        for tab_name, tab_emps in groups_by_tab.items():
+            tab_name_last = tab_name
+            
+            # Determine month/year from first date in group to check/ensure tab exists
+            dates_in_tab = sorted(list(tab_dates_map[tab_name]))
+            first_date = dates_in_tab[0] if dates_in_tab else date_str
+            date_parts = first_date.split("-")
+            year = int(date_parts[0]) if len(date_parts) == 3 else 2026
+            month = int(date_parts[1]) if len(date_parts) == 3 else 7
 
-        for mat, status_result, details in batch_results:
-            emp = emp_map.get(mat, {})
-            nome = emp.get("nome", "Desconhecido")
-            horarios = emp.get("horarios", [])
+            _, _tab_criada = google_sheets_service.ensure_tab_exists(
+                planilha.planilha_google_id, tab_name, year, month, obra.nome
+            )
+            if _tab_criada:
+                aba_criada = True
 
-            if status_result == "ATUALIZADO":
-                updated_count += 1
-            elif status_result == "IGNORADO":
-                ignored_count += 1
-            else:  # PENDENTE / ERRO
-                pending_count += 1
-                pending_records_to_create.append({
-                    "upload_id": db_upload.id,
-                    "employee_id": str(mat)[:50] if mat else None,
-                    "employee_name": str(nome)[:255] if nome else "Desconhecido",
-                    "date": str(date_str)[:50],
-                    "times": " ".join(horarios)[:255] if horarios else "",
-                    "status": "PENDENTE",
-                    "reason": str(details)[:255] if details else None
-                })
+            # Synchronize in batch via Sheets Service (1 Read + 1 Write API call per tab group)
+            batch_results = google_sheets_service.batch_sync_presence(
+                spreadsheet_id=planilha.planilha_google_id,
+                tab_name=tab_name,
+                date_str=first_date,
+                employees=tab_emps
+            )
+
+            # Process results and tally statistics
+            emp_map = {e.get("matricula", ""): e for e in tab_emps}
+
+            for mat, status_result, details in batch_results:
+                emp = emp_map.get(mat, {})
+                nome = emp.get("nome", "Desconhecido")
+                horarios = emp.get("horarios", [])
+                emp_individual_date = sanitize_date_str(emp.get("date") or emp.get("data") or first_date)
+
+                if status_result == "ATUALIZADO":
+                    updated_count += 1
+                elif status_result == "IGNORADO":
+                    ignored_count += 1
+                else:  # PENDENTE / ERRO
+                    pending_count += 1
+                    pending_records_to_create.append({
+                        "upload_id": db_upload.id,
+                        "employee_id": str(mat)[:50] if mat else None,
+                        "employee_name": str(nome)[:255] if nome else "Desconhecido",
+                        "date": str(emp_individual_date)[:50],
+                        "times": " ".join(horarios)[:255] if horarios else "",
+                        "status": "PENDENTE",
+                        "reason": str(details)[:255] if details else None
+                    })
 
         # Insert pending records if any
         for pending_data in pending_records_to_create:
@@ -454,8 +463,11 @@ class UploadService:
         })
 
         # Log Audit Trail
+        all_unique_dates = sorted(list({sanitize_date_str(emp.get("date") or emp.get("data") or date_str) for emp in funcionarios_data}))
+        dates_label = ", ".join(all_unique_dates)
         audit_description = (
             f"Processamento de planilha de alimentação da obra '{obra.nome}'. "
+            f"Datas: {dates_label}. "
             f"Total: {total_employees}, Importados: {updated_count}, "
             f"Ignorados: {ignored_count}, Pendentes: {pending_count}."
         )
@@ -482,8 +494,8 @@ class UploadService:
             "ignored": ignored_count,
             "pending": pending_count,
             "processing_time_ms": processing_time_ms,
-            "aba_criada": tab_criada,
-            "nome_aba": tab_name
+            "aba_criada": aba_criada,
+            "nome_aba": tab_name_last
         }
 
 upload_service = UploadService()

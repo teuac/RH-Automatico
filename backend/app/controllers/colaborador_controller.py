@@ -53,10 +53,31 @@ class ColaboradorController:
         # Verifica duplicidade de matrícula
         existing = colaborador_repository.get_by_matricula(db, payload.matricula)
         if existing:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=f"Matrícula '{payload.matricula}' já cadastrada."
+            # Reativa e atualiza o colaborador existente
+            update_data = {
+                "status": "ATIVO",
+            }
+            if payload.obra_id is not None:
+                update_data["obra_id"] = payload.obra_id
+            if payload.nome:
+                update_data["nome"] = payload.nome
+            if payload.funcao:
+                update_data["funcao"] = payload.funcao
+                
+            colaborador = colaborador_repository.update(db, existing, update_data)
+            
+            audit_repository.log(
+                db=db, user_id=current_user.id, user_name=current_user.full_name,
+                user_email=current_user.email,
+                ip_address=request.client.host if request.client else "unknown",
+                user_agent=request.headers.get("user-agent", "unknown"),
+                module="Colaboradores", screen="Colaboradores", action="UPDATE",
+                description=f"Reativou/Atualizou colaborador existente: {colaborador.nome} ({colaborador.matricula})",
+                object_changed="colaboradores", object_id=str(colaborador.id),
+                result="SUCESSO", after_state=json.dumps(update_data)
             )
+            return colaborador
+
         # Verifica se obra existe
         if payload.obra_id:
             obra = obra_repository.get(db, payload.obra_id)

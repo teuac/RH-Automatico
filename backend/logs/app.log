@@ -1606,3 +1606,541 @@
 [2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
 [2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
 [2026-07-23 19:24:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-23 19:25:32] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-07-23 19:25:33] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-23 19:25:34] INFO [application:222] - Successfully restyled Terceirizadas header at row 44 and subheader at row 45.
+[2026-07-29 20:32:43] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:42:08] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:42:39] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:42:58] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:43:46] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:50:52] INFO [application:751] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-07-29 20:50:52] INFO [application:772] - Tab 'Junho 2026' successfully created with ID 1369813464.
+[2026-07-29 20:50:53] INFO [application:892] - Successfully initialized tab 'Junho 2026' with 146 employees and Terceirizadas section.
+[2026-07-29 20:50:54] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 20:55:38] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:56:02] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:56:24] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:56:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 20:59:46] INFO [application:751] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-07-29 20:59:46] INFO [application:772] - Tab 'Junho 2026' successfully created with ID 868012207.
+[2026-07-29 20:59:47] INFO [application:892] - Successfully initialized tab 'Junho 2026' with 146 employees and Terceirizadas section.
+[2026-07-29 20:59:47] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:01:49] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:02:05] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:03:21] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:22] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:22] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:22] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:23] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:23] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-29 21:03:23] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 1664831461.
+[2026-07-29 21:03:24] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 146 employees and Terceirizadas section.
+[2026-07-29 21:03:25] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:03:25] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:26] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:26] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:26] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:26] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:27] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:27] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:27] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:28] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:28] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:28] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:29] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:29] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:29] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:30] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:30] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:30] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:30] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:31] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:31] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:31] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:32] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:32] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:03:32] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:05:54] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Bruno Pereira Lourenco (006492)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Dionizio de Jesus Silva (005165)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee EDIMILSON DE JESUS ALVES (006920)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee JOSELITO SANTOS JUNIOR (006918)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Ruan Lima dos Santos (006347)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Veriton Melo de Morais (006744)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Jarbas Cruz dos Santos (006747)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee Carlos Fernandes Azevedo (006784)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee ERICK ALVES DOS SANTOS (006939)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee ERICK WILLIAM SANTA ROSA DA SILVA (006938)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee JOSE ERMINIO RAMALHO DOS SANTOS (006943)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee JOSÉ ROBSON ALMEIDA DOS SANTOS (006937)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee MATEUS ALVES DOS SANTOS (006940)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee RAY JUNIOR JESUS SANTOS (006941)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee CARLOS HUMBERTO DO LAGO CONCEIÇÃO (006951)
+[2026-07-29 21:05:54] INFO [application:669] - Local batch: registered employee JOAO BATISTA SANTOS DONATO (006949)
+[2026-07-29 21:05:55] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:05:56] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:07:40] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:08:35] INFO [application:751] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-07-29 21:08:35] INFO [application:772] - Tab 'Junho 2026' successfully created with ID 660306195.
+[2026-07-29 21:08:36] INFO [application:892] - Successfully initialized tab 'Junho 2026' with 162 employees and Terceirizadas section.
+[2026-07-29 21:08:36] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:08:37] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:37] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:38] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:38] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:38] INFO [application:751] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-29 21:08:39] INFO [application:772] - Tab 'Julho 2026' successfully created with ID 1737230710.
+[2026-07-29 21:08:39] INFO [application:892] - Successfully initialized tab 'Julho 2026' with 162 employees and Terceirizadas section.
+[2026-07-29 21:08:40] INFO [application:1127] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:08:40] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:41] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:41] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:41] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:42] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:42] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:42] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:42] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:43] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:43] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:43] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:44] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:44] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:44] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:45] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:45] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:45] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:45] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:46] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:46] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:46] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:47] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:47] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:08:47] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:14] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:15] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:09:15] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:16] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:16] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:09:17] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:17] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:18] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:09:19] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:19] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:19] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:09:20] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:20] INFO [application:748] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:21] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:09:22] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:22] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:23] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:23] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:24] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:24] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:25] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:25] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:26] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:27] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:27] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:27] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:28] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:28] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:29] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:30] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:30] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:31] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:31] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:31] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:32] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:33] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:33] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:34] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:34] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:34] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:35] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:36] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:36] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:37] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:37] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:38] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:38] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:39] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:39] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:40] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:40] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:41] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:42] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:42] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:42] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:09:43] INFO [application:711] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:09:44] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:09:44] INFO [application:748] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:10:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:11:06] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:11:14] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-07-29 21:12:08] INFO [application:755] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-07-29 21:12:08] INFO [application:776] - Tab 'Junho 2026' successfully created with ID 600786166.
+[2026-07-29 21:12:09] INFO [application:896] - Successfully initialized tab 'Junho 2026' with 162 employees and Terceirizadas section.
+[2026-07-29 21:12:09] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:12:10] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:10] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:10] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:11] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:11] INFO [application:755] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-07-29 21:12:11] INFO [application:776] - Tab 'Julho 2026' successfully created with ID 1097326353.
+[2026-07-29 21:12:12] INFO [application:896] - Successfully initialized tab 'Julho 2026' with 162 employees and Terceirizadas section.
+[2026-07-29 21:12:13] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-07-29 21:12:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:16] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:16] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:16] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:41] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:41] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-07-29 21:12:42] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-07-29 21:12:42] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko.
+[2026-07-29 21:12:43] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-07-29 21:12:44] INFO [application:222] - Successfully restyled Terceirizadas header at row 166 and subheader at row 167.
+[2026-08-03 20:02:53] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-08-03 20:16:23] INFO [application:755] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-08-03 20:16:24] INFO [application:776] - Tab 'Junho 2026' successfully created with ID 678575098.
+[2026-08-03 20:16:25] INFO [application:896] - Successfully initialized tab 'Junho 2026' with 0 employees and Terceirizadas section.
+[2026-08-03 20:16:25] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-08-03 20:16:26] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:26] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:26] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:27] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:27] INFO [application:755] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-08-03 20:16:27] INFO [application:776] - Tab 'Julho 2026' successfully created with ID 1268686888.
+[2026-08-03 20:16:28] INFO [application:896] - Successfully initialized tab 'Julho 2026' with 0 employees and Terceirizadas section.
+[2026-08-03 20:16:28] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-08-03 20:16:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:32] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:32] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:32] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:33] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:33] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:33] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:34] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:34] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:34] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:34] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:35] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:35] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:35] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:16:36] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:36] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:37] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:37] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:38] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:38] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:38] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:39] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:39] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:39] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:40] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:40] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:40] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:41] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:41] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:41] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:41] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:42] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:42] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:42] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:43] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:43] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:43] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:43] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:44] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:44] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:44] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:45] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:45] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:45] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-03 20:17:46] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 14:28:52] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-08-10 14:45:20] INFO [application:755] - Tab 'Junho 2026' not found. Creating automatically...
+[2026-08-10 14:45:20] INFO [application:776] - Tab 'Junho 2026' successfully created with ID 1686095004.
+[2026-08-10 14:45:21] INFO [application:896] - Successfully initialized tab 'Junho 2026' with 54 employees and Terceirizadas section.
+[2026-08-10 14:45:21] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-08-10 14:45:22] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:22] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:23] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:23] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:23] INFO [application:755] - Tab 'Julho 2026' not found. Creating automatically...
+[2026-08-10 14:45:24] INFO [application:776] - Tab 'Julho 2026' successfully created with ID 1436454219.
+[2026-08-10 14:45:24] INFO [application:896] - Successfully initialized tab 'Julho 2026' with 54 employees and Terceirizadas section.
+[2026-08-10 14:45:25] INFO [application:1131] - Successfully styled Google Sheet tab with custom colors, conditional coloring, froze rows/cols, and aligned cells.
+[2026-08-10 14:45:25] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:25] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:26] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:26] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:26] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:27] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:27] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:27] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:28] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:28] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:28] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:28] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:29] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:30] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:31] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:32] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:32] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:53] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:54] INFO [application:673] - Local batch: registered employee Thaiandrey Gomes (006727)
+[2026-08-10 14:45:54] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-08-10 14:45:55] INFO [application:222] - Successfully restyled Terceirizadas header at row 59 and subheader at row 60.
+[2026-08-10 14:45:55] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1-voSVxpl9Ms98thfqEV_aEoHQywCJ1volR23BSdaUds.
+[2026-08-10 14:45:55] INFO [application:673] - Local batch: registered employee Thaiandrey Gomes (006727)
+[2026-08-10 14:45:56] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-08-10 14:45:56] INFO [application:222] - Successfully restyled Terceirizadas header at row 59 and subheader at row 60.
+[2026-08-10 15:00:16] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:17] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:17] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:17] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:18] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:20] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:21] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:21] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:21] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:22] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:22] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:22] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:22] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:23] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:23] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:23] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:24] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:24] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:24] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:24] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:00:25] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:04:45] INFO [application:31] - Google Sheets API service successfully initialized from individual GOOGLE_SA_* env vars.
+[2026-08-10 15:05:10] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:10] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:11] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:11] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:11] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:11] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:12] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:12] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:13] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:14] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:15] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:16] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:16] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:17] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:18] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:19] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:55] INFO [application:752] - Tab 'Junho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Raimundo dos Santos (001814)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose de Jesus (005451)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Janiel Batista Santos (005467)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Andre Batista da Silva (005672)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Robson dos Santos (005801)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Marcio Jose Ribeiro Santos (005871)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Osiel Ferreira de Melo (005890)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Domingos dos Santos Filho (005897)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Maria Adriana dos Santos (006139)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Cleber dos Santos (006264)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Ailton dos Santos (006427)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Carlos Santos Gomes (006496)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Aercio Neris dos Santos (006581)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Josenaldo de Souza Santos (006583)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Carlos Alberto Menezes Braga (006649)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Carlos da Silva Nascimento (006694)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Paulo Alberto Santos Nascimento (006700)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Carlos Rodrigues de Jesus (006701)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Joao Paulo Santos Lino Silva (006716)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Adriano Conceicao Dantas (006746)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Arisvaldo Cicero Novais Santos (006779)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Fabricio Araujo Conceicao (006793)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Josenaldo dos Santos (006835)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Eduardo dos Santos (006837)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Brunno Jamison Leal dos Santos (006838)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Fabiano dos Santos (006850)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jean Carlos de Jesus (006851)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Pedro Henrique Messias Goes (006853)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Laecio Teles de Souza (006868)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Waliston Moraes Victor (006869)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Clodoaldo Ferreira (006878)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee DOUGLAS DE JESUS (006896)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee LAYSE SOUZA SAMPAIO (006900)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jorgival Santana Hora (006903)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee DAIANE KELLE SIQUEIRA LIMA (006905)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee MAURICIO NASCIMENTO SANTANA SILVA (006921)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee WENDEL SANTOS FERREIRA (006923)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee ALEXSANDRO AFONSO SANTOS (006924)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee LUZIA EDUARDA BATISTA SILVA (006925)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee JOAN CRISTIAN OLIVEIRA DOS SANTOS (006928)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Gustavo Sa Santos Rocha (E06778)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee ANA BEATRIZ MARQUES DOS SANTOS (006944)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee ANNE EVELLYN SILVA SANTOS (006927)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Adailson Ferreira dos Santos (006848)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee CRISTIAN ROBERT SILVA DOS SANTOS (006933)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Claudio Alves Santos (005915)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee DAVID BARRETO DE JESUS (006942)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee DAVIDSON ALCANTARA CRUZ (006891)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Everaldo Teles de Oliveira Filho (006591)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Francisco Joao de Sousa Filho (005396)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee JANNUCIO DIONISIO DOS SANTOS (006935)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee JOAO VITOR DE MORAES SANTOS (006922)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee JOSE CARIVALDO SOUZA (006931)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee JOSE RUAN LOES DOS SANTOS (006904)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Johnatas Augusto Ferreira Dias (005455)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Evandro Santos Pereira (006855)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Jose Roberto Santos Costa (005271)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee MARCOS ANTONIO CARVALHO DOS SANTOS (006952)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee MARIA CLARA BRITO REIS (006945)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee MIGUEL ANGELO AGUIAR CAMPOS (006930)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Magno Felix de Araujo (006815)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Manoel Cicero Santos (006582)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee PRISCILA DOS SANTOS (006947)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee RODOLPHO CERQUEIRA DE OLIVEIRA (006932)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee ROGER FELIPE SANTOS DE ARAUJO (006936)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Renan dos Santos Lopes (006846)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Rodrigo Laerte de Araujo Sa (006948)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee SABRINA OLIVEIRA DOS SANTOS (006946)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee WEIDSON SANTOS FRANÇA (006899)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee WELINGTON VITOR SANTOS DE SOUZA (006950)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee WENDELL BAHIA FERREIRA (006934)
+[2026-08-10 15:05:55] INFO [application:673] - Local batch: registered employee Yvana Tojal Costa Fraga (005682)
+[2026-08-10 15:05:56] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Junho 2026.
+[2026-08-10 15:05:56] INFO [application:222] - Successfully restyled Terceirizadas header at row 76 and subheader at row 77.
+[2026-08-10 15:05:57] INFO [application:752] - Tab 'Julho 2026' already exists in spreadsheet 1YqOJvpIfkaXGrK9stEaXFbFcXgdw01NLdW0wtevT2gA.
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Francisco Joao de Sousa Filho (005396)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose de Jesus (005451)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Johnatas Augusto Ferreira Dias (005455)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Janiel Batista Santos (005467)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Andre Batista da Silva (005672)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Yvana Tojal Costa Fraga (005682)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Robson dos Santos (005801)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Marcio Jose Ribeiro Santos (005871)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Osiel Ferreira de Melo (005890)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Domingos dos Santos Filho (005897)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Maria Adriana dos Santos (006139)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Cleber dos Santos (006264)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Ailton dos Santos (006427)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Carlos Santos Gomes (006496)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Aercio Neris dos Santos (006581)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Josenaldo de Souza Santos (006583)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Carlos Alberto Menezes Braga (006649)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Carlos da Silva Nascimento (006694)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Paulo Alberto Santos Nascimento (006700)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Carlos Rodrigues de Jesus (006701)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Joao Paulo Santos Lino Silva (006716)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Adriano Conceicao Dantas (006746)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Fabricio Araujo Conceicao (006793)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Magno Felix de Araujo (006815)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Josenaldo dos Santos (006835)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Eduardo dos Santos (006837)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Brunno Jamison Leal dos Santos (006838)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Adailson Ferreira dos Santos (006848)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Fabiano dos Santos (006850)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Pedro Henrique Messias Goes (006853)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Laecio Teles de Souza (006868)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Waliston Moraes Victor (006869)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Clodoaldo Ferreira (006878)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee DAVIDSON ALCANTARA CRUZ (006891)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee DOUGLAS DE JESUS (006896)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee WEIDSON SANTOS FRANÇA (006899)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jorgival Santana Hora (006903)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee JOSE RUAN LOES DOS SANTOS (006904)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee DAIANE KELLE SIQUEIRA LIMA (006905)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee MAURICIO NASCIMENTO SANTANA SILVA (006921)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee WENDEL SANTOS FERREIRA (006923)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee ALEXSANDRO AFONSO SANTOS (006924)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee LUZIA EDUARDA BATISTA SILVA (006925)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee JOAN CRISTIAN OLIVEIRA DOS SANTOS (006928)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Gustavo Sa Santos Rocha (E06778)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee ANA BEATRIZ MARQUES DOS SANTOS (006944)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee ANNE EVELLYN SILVA SANTOS (006927)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Arisvaldo Cicero Novais Santos (006779)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee CRISTIAN ROBERT SILVA DOS SANTOS (006933)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Claudio Alves Santos (005915)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee DAVID BARRETO DE JESUS (006942)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Everaldo Teles de Oliveira Filho (006591)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee JANNUCIO DIONISIO DOS SANTOS (006935)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee JOAO VITOR DE MORAES SANTOS (006922)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee JOSE CARIVALDO SOUZA (006931)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jean Carlos de Jesus (006851)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Evandro Santos Pereira (006855)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Raimundo dos Santos (001814)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Roberto Santos Costa (005271)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee LAYSE SOUZA SAMPAIO (006900)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee MARCOS ANTONIO CARVALHO DOS SANTOS (006952)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee MARIA CLARA BRITO REIS (006945)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee MIGUEL ANGELO AGUIAR CAMPOS (006930)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Manoel Cicero Santos (006582)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee PRISCILA DOS SANTOS (006947)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee RODOLPHO CERQUEIRA DE OLIVEIRA (006932)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee ROGER FELIPE SANTOS DE ARAUJO (006936)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Renan dos Santos Lopes (006846)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Rodrigo Laerte de Araujo Sa (006948)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee SABRINA OLIVEIRA DOS SANTOS (006946)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee WELINGTON VITOR SANTOS DE SOUZA (006950)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee WENDELL BAHIA FERREIRA (006934)
+[2026-08-10 15:05:57] INFO [application:673] - Local batch: registered employee Jose Uilson de Jesus Santana (005536)
+[2026-08-10 15:05:57] INFO [application:715] - Batch Sincronização: Gravado com sucesso na aba Julho 2026.
+[2026-08-10 15:05:58] INFO [application:222] - Successfully restyled Terceirizadas header at row 77 and subheader at row 78.
