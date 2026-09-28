@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import PageTitle from '../components/PageTitle';
@@ -8,18 +8,24 @@ import FileUploader from '../components/FileUploader';
 import Button from '../components/Button';
 import Loader from '../components/Loader';
 import Toast, { ToastContainer } from '../components/Toast';
-import { Table, Tr, Td } from '../components/Table';
-import { Bus, Play, ArrowLeft, Check, AlertCircle, RefreshCw, DollarSign, Calendar, Users, Search } from 'lucide-react';
+import { Bus, Play, Sparkles, DollarSign } from 'lucide-react';
 
-const FormGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.25rem;
+// ─── Animations ──────────────────────────────────────────────────────────────
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+// ─── Styled Components ────────────────────────────────────────────────────────
+const PageContainer = styled.div`
+  animation: ${fadeIn} 0.4s ease-out;
+  max-width: 700px;
+  margin: 0 auto;
+`;
+
+const FormRow = styled.div`
+  max-width: 350px;
   margin-bottom: 1.5rem;
-  
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 const FormGroup = styled.div`
@@ -30,165 +36,79 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   font-size: 0.8125rem;
-  font-weight: 600;
-  color: #3c4043;
+  font-weight: 700;
+  color: #37474f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
-const Select = styled.select`
-  font-family: 'Inter', sans-serif;
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const CurrencySymbol = styled.div`
+  position: absolute;
+  left: 12px;
+  color: #5f6368;
+  font-weight: 600;
   font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  border: 1px solid #dadce0;
-  outline: none;
-  min-height: 38px;
-  background-color: white;
-  color: #202124;
-  &:focus {
-    border-color: #1a73e8;
-  }
+  display: flex;
+  align-items: center;
 `;
 
 const InputNumber = styled.input`
   font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border-radius: 8px;
   border: 1px solid #dadce0;
   outline: none;
-  min-height: 38px;
+  min-height: 40px;
+  width: 100%;
   background-color: white;
   color: #202124;
+  transition: border-color 0.2s ease;
   &:focus {
     border-color: #1a73e8;
   }
 `;
 
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+const DetectionBadge = styled.div`
+  background: linear-gradient(135deg, #e8f0fe 0%, #d2e3fc 100%);
+  border: 1px solid #1a73e8;
+  color: #1b365d;
+  border-radius: 8px;
+  padding: 0.875rem 1.25rem;
   margin-bottom: 1.5rem;
-  
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const StatCard = styled.div`
-  background: white;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+  font-size: 0.8125rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.4;
 `;
 
-const StatIcon = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background-color: ${({ $bg }) => $bg || '#e8f0fe'};
-  color: ${({ $color }) => $color || '#1a73e8'};
+const ActionRow = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
 `;
 
-const StatInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StatLabel = styled.span`
-  font-size: 0.75rem;
-  color: #5f6368;
-  font-weight: 500;
-`;
-
-const StatValue = styled.span`
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #202124;
-`;
-
-const StatusBadge = styled.span`
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
-  
-  ${({ $found }) => $found ? `
-    background-color: #e6f4ea;
-    color: #0f9d58;
-  ` : `
-    background-color: #fce8e6;
-    color: #d93025;
-  `}
-`;
-
-const SearchBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #f1f3f4;
-  padding: 0.4rem 0.75rem;
-  border-radius: 6px;
-  max-width: 320px;
-  margin-bottom: 1rem;
-
-  input {
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: 0.875rem;
-    width: 100%;
-  }
-`;
-
+// ─── Main Component ───────────────────────────────────────────────────────────
 const ControleVT = () => {
-  const [selectedObra, setSelectedObra] = useState('');
-  const [selectedPlanilha, setSelectedPlanilha] = useState('');
   const [valorDiarioVT, setValorDiarioVT] = useState('12.00');
   const [file, setFile] = useState(null);
   
-  const [step, setStep] = useState('upload'); // 'upload' | 'preview' | 'result'
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState('');
   const [toast, setToast] = useState(null);
-  
-  const [previewData, setPreviewData] = useState(null);
-  const [resultData, setResultData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
 
   // Fetch Settings for default VT value
   const { data: settings } = useQuery({
-    queryKey: ['systemSettings'],
+    queryKey: ['systemSettingsVT'],
     queryFn: async () => {
       const response = await axios.get('/api/v1/settings/');
-      return response.data;
-    }
-  });
-
-  // Fetch Active Obras
-  const { data: obras, isLoading: loadingObras } = useQuery({
-    queryKey: ['activeObrasVT'],
-    queryFn: async () => {
-      const response = await axios.get('/api/v1/obras/');
-      return response.data;
-    }
-  });
-
-  // Fetch Active Planilhas
-  const { data: planilhas, isLoading: loadingPlanilhas } = useQuery({
-    queryKey: ['activePlanilhasVT'],
-    queryFn: async () => {
-      const response = await axios.get('/api/v1/planilhas/');
       return response.data;
     }
   });
@@ -199,106 +119,65 @@ const ControleVT = () => {
     }
   }, [settings]);
 
-  // Auto-select Planilha when Obra is selected
-  useEffect(() => {
-    if (selectedObra && planilhas) {
-      const matching = planilhas.filter(p => p.obra_id === Number(selectedObra) && p.status === 'ATIVO');
-      if (matching.length > 0) {
-        setSelectedPlanilha(String(matching[0].id));
-      } else {
-        const globalMatching = planilhas.filter(p => !p.obra_id && p.status === 'ATIVO');
-        if (globalMatching.length > 0) {
-          setSelectedPlanilha(String(globalMatching[0].id));
-        }
-      }
-    }
-  }, [selectedObra, planilhas]);
-
   const showToast = (message, variant = 'success') => {
     setToast({ message, variant });
   };
 
-  const handleGeneratePreview = async () => {
-    if (!selectedObra) {
-      showToast('Selecione uma Obra para continuar.', 'error');
-      return;
-    }
-    if (!selectedPlanilha) {
-      showToast('Selecione a Planilha de destino para continuar.', 'error');
-      return;
-    }
-    if (!file) {
-      showToast('Selecione o arquivo de ponto para upload.', 'error');
+  const handlePdfProcess = async () => {
+    const vtVal = parseFloat(valorDiarioVT);
+    if (!file || isNaN(vtVal) || vtVal <= 0) {
+      showToast('Selecione o arquivo PDF e insira um valor diário de VT válido.', 'error');
       return;
     }
 
     setLoading(true);
-    setLoadingMsg('Analisando arquivo e agrupando marcações multi-datas de VT...');
+    setLoadingMsg('Processando espelhos de ponto (PDF), identificando a Obra e gerando planilha de VT...');
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('valor_diario_vt', String(vtVal));
 
     try {
-      const formData = new FormData();
-      formData.append('obra_id', selectedObra);
-      formData.append('planilha_id', selectedPlanilha);
-      formData.append('valor_diario_vt', valorDiarioVT);
-      formData.append('file', file);
-
-      const response = await axios.post('/api/v1/controle-vt/preview', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const response = await axios.post('/api/v1/controle-vt/process-pdf', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        responseType: 'blob'
       });
 
-      setPreviewData(response.data);
-      setStep('preview');
-      showToast('Prévia de Controle VT gerada com sucesso.');
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `relatorio_vale_transporte_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+      showToast('Planilha de Vale Transporte gerada e baixada com sucesso!');
+      setFile(null);
     } catch (err) {
-      showToast(err.response?.data?.detail || 'Erro ao gerar prévia do arquivo.', 'error');
+      console.error(err);
+      if (err.response?.data instanceof Blob) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const errorObj = JSON.parse(reader.result);
+            showToast(errorObj.detail || 'Erro ao processar o PDF e gerar a planilha.', 'error');
+          } catch (e) {
+            showToast('Erro ao processar o PDF e gerar a planilha.', 'error');
+          }
+        };
+        reader.readAsText(err.response.data);
+      } else {
+        showToast(err.response?.data?.detail || 'Erro ao processar o PDF e gerar a planilha.', 'error');
+      }
     } finally {
       setLoading(false);
     }
   };
-
-  const handleProcessSync = async () => {
-    if (!previewData) return;
-
-    setLoading(true);
-    setLoadingMsg(`Sincronizando ${previewData.datas_encontradas?.length || 0} datas com o Google Sheets...`);
-
-    try {
-      const formData = new FormData();
-      formData.append('obra_id', selectedObra);
-      formData.append('planilha_id', selectedPlanilha);
-      formData.append('valor_diario_vt', valorDiarioVT);
-      formData.append('file', file);
-
-      const response = await axios.post('/api/v1/controle-vt/process', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-
-      setResultData(response.data);
-      setStep('result');
-      showToast('Sincronização de Vale Transporte concluída com sucesso!');
-    } catch (err) {
-      showToast(err.response?.data?.detail || 'Erro ao sincronizar dados de VT com o Google Sheets.', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleReset = () => {
-    setFile(null);
-    setPreviewData(null);
-    setResultData(null);
-    setStep('upload');
-  };
-
-  const activeObrasList = obras?.filter(o => o.status === 'ATIVO') || [];
-
-  const filteredPreviewRows = previewData?.linhas_preview?.filter(row => 
-    row.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.matricula.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
 
   return (
-    <div>
+    <PageContainer>
       {toast && (
         <ToastContainer>
           <Toast message={toast.message} variant={toast.variant} onClose={() => setToast(null)} />
@@ -307,216 +186,56 @@ const ControleVT = () => {
 
       <PageTitle 
         title="Controle de Vale Transporte (VT)" 
-        subtitle="Processamento automatizado de marcações de ponto multi-datas com cálculo de diárias de VT" 
+        subtitle="Carregue o PDF do espelho de ponto para gerar o cálculo de diárias e relatórios de VT" 
       />
 
       {loading && <Loader message={loadingMsg} />}
 
-      {!loading && step === 'upload' && (
-        <Card title="Upload de Marcações de Ponto (VT Multi-Datas)">
-          <FormGrid>
+      {!loading && (
+        <Card title="Geração de Relatório de Vale Transporte">
+          <FormRow>
             <FormGroup>
-              <Label>Obra de Destino *</Label>
-              <Select value={selectedObra} onChange={(e) => setSelectedObra(e.target.value)}>
-                <option value="">-- Selecione uma Obra --</option>
-                {activeObrasList.map(o => (
-                  <option key={o.id} value={o.id}>{o.nome} ({o.codigo})</option>
-                ))}
-              </Select>
+              <Label>Valor Diário de VT *</Label>
+              <InputWrapper>
+                <CurrencySymbol>R$</CurrencySymbol>
+                <InputNumber 
+                  type="number"
+                  step="0.10"
+                  min="0"
+                  value={valorDiarioVT} 
+                  onChange={(e) => setValorDiarioVT(e.target.value)} 
+                  placeholder="12.00"
+                />
+              </InputWrapper>
             </FormGroup>
+          </FormRow>
 
-            <FormGroup>
-              <Label>Planilha Google *</Label>
-              <Select value={selectedPlanilha} onChange={(e) => setSelectedPlanilha(e.target.value)}>
-                <option value="">-- Selecione a Planilha --</option>
-                {planilhas?.filter(p => p.status === 'ATIVO').map(p => (
-                  <option key={p.id} value={p.id}>{p.nome}</option>
-                ))}
-              </Select>
-            </FormGroup>
-
-            <FormGroup>
-              <Label>Valor Diário de VT (R$) *</Label>
-              <InputNumber 
-                type="number"
-                step="0.50"
-                min="0"
-                value={valorDiarioVT} 
-                onChange={(e) => setValorDiarioVT(e.target.value)} 
-                placeholder="12.00"
-              />
-            </FormGroup>
-          </FormGrid>
+          <DetectionBadge>
+            <Sparkles size={20} style={{ flexShrink: 0, marginTop: '1px' }} />
+            <div>
+              <strong>Detecção Automática Ativa:</strong> O sistema lerá os dados do PDF para identificar a <strong>Obra correspondente</strong> (pelo Local de Trabalho) e cruzar com os colaboradores ativos no banco de dados. Qualquer colaborador faltante no arquivo será incluído com saldo de VT zerado.
+            </div>
+          </DetectionBadge>
 
           <FileUploader 
             onFileSelected={(selectedFile) => setFile(selectedFile)}
             selectedFile={file}
-            acceptedFormats=".txt,.csv,.xlsx"
+            acceptedFormats=".pdf"
           />
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
-            <Button onClick={handleGeneratePreview} disabled={!selectedObra || !selectedPlanilha || !file}>
+          <ActionRow>
+            <Button 
+              onClick={handlePdfProcess} 
+              disabled={!file || parseFloat(valorDiarioVT) <= 0}
+              style={{ backgroundColor: '#1a73e8', borderColor: '#1a73e8' }}
+            >
               <Play size={16} />
-              Gerar Prévia do Controle VT
+              Gerar Planilha de Vale Transporte
             </Button>
-          </div>
+          </ActionRow>
         </Card>
       )}
-
-      {!loading && step === 'preview' && previewData && (
-        <div>
-          <StatsGrid>
-            <StatCard>
-              <StatIcon $bg="#e8f0fe" $color="#1a73e8">
-                <Users size={22} />
-              </StatIcon>
-              <StatInfo>
-                <StatLabel>Colaboradores</StatLabel>
-                <StatValue>{previewData.total_colaboradores}</StatValue>
-              </StatInfo>
-            </StatCard>
-
-            <StatCard>
-              <StatIcon $bg="#fef7e0" $color="#b06000">
-                <Calendar size={22} />
-              </StatIcon>
-              <StatInfo>
-                <StatLabel>Datas Encontradas</StatLabel>
-                <StatValue>{previewData.datas_encontradas?.length || 0}</StatValue>
-              </StatInfo>
-            </StatCard>
-
-            <StatCard>
-              <StatIcon $bg="#e6f4ea" $color="#0f9d58">
-                <Check size={22} />
-              </StatIcon>
-              <StatInfo>
-                <StatLabel>Presenças Totais</StatLabel>
-                <StatValue>{previewData.total_presencas}</StatValue>
-              </StatInfo>
-            </StatCard>
-
-            <StatCard>
-              <StatIcon $bg="#f3e8fd" $color="#9334e8">
-                <DollarSign size={22} />
-              </StatIcon>
-              <StatInfo>
-                <StatLabel>Total VT Estimado</StatLabel>
-                <StatValue>R$ {previewData.valor_total_estimado?.toFixed(2)}</StatValue>
-              </StatInfo>
-            </StatCard>
-          </StatsGrid>
-
-          <Card title={`Prévia das Marcações — Obra: ${previewData.obra?.nome}`}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
-              <SearchBox>
-                <Search size={16} color="#5f6368" />
-                <input 
-                  type="text" 
-                  placeholder="Buscar funcionário ou matrícula..." 
-                  value={searchTerm} 
-                  onChange={(e) => setSearchTerm(e.target.value)} 
-                />
-              </SearchBox>
-
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <Button variant="secondary" onClick={handleReset}>
-                  <ArrowLeft size={16} />
-                  Voltar
-                </Button>
-                <Button onClick={handleProcessSync}>
-                  <Check size={16} />
-                  Sincronizar Controle VT com Google Sheets
-                </Button>
-              </div>
-            </div>
-
-            <Table headers={["Matrícula", "Nome", "Cadastro no Sistema", "Dias de Presença", "Valor Total VT (R$)", "Datas com Presença"]}>
-              {filteredPreviewRows.map((row, idx) => (
-                <Tr key={idx}>
-                  <Td><strong>{row.matricula}</strong></Td>
-                  <Td>{row.nome}</Td>
-                  <Td>
-                    <StatusBadge $found={row.status_match === 'ENCONTRADO'}>
-                      {row.status_match === 'ENCONTRADO' ? 'ENCONTRADO' : 'NÃO CADASTRADO'}
-                    </StatusBadge>
-                  </Td>
-                  <Td style={{ fontWeight: 600, color: '#1a73e8' }}>{row.dias_presenca} dias</Td>
-                  <Td style={{ fontWeight: 700, color: '#0f9d58' }}>R$ {row.valor_total?.toFixed(2)}</Td>
-                  <Td style={{ fontSize: '0.8rem', color: '#5f6368', maxWidth: '250px' }}>
-                    {row.datas_presenca?.join(', ')}
-                  </Td>
-                </Tr>
-              ))}
-            </Table>
-          </Card>
-        </div>
-      )}
-
-      {!loading && step === 'result' && resultData && (
-        <Card title="Resultado da Sincronização de Vale Transporte">
-          <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-            <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: '#e6f4ea', color: '#0f9d58', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
-              <Check size={36} />
-            </div>
-            
-            <h3 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '1.5rem', color: '#202124', marginBottom: '0.5rem' }}>
-              Sincronização Concluída com Sucesso!
-            </h3>
-            <p style={{ color: '#5f6368', fontSize: '0.9rem', marginBottom: '2rem' }}>
-              {resultData.message}
-            </p>
-
-            <StatsGrid style={{ maxWidth: '700px', margin: '0 auto 2rem' }}>
-              <StatCard>
-                <StatIcon $bg="#e8f0fe" $color="#1a73e8">
-                  <Calendar size={20} />
-                </StatIcon>
-                <StatInfo>
-                  <StatLabel>Datas Processadas</StatLabel>
-                  <StatValue>{resultData.datas_processadas?.length || 0}</StatValue>
-                </StatInfo>
-              </StatCard>
-
-              <StatCard>
-                <StatIcon $bg="#e6f4ea" $color="#0f9d58">
-                  <Check size={20} />
-                </StatIcon>
-                <StatInfo>
-                  <StatLabel>Atualizados</StatLabel>
-                  <StatValue>{resultData.total_atualizados}</StatValue>
-                </StatInfo>
-              </StatCard>
-
-              <StatCard>
-                <StatIcon $bg="#f3e8fd" $color="#9334e8">
-                  <DollarSign size={20} />
-                </StatIcon>
-                <StatInfo>
-                  <StatLabel>Valor Total VT</StatLabel>
-                  <StatValue>R$ {resultData.valor_total_vt?.toFixed(2)}</StatValue>
-                </StatInfo>
-              </StatCard>
-
-              <StatCard>
-                <StatIcon $bg="#f1f3f4" $color="#5f6368">
-                  <RefreshCw size={20} />
-                </StatIcon>
-                <StatInfo>
-                  <StatLabel>Tempo</StatLabel>
-                  <StatValue>{(resultData.tempo_processamento_ms / 1000).toFixed(2)}s</StatValue>
-                </StatInfo>
-              </StatCard>
-            </StatsGrid>
-
-            <Button onClick={handleReset}>
-              <RefreshCw size={16} />
-              Realizar Novo Processamento de VT
-            </Button>
-          </div>
-        </Card>
-      )}
-    </div>
+    </PageContainer>
   );
 };
 

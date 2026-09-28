@@ -11,6 +11,7 @@ from app.models.system_log import SystemLog
 from app.models.pending_record import PendingRecord
 from app.models.settings import SystemSettings
 from app.models.atestado import Atestado
+from app.models.contratacao import Contratacao, ContratacaoDocumento, ContratacaoMensagem
 
 __all__ = [
     "Base",
@@ -27,5 +28,9 @@ __all__ = [
     "SystemLog",
     "PendingRecord",
     "SystemSettings",
-    "Atestado"
+    "Atestado",
+    "Contratacao",
+    "ContratacaoDocumento",
+    "ContratacaoMensagem"
 ]
+

@@ -3005,3 +3005,1158 @@ Traceback (most recent call last):
   File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\googleapiclient\http.py", line 938, in execute
     raise HttpError(resp, content, uri=self.uri)
 googleapiclient.errors.HttpError: <HttpError 429 when requesting https://sheets.googleapis.com/v4/spreadsheets/1vncBBBPjMpJksgNLmnJ2w8V0p1pUvdL8HviRgkO_2ko/values/%27Julho%202026%27%21A1%3AAZ500?valueRenderOption=FORMULA&alt=json returned "Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:891804334764'.". Details: "[{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'RATE_LIMIT_EXCEEDED', 'domain': 'googleapis.com', 'metadata': {'quota_limit_value': '60', 'quota_limit': 'ReadRequestsPerMinutePerUser', 'quota_unit': '1/min/{project}/{user}', 'service': 'sheets.googleapis.com', 'quota_location': 'global', 'consumer': 'projects/891804334764', 'quota_metric': 'sheets.googleapis.com/read_requests'}}, {'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Request a higher quota limit.', 'url': 'https://cloud.google.com/docs/quotas/help/request_increase'}]}]">
+[2026-08-11 14:08:39] ERROR [error:56] - Unhandled Exception on /api/v1/settings/: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1319, in _checkout
+    raise exc.InvalidatePoolError()
+sqlalchemy.exc.InvalidatePoolError: ()
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1353, in _checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1350, in _checkout
+    fairy._connection_record.get_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 473, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 680, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\rbac.py", line 38, in get_current_user
+    user = user_repository.get(db, user_id)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 12, in get
+    return db.query(self.model).filter(self.model.id == id).first()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1353, in _checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1350, in _checkout
+    fairy._connection_record.get_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:08:43] ERROR [error:30] - Failed to log error to DB: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:12:58] ERROR [error:56] - Unhandled Exception on /api/v1/settings/test-whatsapp: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 473, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 680, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\rbac.py", line 38, in get_current_user
+    user = user_repository.get(db, user_id)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 12, in get
+    return db.query(self.model).filter(self.model.id == id).first()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:02] ERROR [error:30] - Failed to log error to DB: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:40] ERROR [error:56] - Unhandled Exception on /api/v1/settings/: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 473, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 680, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\rbac.py", line 38, in get_current_user
+    user = user_repository.get(db, user_id)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 12, in get
+    return db.query(self.model).filter(self.model.id == id).first()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:44] ERROR [error:30] - Failed to log error to DB: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:44] ERROR [error:56] - Unhandled Exception on /api/v1/settings/: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 473, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 680, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\rbac.py", line 38, in get_current_user
+    user = user_repository.get(db, user_id)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 12, in get
+    return db.query(self.model).filter(self.model.id == id).first()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:48] ERROR [error:30] - Failed to log error to DB: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:48] ERROR [error:56] - Unhandled Exception on /api/v1/settings/: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2683, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1764, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1753, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 2738, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1773, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 1264, in handle
+    await app(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\routing.py", line 473, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 649, in solve_dependencies
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\fastapi\dependencies\utils.py", line 680, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\auth\rbac.py", line 38, in get_current_user
+    user = user_repository.get(db, user_id)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\app\repositories\base.py", line 12, in get
+    return db.query(self.model).filter(self.model.id == id).first()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        err, dialect, engine
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 837, in get_connection
+    self.__connect()
+    ~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Usuario\Desktop\reactprojects\AutomacaoRH\backend\venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-08-11 14:13:52] ERROR [error:30] - Failed to log error to DB: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

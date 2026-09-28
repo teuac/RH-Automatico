@@ -58,7 +58,7 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
-const FileUploader = ({ onFileSelected, selectedFile, error }) => {
+const FileUploader = ({ onFileSelected, selectedFile, error, acceptedFormats = '.txt,.csv,.xlsx,.xls' }) => {
   const fileInputRef = useRef(null);
   const [isDragActive, setIsDragActive] = useState(false);
 
@@ -89,6 +89,15 @@ const FileUploader = ({ onFileSelected, selectedFile, error }) => {
     }
   };
 
+  const formatAcceptedFormats = (formats) => {
+    return formats
+      .toUpperCase()
+      .replace(/\./g, '')
+      .split(',')
+      .map(f => f.trim())
+      .join(', ');
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <Dropzone
@@ -103,7 +112,7 @@ const FileUploader = ({ onFileSelected, selectedFile, error }) => {
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept=".txt,.csv,.xlsx,.xls"
+          accept={acceptedFormats}
         />
         
         {selectedFile ? (
@@ -122,10 +131,10 @@ const FileUploader = ({ onFileSelected, selectedFile, error }) => {
         ) : (
           <>
             <Upload size={40} color="#1a73e8" />
-            <Title>Selecione o arquivo de ponto</Title>
+            <Title>Selecione o arquivo</Title>
             <Subtitle>
               Arraste e solte o arquivo aqui ou clique para navegar.<br />
-              Formatos aceitos: <strong>TXT, CSV, XLSX</strong>
+              Formatos aceitos: <strong>{formatAcceptedFormats(acceptedFormats)}</strong>
             </Subtitle>
           </>
         )}

@@ -12,7 +12,35 @@ import Modal from '../components/Modal';
 import ConfirmDialog from '../components/ConfirmDialog';
 import Toast, { ToastContainer } from '../components/Toast';
 import { Table, Tr, Td } from '../components/Table';
-import { Save, ShieldAlert, KeyRound, Globe, Plus, Edit2, Trash2, Check, ExternalLink, FileSpreadsheet, Bus } from 'lucide-react';
+import { Save, ShieldAlert, KeyRound, Globe, Plus, Edit2, Trash2, Check, ExternalLink, FileSpreadsheet, Bus, MessageSquare, Bot } from 'lucide-react';
+
+const TabContainer = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 2px solid #dadce0;
+  margin-bottom: 2rem;
+  padding-bottom: 2px;
+`;
+
+const TabButton = styled.button`
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.5rem 0.5rem 0.75rem 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${props => props.$active ? '#1a73e8' : '#5f6368'};
+  border-bottom: 3px solid ${props => props.$active ? '#1a73e8' : 'transparent'};
+  margin-bottom: -3px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: #1a73e8;
+  }
+`;
+
 
 const FormContainer = styled.form`
   display: flex;
@@ -134,12 +162,24 @@ const Configuracoes = () => {
   const [allowedDomain, setAllowedDomain] = useState('');
   const [valorDiarioVT, setValorDiarioVT] = useState('12.00');
 
+  // WhatsApp settings state
+  const [evolutionUrl, setEvolutionUrl] = useState('');
+  const [evolutionToken, setEvolutionToken] = useState('');
+  const [evolutionInstance, setEvolutionInstance] = useState('');
+  const [backendExternalUrl, setBackendExternalUrl] = useState('');
+  const [testingConnection, setTestingConnection] = useState(false);
+  const [testResult, setTestResult] = useState(null);
+  const [activeTab, setActiveTab] = useState('planilhas');
+
+
+
   // Planilha CRUD states
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedPlanilha, setSelectedPlanilha] = useState(null);
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
   const watchedAutomacao = watch('automacao', 'ALIMENTACAO');
+
 
   // Fetch Settings
   const { data: settings, isLoading: loadingSettings } = useQuery({
@@ -181,8 +221,13 @@ const Configuracoes = () => {
     if (settings) {
       setAllowedDomain(settings.ALLOWED_DOMAIN || 'acengenharia.com.br');
       setValorDiarioVT(settings.valor_diario_vt || '12.00');
+      setEvolutionUrl(settings.EVOLUTION_API_URL || '');
+      setEvolutionToken(settings.EVOLUTION_API_TOKEN || '');
+      setEvolutionInstance(settings.EVOLUTION_API_INSTANCE || '');
+      setBackendExternalUrl(settings.BACKEND_EXTERNAL_URL || '');
     }
   }, [settings]);
+
 
   const showToast = (message, variant = 'success') => {
     setToast({ message, variant });
@@ -256,8 +301,45 @@ const Configuracoes = () => {
   const handleSaveSettings = (e) => {
     e.preventDefault();
     updateSettingsMutation.mutate({ key: 'ALLOWED_DOMAIN', value: allowedDomain });
+  };
+
+  const handleSaveVT = (e) => {
+    e.preventDefault();
     updateSettingsMutation.mutate({ key: 'valor_diario_vt', value: valorDiarioVT });
   };
+
+
+  const handleSaveWhatsappSettings = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`/api/v1/settings/?key=EVOLUTION_API_URL&value=${encodeURIComponent(evolutionUrl)}`);
+      await axios.post(`/api/v1/settings/?key=EVOLUTION_API_TOKEN&value=${encodeURIComponent(evolutionToken)}`);
+      await axios.post(`/api/v1/settings/?key=EVOLUTION_API_INSTANCE&value=${encodeURIComponent(evolutionInstance)}`);
+      await axios.post(`/api/v1/settings/?key=BACKEND_EXTERNAL_URL&value=${encodeURIComponent(backendExternalUrl)}`);
+      
+      queryClient.invalidateQueries({ queryKey: ['systemSettings'] });
+      showToast('Configurações do WhatsApp salvas com sucesso.');
+    } catch (err) {
+      showToast(err.response?.data?.detail || 'Erro ao salvar credenciais do WhatsApp.', 'error');
+    }
+  };
+
+  const handleTestWhatsapp = async () => {
+    setTestingConnection(true);
+    setTestResult(null);
+    try {
+      const response = await axios.post('/api/v1/settings/test-whatsapp');
+      setTestResult(response.data);
+    } catch (err) {
+      setTestResult({
+        status: 'ERROR',
+        message: err.response?.data?.detail || 'Erro ao comunicar com o servidor.'
+      });
+    } finally {
+      setTestingConnection(false);
+    }
+  };
+
 
   const handleOpenCreatePlanilha = () => {
     setSelectedPlanilha(null);
@@ -328,174 +410,300 @@ const Configuracoes = () => {
         subtitle="Gerencie restrições de segurança globais, status de credenciais Google e planilhas integradas" 
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
-        
-        {/* Parametros Globais Section */}
-        <Card>
-          <FormContainer onSubmit={handleSaveSettings}>
-            <div>
-              <SectionHeader>
-                <Globe size={18} color="#1a73e8" />
-                <SectionTitle>Segurança de Login</SectionTitle>
-              </SectionHeader>
-              <InfoText>
-                Limite os cadastros e logins automáticos a e-mails corporativos vinculados a um domínio específico do Google Workspace.
-              </InfoText>
-              <Input 
-                label="Domínio Google Workspace Permitido" 
-                value={allowedDomain} 
-                onChange={(e) => setAllowedDomain(e.target.value)} 
-                placeholder="Ex: acengenharia.com.br"
-              />
-            </div>
+      <TabContainer>
+        <TabButton $active={activeTab === 'planilhas'} onClick={() => setActiveTab('planilhas')}>
+          <FileSpreadsheet size={16} style={{ marginRight: '0.5rem' }} />
+          Planilhas Google
+        </TabButton>
+        <TabButton $active={activeTab === 'seguranca_conexao'} onClick={() => setActiveTab('seguranca_conexao')}>
+          <KeyRound size={16} style={{ marginRight: '0.5rem' }} />
+          Segurança e Conexão
+        </TabButton>
+        <TabButton $active={activeTab === 'parametros'} onClick={() => setActiveTab('parametros')}>
+          <Bus size={16} style={{ marginRight: '0.5rem' }} />
+          Parâmetros
+        </TabButton>
+        <TabButton $active={activeTab === 'whatsapp'} onClick={() => setActiveTab('whatsapp')}>
+          <MessageSquare size={16} style={{ marginRight: '0.5rem' }} />
+          WhatsApp (Evolution API)
+        </TabButton>
+      </TabContainer>
 
-            <div>
-              <SectionHeader>
-                <Bus size={18} color="#1a73e8" />
-                <SectionTitle>Parâmetros de Vale Transporte (VT)</SectionTitle>
-              </SectionHeader>
-              <InfoText>
-                Defina o valor padrão por dia (R$) utilizado para o cálculo dos totais de Vale Transporte.
-              </InfoText>
-              <Input 
-                label="Valor Padrão por Dia (R$)" 
-                value={valorDiarioVT} 
-                onChange={(e) => setValorDiarioVT(e.target.value)} 
-                placeholder="Ex: 12.00"
-              />
-            </div>
 
-            <div>
-              <SectionHeader>
-                <KeyRound size={18} color="#1a73e8" />
-                <SectionTitle>Conexão com Google Sheets</SectionTitle>
+      {activeTab === 'planilhas' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <SectionHeader style={{ border: 'none', marginBottom: 0, paddingBottom: 0 }}>
+                <FileSpreadsheet size={20} color="#1a73e8" />
+                <SectionTitle>Cadastro de Planilhas Google</SectionTitle>
               </SectionHeader>
-              <InfoText>
-                As credenciais da conta de serviço (Service Account) são carregadas de forma segura diretamente através do arquivo <code>.env</code> do servidor.
-              </InfoText>
-              
-              {connectionStatus && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <StatusBox $status={connectionStatus.status}>
-                    {connectionStatus.status === 'CONECTADO' ? (
-                      <>
-                        <Check size={16} style={{ strokeWidth: 3 }} />
-                        CONECTADO
-                      </>
-                    ) : (
-                      <>
-                        <ShieldAlert size={16} />
-                        {connectionStatus.status === 'NAO_CONFIGURADO' ? 'NÃO CONFIGURADO' : 'ERRO DE AUTENTICAÇÃO'}
-                      </>
-                    )}
-                  </StatusBox>
-                  <StatusMessage>{connectionStatus.message}</StatusMessage>
-                </div>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #dadce0', paddingTop: '1.5rem', marginTop: '1rem' }}>
-              <Button type="submit">
-                <Save size={16} />
-                Salvar Configurações
+              <Button onClick={handleOpenCreatePlanilha}>
+                <Plus size={16} />
+                Cadastrar Planilha
               </Button>
             </div>
-          </FormContainer>
-        </Card>
 
-        {/* Planilhas Section */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <SectionHeader style={{ border: 'none', marginBottom: 0, paddingBottom: 0 }}>
-              <FileSpreadsheet size={20} color="#1a73e8" />
-              <SectionTitle>Cadastro de Planilhas Google</SectionTitle>
-            </SectionHeader>
-            <Button onClick={handleOpenCreatePlanilha}>
-              <Plus size={16} />
-              Cadastrar Planilha
-            </Button>
+            <Card>
+              <Table headers={["Nome Descritivo", "Spreadsheet ID", "Nome da Aba", "Obra Vinculada", "Automação", "Status", "Ações"]}>
+                {planilhas?.map(p => (
+                  <Tr key={p.id}>
+                    <Td><strong>{p.nome}</strong></Td>
+                    <Td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#5f6368' }}>
+                          {p.planilha_google_id.substring(0, 10)}...
+                        </span>
+                        <a 
+                          href={`https://docs.google.com/spreadsheets/d/${p.planilha_google_id}`} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          style={{ color: '#1a73e8', display: 'flex', alignItems: 'center' }}
+                        >
+                          <ExternalLink size={12} />
+                        </a>
+                      </div>
+                    </Td>
+                    <Td>
+                      {p.automacao === 'ALIMENTACAO' ? (
+                        <span style={{ color: '#1a73e8', fontSize: '0.8rem', fontStyle: 'italic' }}>Auto (por mês)</span>
+                      ) : (
+                        p.nome_aba
+                      )}
+                    </Td>
+                    <Td>
+                      {p.obra ? (
+                        <span style={{ fontWeight: 500, color: '#202124' }}>{p.obra.nome}</span>
+                      ) : (
+                        <span style={{ color: '#9aa0a6', fontStyle: 'italic' }}>Não vinculada</span>
+                      )}
+                    </Td>
+                    <Td>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1a73e8' }}>
+                        {p.automacao === 'ALIMENTACAO' ? 'Alimentação' : 'Controle VT'}
+                      </span>
+                    </Td>
+                    <Td>
+                      <StatusBadge $status={p.status}>{p.status}</StatusBadge>
+                    </Td>
+                    <Td>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <Button variant="outline" onClick={() => handleOpenEditPlanilha(p)}>
+                          <Edit2 size={12} />
+                          Editar
+                        </Button>
+                        <Button variant="outline" onClick={() => handleOpenDeletePlanilha(p)} style={{ borderColor: '#d93025', color: '#d93025' }}>
+                          <Trash2 size={12} />
+                          Excluir
+                        </Button>
+                      </div>
+                    </Td>
+                  </Tr>
+                ))}
+                {planilhas?.length === 0 && (
+                  <Tr>
+                    <Td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#5f6368' }}>
+                      Nenhuma planilha Google cadastrada até o momento.
+                    </Td>
+                  </Tr>
+                )}
+              </Table>
+            </Card>
           </div>
 
-          <Card>
-            <Table headers={["Nome Descritivo", "Spreadsheet ID", "Nome da Aba", "Obra Vinculada", "Automação", "Status", "Ações"]}>
-              {planilhas?.map(p => (
-                <Tr key={p.id}>
-                  <Td><strong>{p.nome}</strong></Td>
-                  <Td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                      <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#5f6368' }}>
-                        {p.planilha_google_id.substring(0, 10)}...
-                      </span>
-                      <a 
-                        href={`https://docs.google.com/spreadsheets/d/${p.planilha_google_id}`} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        style={{ color: '#1a73e8', display: 'flex', alignItems: 'center' }}
-                      >
-                        <ExternalLink size={12} />
-                      </a>
-                    </div>
-                  </Td>
-                  <Td>
-                    {p.automacao === 'ALIMENTACAO' ? (
-                      <span style={{ color: '#1a73e8', fontSize: '0.8rem', fontStyle: 'italic' }}>Auto (por mês)</span>
-                    ) : (
-                      p.nome_aba
-                    )}
-                  </Td>
-                  <Td>
-                    {p.obra ? (
-                      <span style={{ fontWeight: 500, color: '#202124' }}>{p.obra.nome}</span>
-                    ) : (
-                      <span style={{ color: '#9aa0a6', fontStyle: 'italic' }}>Não vinculada</span>
-                    )}
-                  </Td>
-                  <Td>
-                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1a73e8' }}>
-                      {p.automacao === 'ALIMENTACAO' ? 'Alimentação' : 'Controle VT'}
-                    </span>
-                  </Td>
-                  <Td>
-                    <StatusBadge $status={p.status}>{p.status}</StatusBadge>
-                  </Td>
-                  <Td>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <Button variant="outline" onClick={() => handleOpenEditPlanilha(p)}>
-                        <Edit2 size={12} />
-                        Editar
-                      </Button>
-                      <Button variant="outline" onClick={() => handleOpenDeletePlanilha(p)} style={{ borderColor: '#d93025', color: '#d93025' }}>
-                        <Trash2 size={12} />
-                        Excluir
-                      </Button>
-                    </div>
-                  </Td>
-                </Tr>
-              ))}
-              {planilhas?.length === 0 && (
-                <Tr>
-                  <Td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#5f6368' }}>
-                    Nenhuma planilha Google cadastrada até o momento.
-                  </Td>
-                </Tr>
-              )}
-            </Table>
+          <Card style={{ backgroundColor: '#fdf6f6', borderColor: '#fce8e6' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+              <ShieldAlert size={20} color="#d93025" style={{ flexShrink: 0, marginTop: '0.125rem' }} />
+              <div>
+                <strong style={{ color: '#d93025', fontSize: '0.9rem' }}>Atenção sobre Integração de Planilhas</strong>
+                <p style={{ fontSize: '0.8rem', color: '#60100b', marginTop: '0.25rem', lineHeight: '1.4' }}>
+                  Para que a sincronização funcione perfeitamente, certifique-se de compartilhar cada planilha cadastrada com o e-mail da conta de serviço (Service Account) configurada no seu arquivo <code>.env</code>, atribuindo o perfil de <strong>Editor</strong>.
+                </p>
+              </div>
+            </div>
           </Card>
         </div>
-      </div>
+      )}
 
-      {/* Warning alert */}
-      <Card style={{ backgroundColor: '#fdf6f6', borderColor: '#fce8e6', marginTop: '1rem' }}>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-          <ShieldAlert size={20} color="#d93025" style={{ flexShrink: 0, marginTop: '0.125rem' }} />
-          <div>
-            <strong style={{ color: '#d93025', fontSize: '0.9rem' }}>Atenção sobre Integração de Planilhas</strong>
-            <p style={{ fontSize: '0.8rem', color: '#60100b', marginTop: '0.25rem', lineHeight: '1.4' }}>
-              Para que a sincronização funcione perfeitamente, certifique-se de compartilhar cada planilha cadastrada com o e-mail da conta de serviço (Service Account) configurada no seu arquivo <code>.env</code>, atribuindo o perfil de <strong>Editor</strong>.
-            </p>
-          </div>
+      {activeTab === 'seguranca_conexao' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+          <Card>
+            <FormContainer onSubmit={handleSaveSettings}>
+              <div>
+                <SectionHeader>
+                  <Globe size={18} color="#1a73e8" />
+                  <SectionTitle>Segurança de Login</SectionTitle>
+                </SectionHeader>
+                <InfoText>
+                  Limite os cadastros e logins automáticos a e-mails corporativos vinculados a um domínio específico do Google Workspace.
+                </InfoText>
+                <Input 
+                  label="Domínio Google Workspace Permitido" 
+                  value={allowedDomain} 
+                  onChange={(e) => setAllowedDomain(e.target.value)} 
+                  placeholder="Ex: acengenharia.com.br"
+                />
+              </div>
+
+              <div>
+                <SectionHeader>
+                  <KeyRound size={18} color="#1a73e8" />
+                  <SectionTitle>Conexão com Google Sheets</SectionTitle>
+                </SectionHeader>
+                <InfoText>
+                  As credenciais da conta de serviço (Service Account) são carregadas de forma segura diretamente através do arquivo <code>.env</code> do servidor.
+                </InfoText>
+                
+                {connectionStatus && (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <StatusBox $status={connectionStatus.status}>
+                      {connectionStatus.status === 'CONECTADO' ? (
+                        <>
+                          <Check size={16} style={{ strokeWidth: 3 }} />
+                          CONECTADO
+                        </>
+                      ) : (
+                        <>
+                          <ShieldAlert size={16} />
+                          {connectionStatus.status === 'NAO_CONFIGURADO' ? 'NÃO CONFIGURADO' : 'ERRO DE AUTENTICAÇÃO'}
+                        </>
+                      )}
+                    </StatusBox>
+                    <StatusMessage>{connectionStatus.message}</StatusMessage>
+                  </div>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #dadce0', paddingTop: '1.5rem', marginTop: '1rem' }}>
+                <Button type="submit">
+                  <Save size={16} />
+                  Salvar Configurações
+                </Button>
+              </div>
+            </FormContainer>
+          </Card>
         </div>
-      </Card>
+      )}
+
+      {activeTab === 'parametros' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+          <Card>
+            <FormContainer onSubmit={handleSaveVT}>
+              <div>
+                <SectionHeader>
+                  <Bus size={18} color="#1a73e8" />
+                  <SectionTitle>Parâmetros de Vale Transporte (VT)</SectionTitle>
+                </SectionHeader>
+                <InfoText>
+                  Defina o valor padrão por dia (R$) utilizado para o cálculo dos totais de Vale Transporte.
+                </InfoText>
+                <Input 
+                  label="Valor Padrão por Dia (R$)" 
+                  value={valorDiarioVT} 
+                  onChange={(e) => setValorDiarioVT(e.target.value)} 
+                  placeholder="Ex: 12.00"
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #dadce0', paddingTop: '1.5rem', marginTop: '1rem' }}>
+                <Button type="submit">
+                  <Save size={16} />
+                  Salvar Parâmetros
+                </Button>
+              </div>
+            </FormContainer>
+          </Card>
+        </div>
+      )}
+
+      {activeTab === 'whatsapp' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+          <Card>
+            <FormContainer onSubmit={handleSaveWhatsappSettings}>
+              <div>
+                <SectionHeader>
+                  <MessageSquare size={18} color="#1a73e8" />
+                  <SectionTitle>Credenciais do WhatsApp (Evolution API)</SectionTitle>
+                </SectionHeader>
+                <InfoText>
+                  Configure as chaves de acesso para integração com o WhatsApp da Evolution API. A automação enviará mensagens de onboarding e coletará documentos do candidato automaticamente.
+                </InfoText>
+                <FormGrid>
+                  <FormGroup>
+                    <Label>URL da Evolution API</Label>
+                    <Input 
+                      value={evolutionUrl} 
+                      onChange={(e) => setEvolutionUrl(e.target.value)} 
+                      placeholder="Ex: https://api.evolution.suaempresa.com"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>Instância do WhatsApp</Label>
+                    <Input 
+                      value={evolutionInstance} 
+                      onChange={(e) => setEvolutionInstance(e.target.value)} 
+                      placeholder="Ex: rh_onboarding"
+                    />
+                  </FormGroup>
+                </FormGrid>
+                <FormGroup style={{ marginTop: '1rem' }}>
+                  <Label>Token/API Key da Evolution API</Label>
+                  <Input 
+                    type="password"
+                    value={evolutionToken} 
+                    onChange={(e) => setEvolutionToken(e.target.value)} 
+                    placeholder="Token de autorização global ou da instância"
+                  />
+                </FormGroup>
+              </div>
+
+
+              <div>
+                <SectionHeader>
+                  <Globe size={18} color="#1a73e8" />
+                  <SectionTitle>Endereço de Retorno (Webhook)</SectionTitle>
+                </SectionHeader>
+                <InfoText>
+                  URL externa deste servidor para receber mensagens do WhatsApp. O sistema tentará registrar este link automaticamente.
+                </InfoText>
+                <FormGroup>
+                  <Label>URL Externa do Backend</Label>
+                  <Input 
+                    value={backendExternalUrl} 
+                    onChange={(e) => setBackendExternalUrl(e.target.value)} 
+                    placeholder="Ex: https://rh.suaempresa.com"
+                  />
+                </FormGroup>
+              </div>
+
+              {testResult && (
+                <div style={{
+                  padding: '1rem',
+                  borderRadius: '8px',
+                  backgroundColor: testResult.status === 'SUCCESS' ? '#e6f4ea' : (testResult.status === 'WARNING' ? '#fef7e0' : '#fce8e6'),
+                  border: '1px solid',
+                  borderColor: testResult.status === 'SUCCESS' ? '#34a853' : (testResult.status === 'WARNING' ? '#fbc02d' : '#ea4335'),
+                  color: testResult.status === 'SUCCESS' ? '#137333' : (testResult.status === 'WARNING' ? '#b06000' : '#c5221f'),
+                  fontSize: '0.875rem',
+                  fontWeight: 500
+                }}>
+                  {testResult.message}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #dadce0', paddingTop: '1.5rem', marginTop: '1rem' }}>
+                <Button type="button" variant="outline" onClick={handleTestWhatsapp} disabled={testingConnection || !evolutionUrl}>
+                  {testingConnection ? 'Testando...' : 'Testar Conexão WhatsApp'}
+                </Button>
+                <Button type="submit">
+                  <Save size={16} />
+                  Salvar Configurações WhatsApp
+                </Button>
+              </div>
+            </FormContainer>
+          </Card>
+        </div>
+      )}
 
       {/* Planilha Form Modal */}
       <Modal

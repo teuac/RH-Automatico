@@ -64,19 +64,35 @@ def get_dynamic_tab_name(final_date: str, fallback_tab_name: str) -> tuple[str, 
         month_name = get_portuguese_month_name(now.month)
         return f"{month_name} {now.year}", now.year, now.month
         
-    return fallback_tab_name, 2026, 7
+        year = int(date_parts[0])
+        month = int(date_parts[1])
+    else:
+        year = 2026
+        month = 7
+        
+    m_name = get_portuguese_month_name(month)
+    y_short = str(year)[-2:]
+    
+    tab_name = f"{m_name} {y_short}"
+    return tab_name, year, month
+
+def sanitize_date_str(date_input: Any) -> str:
+    if not date_input:
+        return ""
+    if isinstance(date_input, (datetime.date, datetime.datetime)):
+        return date_input.strftime("%Y-%m-%d")
+    d_str = str(date_input).strip()
+    if "/" in d_str:
+        parts = d_str.split("/")
+        if len(parts) == 3:
+            return f"{parts[2]}-{parts[1]}-{parts[0]}"
+    return d_str
 
 class UploadService:
-    """
-    Business logic layer for handling presence file uploads, previewing parsed entries,
-    and synchronizing presence marks with Google Sheets.
-    """
-
     def __init__(self):
         self.parser = IntelligentParser()
 
     def _parse_file(self, content: bytes, filename: str, content_type: str) -> ParsedData:
-        # Check standard formats
         ext = filename.split(".")[-1].lower()
         if ext not in ["txt", "csv", "xlsx"]:
             raise HTTPException(
@@ -99,403 +115,901 @@ class UploadService:
                 detail=f"Erro ao processar conteúdo do arquivo {filename}: {str(e)}"
             )
 
-    def generate_preview(
-        self,
-        db: Session,
-        obra_id: int,
-        planilha_id: int,
-        file_bytes: bytes,
-        filename: str,
-        content_type: str,
-        override_date: Optional[str] = None
-    ) -> Dict[str, Any]:
-        # 1. Fetch Obra
-        obra = obra_repository.get(db, obra_id)
-        if not obra or obra.status != "ATIVO":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Obra não encontrada ou inativa."
-            )
-
-        # 2. Fetch Planilha
-        planilha = planilha_repository.get(db, planilha_id)
-        if not planilha or planilha.status != "ATIVO":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Planilha de destino não encontrada ou inativa."
-            )
-
-        # 3. Parse file contents
-        parsed = self._parse_file(file_bytes, filename, content_type)
-
-        # 4. Determine Date & list of dates to process
-        if override_date:
-            dates_list = [sanitize_date_str(override_date)]
-        else:
-            dates_list = parsed.datas_detectadas or [sanitize_date_str(parsed.data)]
-
-        # Fetch active colaboradores for this Obra
-        from app.repositories.colaborador import colaborador_repository
-        active_colaboradores = colaborador_repository.get_multi(db, limit=1000, obra_id=obra_id, status="ATIVO")
-        db_colabs_by_mat = {c.matricula.strip().lstrip("0"): c for c in active_colaboradores}
-
-        # 5. Perform lightweight pre-validation using Sheets values
-        preview_rows = []
-        sheets_data_by_tab = {}
+    def process_pdf_mirror(self, pdf_bytes: bytes, valor_diario_vt: float, db: Session) -> tuple[bytes, int, str]:
+        import pypdf
+        import io
+        import re
+        import datetime
+        from collections import Counter
         
-        from app.repositories.atestado import atestado_repository
+        pdf_file = io.BytesIO(pdf_bytes)
+        reader = pypdf.PdfReader(pdf_file)
+        
+        # Debugging: write extracted text to a log file
+        try:
+            with open("logs/extracted_pdf_text.txt", "w", encoding="utf-8") as f_debug:
+                for p_idx in range(len(reader.pages)):
+                    p_text = reader.pages[p_idx].extract_text()
+                    f_debug.write(f"--- PAGE {p_idx + 1} ---\n")
+                    f_debug.write(p_text or "[No text extracted]\n")
+                    f_debug.write("\n")
+        except Exception as e_debug:
+            print(f"Error writing debug PDF text: {str(e_debug)}")
 
-        for d in dates_list:
-            # Determine dynamic tab name based on date d
-            tab_name, year, month = get_dynamic_tab_name(d, planilha.nome_aba)
-            
-            # Ensure the sheet tab exists in Google Sheets
-            _, tab_criada = google_sheets_service.ensure_tab_exists(planilha.planilha_google_id, tab_name, year, month, obra.nome)
-            
-            if tab_name not in sheets_data_by_tab:
-                try:
-                    range_name = f"'{tab_name}'!A1:AZ200"
-                    sheet_rows = google_sheets_service.read_sheet_values(planilha.planilha_google_id, range_name)
-                except Exception:
-                    sheet_rows = None
-                sheets_data_by_tab[tab_name] = sheet_rows
-            else:
-                sheet_rows = sheets_data_by_tab[tab_name]
-
-            # Query active atestados for target date d
-            try:
-                target_dt = datetime.datetime.strptime(d, "%Y-%m-%d").date()
-                active_atestados = atestado_repository.get_active_atestados_for_date(db, target_dt, obra_id=obra_id)
-                atestado_colab_ids = {a.colaborador_id for a in active_atestados}
-            except Exception:
-                atestado_colab_ids = set()
-
-            # Separate matching data structures for sheet
-            sheet_employees_matricula = set()
-            sheet_employees_name = []
-            sheet_employees_list = []
-            date_col_exists = False
-
-            if sheet_rows and len(sheet_rows) > 1:
-                headers = [str(cell).strip() for cell in sheet_rows[0]]
-                date_parts = d.split("-")
-                dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
-                dd_mm = f"{date_parts[2]}/{date_parts[1]}" if len(date_parts) == 3 else d
-                date_col_exists = any(h == d or h == dd_mm_yyyy or h == dd_mm for h in headers)
+        collaborators_data = []
+        
+        # Robust day lines pattern matching day/date and weekday, even if squished with previous word/time
+        day_weekday_pattern = re.compile(
+            r"(\d{1,2})(?:/\d{2}(?:/\d{2,4})?)?\s*(?:-\s*|/\s*|\s+)\(?(Seg|Ter|Qua|Qui|Sex|Sáb|Sab|Dom|Segunda|Terça|Terca|Quarta|Quinta|Sexta|Sábado|Sabado|Domingo)\b",
+            re.IGNORECASE
+        )
+        
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text = page.extract_text()
+            if not text:
+                continue
                 
-                for r in sheet_rows[1:]:
-                    if not r:
-                        continue
-                    mat_raw = str(r[0]).strip()
-                    nome_raw = str(r[1]).strip() if len(r) > 1 else ""
-                    if any("terceirizadas" in str(cell).lower() for cell in r[:2]):
-                        break
-                    if mat_raw or nome_raw:
-                        if mat_raw.lower() in ("matricula", "matrícula", "nome", "funcionário", "funcionario"):
-                            continue
-                        clean_m = mat_raw.lstrip("0")
-                        if clean_m:
-                            sheet_employees_matricula.add(clean_m)
-                        if nome_raw:
-                            sheet_employees_name.append(nome_raw.lower())
-                        sheet_employees_list.append({"raw_mat": mat_raw, "clean_mat": clean_m, "nome": nome_raw})
-
-            # Filter parsed employees who belong to this date
-            if override_date:
-                parsed_for_date = parsed.funcionarios
-            else:
-                parsed_for_date = [emp for emp in parsed.funcionarios if emp.data == d]
-
-            matched_db_mats = set()
-
-            # 1. Process parsed employees (Present/Alimentou) for this date
-            for emp in parsed_for_date:
-                clean_mat = emp.matricula.strip().lstrip("0")
-                db_colab = db_colabs_by_mat.get(clean_mat)
-                if db_colab:
-                    matched_db_mats.add(clean_mat)
-                    existe_na_base = True
-                else:
-                    existe_na_base = False
-                    for c_mat, c_obj in db_colabs_by_mat.items():
-                        if emp.nome.lower() == c_obj.nome.lower():
-                            db_colab = c_obj
-                            matched_db_mats.add(c_mat)
-                            existe_na_base = True
-                            break
-
-                found = (clean_mat in sheet_employees_matricula) or any(emp.nome.lower() in n or n in emp.nome.lower() for n in sheet_employees_name) if sheet_rows else True
+            # Parse page text
+            # 1. Period
+            period_match = re.search(r"Espelho\s+de\s+Ponto\s+de\s+(\d{2}/\d{2}/\d{4})\s+até\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"(\d{2}/\d{2}/\d{4})\s+até\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"Espelho\s+de\s+Ponto\s+de\s+(\d{2}/\d{2}/\d{4})\s+ate\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"(\d{2}/\d{2}/\d{4})\s+ate\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
                 
-                situation = "Pronto para importação"
-                if sheet_rows:
-                    if not found:
-                        situation = "Funcionário não encontrado na planilha"
-                    elif not date_col_exists:
-                        date_parts = d.split("-")
-                        dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
-                        situation = f"Coluna de data {dd_mm_yyyy} não encontrada na planilha"
-
-                preview_rows.append({
-                    "matricula": emp.matricula,
-                    "nome": emp.nome,
-                    "horarios": emp.horarios,
-                    "encontrado": found,
-                    "existe_na_base": existe_na_base,
-                    "situacao": situation,
-                    "presenca": "A",
-                    "date": d,
-                    "data": d
-                })
-
-            # 2. Process active db colaboradores not in file for this date (Absent / Falta / Atestado)
-            for c_mat, colab in db_colabs_by_mat.items():
-                if c_mat not in matched_db_mats:
-                    found = (c_mat in sheet_employees_matricula) or any(colab.nome.lower() in n or n in colab.nome.lower() for n in sheet_employees_name) if sheet_rows else True
-                    is_atestado = colab.id in atestado_colab_ids
-                    presenca_mark = "J" if is_atestado else "F"
+            start_date_str = period_match.group(1) if period_match else None
+            end_date_str = period_match.group(2) if period_match else None
+            
+            # 2. Collaborator Name and Matricula (Structured Layout Parser)
+            matricula = None
+            nome = None
+            local_trab = None
+            
+            lines_clean = [l.strip() for l in text.split('\n') if l.strip()]
+            colab_idx = -1
+            for idx, line in enumerate(lines_clean):
+                if "Dados do Colaborador" in line:
+                    colab_idx = idx
+                    break
                     
-                    if is_atestado:
-                        situation = "Atestado Médico Vigente (Justificado)"
-                    else:
-                        situation = "Falta (Não encontrado no arquivo)"
-                        if sheet_rows:
-                            if not found:
-                                situation = "Falta (Não encontrado no arquivo e nem na planilha)"
-                            elif not date_col_exists:
-                                date_parts = d.split("-")
-                                dd_mm_yyyy = f"{date_parts[2]}/{date_parts[1]}/{date_parts[0]}" if len(date_parts) == 3 else d
-                                situation = f"Falta - Coluna de data {dd_mm_yyyy} não encontrada na planilha"
-
-                    preview_rows.append({
-                        "matricula": colab.matricula,
-                        "nome": colab.nome,
-                        "horarios": [],
-                        "encontrado": found,
-                        "existe_na_base": True,
-                        "situacao": situation,
-                        "presenca": presenca_mark,
-                        "date": d,
-                        "data": d
-                    })
-
-            # 3. Process sheet employees who are in this tab but not in file or DB for this date
-            if sheet_rows:
-                processed_mats = {p["matricula"].strip().lstrip("0") for p in preview_rows if p.get("date") == d and p.get("matricula")}
-                processed_names = {p["nome"].strip().lower() for p in preview_rows if p.get("date") == d and p.get("nome")}
+            if colab_idx != -1:
+                val_line = None
+                for i in range(colab_idx + 1, min(colab_idx + 8, len(lines_clean))):
+                    # Match pattern of "<alphanumeric matricula> - <name>"
+                    if re.match(r"^[A-Z0-9]+?\s*-\s*[A-Za-zÀ-ÿ\s\.\-\(\)]+$", lines_clean[i], re.IGNORECASE):
+                        val_line = lines_clean[i]
+                        if i + 1 < len(lines_clean):
+                            local_trab = lines_clean[i+1]
+                        break
                 
-                for s_emp in sheet_employees_list:
-                    cm = s_emp["clean_mat"]
-                    nm = s_emp["nome"].strip().lower()
-                    if (cm and cm not in processed_mats) and (nm not in processed_names):
-                        db_colab = db_colabs_by_mat.get(cm)
-                        if not db_colab and nm:
-                            for c_obj in db_colabs_by_mat.values():
-                                if c_obj.nome.strip().lower() == nm:
-                                    db_colab = c_obj
-                                    break
-                                    
-                        is_atestado = db_colab.id in atestado_colab_ids if db_colab else False
-                        presenca_mark = "J" if is_atestado else "F"
-                        
-                        situation = "Atestado Médico Vigente (Justificado)" if is_atestado else "Falta (Registrado na planilha, ausente no arquivo)"
-                        
-                        preview_rows.append({
-                            "matricula": s_emp["raw_mat"],
-                            "nome": s_emp["nome"],
-                            "horarios": [],
-                            "encontrado": True,
-                            "existe_na_base": True if db_colab else False,
-                            "situacao": situation,
-                            "presenca": presenca_mark,
-                            "date": d,
-                            "data": d
-                        })
-
-        tab_name_last = None
-        tab_criada_last = False
-        if dates_list:
-            last_date = dates_list[-1]
-            tab_name_last, year, month = get_dynamic_tab_name(last_date, planilha.nome_aba)
+                if val_line:
+                    match_val = re.match(r"^([A-Z0-9]+?)\s*-\s*(.+)$", val_line)
+                    if match_val:
+                        matricula = match_val.group(1).strip()
+                        nome = match_val.group(2).strip()
             
-        return {
-            "obra_id": obra.id,
-            "obra_nome": obra.nome,
-            "planilha_id": planilha.id,
-            "planilha_nome": planilha.nome,
-            "data": dates_list[0] if dates_list else final_date,
-            "datas_detectadas": dates_list,
-            "planilha_google_id": planilha.planilha_google_id,
-            "nome_aba": tab_name_last,
-            "aba_criada": tab_criada,
-            "funcionarios": preview_rows,
-            "linhas_preview": preview_rows
-        }
+            # Fallback regexes if not found by structural parser
+            if not nome:
+                combined_match = re.search(
+                    r"(?:Nome|Colaborador|Funcionario|Funcionário|Empregado|Trabalhador)\s*:?\s*([A-Z0-9]+)\s*-\s*([^\n\r]+)",
+                    text, re.IGNORECASE
+                )
+                if combined_match:
+                    matricula = combined_match.group(1).strip()
+                    nome_raw = combined_match.group(2).strip()
+                    nome_cleaned = re.split(
+                        r"\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)",
+                        nome_raw, flags=re.IGNORECASE
+                    )[0]
+                    nome = nome_cleaned.strip()
+                else:
+                    name_match = re.search(
+                        r"(?:Nome|Colaborador|Funcionario|Funcionário|Empregado|Trabalhador|Nome\s+do\s+Trabalhador)\s*:?\s*([^\n\r\t]+?)(?:\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)|\r|\n|$)",
+                        text, re.IGNORECASE
+                    )
+                    if name_match:
+                        nome = name_match.group(1).strip()
+                    
+                    mat_match = re.search(
+                        r"(?:Matrícula|Matricula|Cadastro|Registro|Chapa|Cód\.?\s+Folha|Código|Codigo)\s*:?\s*([A-Z0-9]+)",
+                        text, re.IGNORECASE
+                    )
+                    if mat_match:
+                        matricula = mat_match.group(1).strip()
+            
+            # Final Fallbacks
+            if not nome:
+                nome = f"Colaborador {page_num + 1}"
+            if not matricula:
+                matricula = "Desconhecido"
+                
+            # 3. Local Trab
+            if not local_trab or local_trab == "Desconhecido":
+                local_match = re.search(
+                    r"(?:Local\s+Trab|Centro\s+de\s+Custo|CC|Departamento|Setor|Seção|Secao)\s*:?\s*([^\n\r\t]+?)(?:\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)|\r|\n|$)",
+                    text, re.IGNORECASE
+                )
+                local_trab = local_match.group(1).strip() if local_match else "Desconhecido"
+            
+            # 4. Day lines matching
+            lines = text.split('\n')
+            day_lines = []
+            for line in lines:
+                if day_weekday_pattern.search(line):
+                    day_lines.append(line.strip())
+                    
+            # 5. Extract all Jornada times to identify the scheduled shift
+            jornada_times_list = []
+            for line in day_lines:
+                jornada_match = re.search(r"\b(?:Jornada|Horário|Horario|Escala)\s*:?\s*(.*)$", line, re.IGNORECASE)
+                if jornada_match:
+                    jornada_part = jornada_match.group(1)
+                    # Use \b\d{2}:\d{2} to find times even if squished with day number at the end
+                    times = re.findall(r"\b\d{2}:\d{2}", jornada_part)
+                    if times:
+                        jornada_times_list.append(times)
+                        
+            # Longest common prefix of jornada_times_list
+            scheduled_shift = []
+            if jornada_times_list:
+                min_len = min(len(lst) for lst in jornada_times_list)
+                for i in range(min_len):
+                    val = jornada_times_list[0][i]
+                    if all(len(lst) > i and lst[i] == val for lst in jornada_times_list):
+                        scheduled_shift.append(val)
+                    else:
+                        break
+                        
+            # 6. Parse presences for each day number
+            presences = {}
+            for line in day_lines:
+                match = day_weekday_pattern.search(line)
+                if not match:
+                    continue
+                day_num = int(match.group(1))
+                
+                # Find all timestamps on this line (without trailing word boundary \b to support squished strings like 17:0922)
+                all_times = re.findall(r"\b\d{2}:\d{2}", line)
+                
+                # Check for Jornada part
+                jornada_match = re.search(r"\b(?:Jornada|Horário|Horario|Escala)\s*:?\s*(.*)$", line, re.IGNORECASE)
+                has_jornada_keyword = False
+                jornada_part_str = ""
+                if jornada_match:
+                    has_jornada_keyword = True
+                    jornada_part_str = jornada_match.group(1)
+                    
+                actual_markings = []
+                if has_jornada_keyword:
+                    times_after_jornada = re.findall(r"\b\d{2}:\d{2}", jornada_part_str)
+                    num_scheduled = len(scheduled_shift)
+                    if len(times_after_jornada) > num_scheduled:
+                        actual_markings = times_after_jornada[num_scheduled:]
+                    else:
+                        actual_markings = []
+                else:
+                    actual_markings = all_times
+                    
+                weekday_str = match.group(2).lower()
+                is_weekend = weekday_str in ("sab", "sáb", "sabado", "sábado", "dom", "domingo")
+                
+                if is_weekend:
+                    presence = 1 if len(actual_markings) > 0 else 0
+                else:
+                    # Monday to Friday
+                    line_lower = line.lower()
+                    has_falta = "falta" in line_lower
+                    has_exame = "exame periodico" in line_lower or "exame periódico" in line_lower
+                    
+                    presence = 0 if (has_falta and not has_exame) else 1
+                    
+                presences[day_num] = presence
+                
+            if presences or (nome and matricula and matricula != "Desconhecido"):
+                collaborators_data.append({
+                    "start_date": start_date_str,
+                    "end_date": end_date_str,
+                    "matricula": matricula,
+                    "nome": nome,
+                    "local_trab": local_trab,
+                    "presences": presences
+                })
+            
+        if not collaborators_data:
+            raise ValueError("Nenhum dado de colaborador pôde ser extraído do PDF.")
+            
+        # Sort collaborators alphabetically by name
+        collaborators_data.sort(key=lambda x: x["nome"].lower())
+            
+        # Find most common period
+        periods = [(c["start_date"], c["end_date"]) for c in collaborators_data if c["start_date"] and c["end_date"]]
+        if periods:
+            master_start, master_end = Counter(periods).most_common(1)[0][0]
+        else:
+            raise ValueError("Não foi possível detectar o período do espelho de ponto no PDF.")
+            
+        # Generate all dates in range
+        start_date = datetime.datetime.strptime(master_start, "%d/%m/%Y").date()
+        end_date = datetime.datetime.strptime(master_end, "%d/%m/%Y").date()
+        
+        dates_list = []
+        curr = start_date
+        while curr <= end_date:
+            dates_list.append(curr)
+            curr += datetime.timedelta(days=1)
+            
+        # Generate Styled Excel Spreadsheet
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+        from openpyxl.utils import get_column_letter
+        
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Relatorio VT"
+        
+        ws.views.sheetView[0].showGridLines = True
+        
+        font_family = "Segoe UI"
+        title_font = Font(name=font_family, size=16, bold=True, color="1B365D")
+        subtitle_font = Font(name=font_family, size=10, italic=True, color="555555")
+        header_font = Font(name=font_family, size=11, bold=True, color="FFFFFF")
+        data_font = Font(name=font_family, size=10)
+        bold_data_font = Font(name=font_family, size=10, bold=True)
+        
+        header_fill = PatternFill(start_color="1B365D", end_color="1B365D", fill_type="solid")
+        zebra_fill = PatternFill(start_color="F2F4F8", end_color="F2F4F8", fill_type="solid")
+        white_fill = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
+        summary_fill = PatternFill(start_color="E9EEF4", end_color="E9EEF4", fill_type="solid")
+        
+        presence_1_fill = PatternFill(start_color="E6F4EA", end_color="E6F4EA", fill_type="solid")
+        presence_1_font = Font(name=font_family, size=10, color="137333", bold=True)
+        
+        presence_0_fill = PatternFill(start_color="FCE8E6", end_color="FCE8E6", fill_type="solid")
+        presence_0_font = Font(name=font_family, size=10, color="C5221F")
+        
+        thin_border_side = Side(border_style="thin", color="D9D9D9")
+        thin_border = Border(left=thin_border_side, right=thin_border_side, top=thin_border_side, bottom=thin_border_side)
+        
+        # Title Block
+        ws.merge_cells("A1:G1")
+        ws["A1"] = "RELATÓRIO DE VALE TRANSPORTE E PRESENÇAS"
+        ws["A1"].font = title_font
+        
+        ws.merge_cells("A2:G2")
+        ws["A2"] = f"Período correspondente: {master_start} até {master_end}"
+        ws["A2"].font = subtitle_font
+        
+        # Headers Setup
+        headers = ["Matrícula", "Nome do Colaborador", "Centro de Custo"]
+        for d in dates_list:
+            headers.append(d.strftime("%d/%m"))
+        headers += ["Dias Trabalhados", "Valor Diário VT", "Total VT"]
+        
+        header_row = 4
+        for col_idx, h in enumerate(headers, start=1):
+            cell = ws.cell(row=header_row, column=col_idx)
+            cell.value = h
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+            cell.border = thin_border
+            
+        ws.row_dimensions[header_row].height = 28
+        
+        # Data Rows
+        start_data_row = 5
+        for row_idx, colab in enumerate(collaborators_data, start=start_data_row):
+            row_fill = zebra_fill if row_idx % 2 == 0 else white_fill
+            
+            # Col A: Matricula
+            cell_mat = ws.cell(row=row_idx, column=1, value=colab["matricula"])
+            cell_mat.font = data_font
+            cell_mat.fill = row_fill
+            cell_mat.border = thin_border
+            cell_mat.alignment = Alignment(horizontal="center")
+            
+            # Col B: Nome
+            cell_nome = ws.cell(row=row_idx, column=2, value=colab["nome"])
+            cell_nome.font = data_font
+            cell_nome.fill = row_fill
+            cell_nome.border = thin_border
+            cell_nome.alignment = Alignment(horizontal="left")
+            
+            # Col C: Centro de Custo
+            cell_cc = ws.cell(row=row_idx, column=3, value=colab["local_trab"])
+            cell_cc.font = data_font
+            cell_cc.fill = row_fill
+            cell_cc.border = thin_border
+            cell_cc.alignment = Alignment(horizontal="left")
+            
+            # Presence columns
+            num_date_cols = len(dates_list)
+            presences_dict = colab.get("presences", {})
+            
+            for date_idx, d in enumerate(dates_list):
+                day_num = d.day
+                presence_val = presences_dict.get(day_num, 0)
+                col_pos = 4 + date_idx
+                
+                cell_pres = ws.cell(row=row_idx, column=col_pos, value=presence_val)
+                cell_pres.border = thin_border
+                cell_pres.alignment = Alignment(horizontal="center")
+                
+                if presence_val == 1:
+                    cell_pres.fill = presence_1_fill
+                    cell_pres.font = presence_1_font
+                else:
+                    cell_pres.fill = presence_0_fill
+                    cell_pres.font = presence_0_font
+                    
+            # Dias Trabalhados formula: =SUM(D{row}:[LastDateCol]{row})
+            first_date_col = get_column_letter(4)
+            last_date_col = get_column_letter(3 + num_date_cols)
+            col_dias = 4 + num_date_cols
+            
+            cell_dias = ws.cell(row=row_idx, column=col_dias)
+            cell_dias.value = f"=SUM({first_date_col}{row_idx}:{last_date_col}{row_idx})"
+            cell_dias.font = bold_data_font
+            cell_dias.fill = summary_fill
+            cell_dias.border = thin_border
+            cell_dias.alignment = Alignment(horizontal="center")
+            
+            # Valor Diário VT
+            col_val_vt = col_dias + 1
+            cell_val_vt = ws.cell(row=row_idx, column=col_val_vt, value=valor_diario_vt)
+            cell_val_vt.font = data_font
+            cell_val_vt.fill = row_fill
+            cell_val_vt.border = thin_border
+            cell_val_vt.number_format = '"R$ "#,##0.00'
+            cell_val_vt.alignment = Alignment(horizontal="right")
+            
+            # Total VT formula
+            col_total = col_val_vt + 1
+            cell_total = ws.cell(row=row_idx, column=col_total)
+            dias_letter = get_column_letter(col_dias)
+            val_vt_letter = get_column_letter(col_val_vt)
+            cell_total.value = f"={dias_letter}{row_idx}*{val_vt_letter}{row_idx}"
+            cell_total.font = bold_data_font
+            cell_total.fill = summary_fill
+            cell_total.border = thin_border
+            cell_total.number_format = '"R$ "#,##0.00'
+            cell_total.alignment = Alignment(horizontal="right")
+            
+            ws.row_dimensions[row_idx].height = 20
+            
+        # Summary Row at the bottom
+        last_row = start_data_row + len(collaborators_data) - 1
+        total_row_idx = last_row + 2
+        
+        cell_total_label = ws.cell(row=total_row_idx, column=3, value="Total Geral")
+        cell_total_label.font = Font(name=font_family, size=11, bold=True, color="1B365D")
+        cell_total_label.alignment = Alignment(horizontal="right")
+        
+        # SUM of Dias Trabalhados
+        col_dias = 4 + len(dates_list)
+        dias_letter = get_column_letter(col_dias)
+        cell_total_dias = ws.cell(row=total_row_idx, column=col_dias)
+        cell_total_dias.value = f"=SUM({dias_letter}5:{dias_letter}{last_row})"
+        cell_total_dias.font = Font(name=font_family, size=11, bold=True)
+        cell_total_dias.border = Border(top=Side(style="double", color="1B365D"))
+        cell_total_dias.alignment = Alignment(horizontal="center")
+        
+        # SUM of Total VT
+        col_total = col_dias + 2
+        total_letter = get_column_letter(col_total)
+        cell_total_val = ws.cell(row=total_row_idx, column=col_total)
+        cell_total_val.value = f"=SUM({total_letter}5:{total_letter}{last_row})"
+        cell_total_val.font = Font(name=font_family, size=11, bold=True)
+        cell_total_val.border = Border(top=Side(style="double", color="1B365D"))
+        cell_total_val.number_format = '"R$ "#,##0.00'
+        cell_total_val.alignment = Alignment(horizontal="right")
+        
+        # Auto-fit columns
+        for col in ws.columns:
+            col_letter = get_column_letter(col[0].column)
+            max_len = 0
+            for cell in col:
+                if cell.row in (1, 2, total_row_idx):
+                    continue
+                if cell.value is not None:
+                    val_str = str(cell.value)
+                    if val_str.startswith("="):
+                        max_len = max(max_len, 10)
+                    else:
+                        max_len = max(max_len, len(val_str))
+            ws.column_dimensions[col_letter].width = max(max_len + 4, 10)
+            
+        ws.column_dimensions['B'].width = 30
+        ws.column_dimensions['C'].width = 25
+        
+        # Save to bytes
+        excel_buf = io.BytesIO()
+        wb.save(excel_buf)
+        excel_buf.seek(0)
+        return excel_buf.getvalue()
 
-    def commit_sync(
+    def process_pdf_alimentation(
         self,
+        pdf_bytes: bytes,
+        tipo_refeicao: str,
         db: Session,
-        user: User,
-        ip_address: str,
-        user_agent: str,
-        obra_id: int,
-        planilha_id: int,
-        date_str: str,
-        filename: str,
-        funcionarios_data: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
-        # 1. Fetch Obra
-        obra = obra_repository.get(db, obra_id)
-        if not obra or obra.status != "ATIVO":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Obra não encontrada ou inativa."
-            )
-
-        # 2. Fetch Planilha
-        planilha = planilha_repository.get(db, planilha_id)
-        if not planilha or planilha.status != "ATIVO":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Planilha de destino não encontrada ou inativa."
-            )
-
-        start_time = time.time()
+        obra_id: Optional[int] = None,
+        planilha_id: Optional[int] = None
+    ) -> tuple[bytes, int, int, str, str]:
+        import pypdf
+        import io
+        import re
+        import datetime
+        from collections import Counter
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+        from openpyxl.utils import get_column_letter
         
-        updated_count = 0
-        ignored_count = 0
-        pending_count = 0
-        total_employees = len(funcionarios_data)
-
-        # Create Upload Record
-        db_upload = upload_repository.create(db, {
-            "user_id": user.id,
-            "obra_id": obra.id,
-            "planilha_id": planilha.id,
-            "filename": filename,
-            "total_employees": total_employees,
-            "updated_count": 0,
-            "ignored_count": 0,
-            "pending_count": 0,
-            "processing_time_ms": 0.0
-        })
-
-        pending_records_to_create = []
-
-        # Normalize main date_str (used as fallback for employees without individual date)
-        date_str = sanitize_date_str(date_str)
-
-        # Group employees by sheet tab name
-        from collections import defaultdict
-        groups_by_tab: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
-        tab_dates_map = defaultdict(set)
+        from app.repositories.obra import obra_repository
+        from app.repositories.planilha import planilha_repository
+        from app.repositories.colaborador import colaborador_repository
+        from app.models.obra import Obra
+        from app.models.planilha import Planilha
         
-        for emp in funcionarios_data:
-            emp_date = sanitize_date_str(emp.get("date") or emp.get("data") or date_str)
-            tab_name, year, month = get_dynamic_tab_name(emp_date, planilha.nome_aba)
-            groups_by_tab[tab_name].append(emp)
-            tab_dates_map[tab_name].add(emp_date)
-
-        aba_criada = False
-        tab_name_last = None
-
-        for tab_name, tab_emps in groups_by_tab.items():
-            tab_name_last = tab_name
+        # 1. Parse PDF Mirror point markings
+        pdf_file = io.BytesIO(pdf_bytes)
+        reader = pypdf.PdfReader(pdf_file)
+        
+        collaborators_data = []
+        
+        day_weekday_pattern = re.compile(
+            r"(\d{1,2})(?:/\d{2}(?:/\d{2,4})?)?\s*(?:-\s*|/\s*|\s+)\(?(Seg|Ter|Qua|Qui|Sex|Sáb|Sab|Dom|Segunda|Terça|Terca|Quarta|Quinta|Sexta|Sábado|Sabado|Domingo)\b",
+            re.IGNORECASE
+        )
+        
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text = page.extract_text()
+            if not text:
+                continue
+                
+            # Parse page text for period
+            period_match = re.search(r"Espelho\s+de\s+Ponto\s+de\s+(\d{2}/\d{2}/\d{4})\s+até\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"(\d{2}/\d{2}/\d{4})\s+até\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"Espelho\s+de\s+Ponto\s+de\s+(\d{2}/\d{2}/\d{4})\s+ate\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+            if not period_match:
+                period_match = re.search(r"(\d{2}/\d{2}/\d{4})\s+ate\s+(\d{2}/\d{2}/\d{4})", text, re.IGNORECASE)
+                
+            start_date_str = period_match.group(1) if period_match else None
+            end_date_str = period_match.group(2) if period_match else None
             
-            # Determine month/year from first date in group to check/ensure tab exists
-            dates_in_tab = sorted(list(tab_dates_map[tab_name]))
-            first_date = dates_in_tab[0] if dates_in_tab else date_str
-            date_parts = first_date.split("-")
-            year = int(date_parts[0]) if len(date_parts) == 3 else 2026
-            month = int(date_parts[1]) if len(date_parts) == 3 else 7
-
-            _, _tab_criada = google_sheets_service.ensure_tab_exists(
-                planilha.planilha_google_id, tab_name, year, month, obra.nome
-            )
-            if _tab_criada:
-                aba_criada = True
-
-            # Synchronize in batch via Sheets Service (1 Read + 1 Write API call per tab group)
-            batch_results = google_sheets_service.batch_sync_presence(
-                spreadsheet_id=planilha.planilha_google_id,
-                tab_name=tab_name,
-                date_str=first_date,
-                employees=tab_emps
-            )
-
-            # Process results and tally statistics
-            emp_map = {e.get("matricula", ""): e for e in tab_emps}
-
-            for mat, status_result, details in batch_results:
-                emp = emp_map.get(mat, {})
-                nome = emp.get("nome", "Desconhecido")
-                horarios = emp.get("horarios", [])
-                emp_individual_date = sanitize_date_str(emp.get("date") or emp.get("data") or first_date)
-
-                if status_result == "ATUALIZADO":
-                    updated_count += 1
-                elif status_result == "IGNORADO":
-                    ignored_count += 1
-                else:  # PENDENTE / ERRO
-                    pending_count += 1
-                    pending_records_to_create.append({
-                        "upload_id": db_upload.id,
-                        "employee_id": str(mat)[:50] if mat else None,
-                        "employee_name": str(nome)[:255] if nome else "Desconhecido",
-                        "date": str(emp_individual_date)[:50],
-                        "times": " ".join(horarios)[:255] if horarios else "",
-                        "status": "PENDENTE",
-                        "reason": str(details)[:255] if details else None
-                    })
-
-        # Insert pending records if any
-        for pending_data in pending_records_to_create:
-            pending_record_repository.create(db, pending_data)
-
-        end_time = time.time()
-        processing_time_ms = (end_time - start_time) * 1000
-
-        # Update Upload statistics
-        upload_repository.update(db, db_upload, {
-            "updated_count": updated_count,
-            "ignored_count": ignored_count,
-            "pending_count": pending_count,
-            "processing_time_ms": processing_time_ms
-        })
-
-        # Log Audit Trail
-        all_unique_dates = sorted(list({sanitize_date_str(emp.get("date") or emp.get("data") or date_str) for emp in funcionarios_data}))
-        dates_label = ", ".join(all_unique_dates)
-        audit_description = (
-            f"Processamento de planilha de alimentação da obra '{obra.nome}'. "
-            f"Datas: {dates_label}. "
-            f"Total: {total_employees}, Importados: {updated_count}, "
-            f"Ignorados: {ignored_count}, Pendentes: {pending_count}."
-        )
-        audit_repository.log(
-            db=db,
-            user_id=user.id,
-            user_name=user.full_name,
-            user_email=user.email,
-            ip_address=ip_address,
-            user_agent=user_agent,
-            module="Alimentacao",
-            screen="Alimentacao",
-            action="IMPORT",
-            description=audit_description,
-            object_changed="uploads",
-            object_id=str(db_upload.id),
-            result="SUCESSO" if pending_count == 0 else "SUCESSO_COM_PENDENCIAS"
-        )
-
-        return {
-            "upload_id": db_upload.id,
-            "total_employees": total_employees,
-            "updated": updated_count,
-            "ignored": ignored_count,
-            "pending": pending_count,
-            "processing_time_ms": processing_time_ms,
-            "aba_criada": aba_criada,
-            "nome_aba": tab_name_last
-        }
+            # Collaborator Name and Matricula
+            matricula = None
+            nome = None
+            local_trab = None
+            
+            lines_clean = [l.strip() for l in text.split('\n') if l.strip()]
+            colab_idx = -1
+            for idx, line in enumerate(lines_clean):
+                if "Dados do Colaborador" in line:
+                    colab_idx = idx
+                    break
+                    
+            if colab_idx != -1:
+                val_line = None
+                for i in range(colab_idx + 1, min(colab_idx + 8, len(lines_clean))):
+                    if re.match(r"^[A-Z0-9]+?\s*-\s*[A-Za-zÀ-ÿ\s\.\-\(\)]+$", lines_clean[i], re.IGNORECASE):
+                        val_line = lines_clean[i]
+                        if i + 1 < len(lines_clean):
+                            local_trab = lines_clean[i+1]
+                        break
+                
+                if val_line:
+                    match_val = re.match(r"^([A-Z0-9]+?)\s*-\s*(.+)$", val_line)
+                    if match_val:
+                        matricula = match_val.group(1).strip()
+                        nome = match_val.group(2).strip()
+            
+            if not nome:
+                combined_match = re.search(
+                    r"(?:Nome|Colaborador|Funcionario|Funcionário|Empregado|Trabalhador)\s*:?\s*([A-Z0-9]+)\s*-\s*([^\n\r]+)",
+                    text, re.IGNORECASE
+                )
+                if combined_match:
+                    matricula = combined_match.group(1).strip()
+                    nome_raw = combined_match.group(2).strip()
+                    nome_cleaned = re.split(
+                        r"\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)",
+                        nome_raw, flags=re.IGNORECASE
+                    )[0]
+                    nome = nome_cleaned.strip()
+                else:
+                    name_match = re.search(
+                        r"(?:Nome|Colaborador|Funcionario|Funcionário|Empregado|Trabalhador|Nome\s+do\s+Trabalhador)\s*:?\s*([^\n\r\t]+?)(?:\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)|\r|\n|$)",
+                        text, re.IGNORECASE
+                    )
+                    if name_match:
+                        nome = name_match.group(1).strip()
+                    
+                    mat_match = re.search(
+                        r"(?:Matrícula|Matricula|Cadastro|Registro|Chapa|Cód\.?\s+Folha|Código|Codigo)\s*:?\s*([A-Z0-9]+)",
+                        text, re.IGNORECASE
+                    )
+                    if mat_match:
+                        matricula = mat_match.group(1).strip()
+            
+            if not nome:
+                nome = f"Colaborador {page_num + 1}"
+            if not matricula:
+                matricula = "Desconhecido"
+                
+            if not local_trab or local_trab == "Desconhecido":
+                local_match = re.search(
+                    r"(?:Local\s+Trab|Centro\s+de\s+Custo|CC|Departamento|Setor|Seção|Secao)\s*:?\s*([^\n\r\t]+?)(?:\s{2,}|\s+(?:Matrícula|Matricula|PIS|CPF|Admissão|Admissao|Cargo|CTPS)|\r|\n|$)",
+                    text, re.IGNORECASE
+                )
+                local_trab = local_match.group(1).strip() if local_match else "Desconhecido"
+            
+            # Day lines matching
+            lines = text.split('\n')
+            day_lines = []
+            for line in lines:
+                if day_weekday_pattern.search(line):
+                    day_lines.append(line.strip())
+                    
+            # Extract Scheduled shift
+            jornada_times_list = []
+            for line in day_lines:
+                jornada_match = re.search(r"\b(?:Jornada|Horário|Horario|Escala)\s*:?\s*(.*)$", line, re.IGNORECASE)
+                if jornada_match:
+                    jornada_part = jornada_match.group(1)
+                    times = re.findall(r"\b\d{2}:\d{2}", jornada_part)
+                    if times:
+                        jornada_times_list.append(times)
+                        
+            scheduled_shift = []
+            if jornada_times_list:
+                min_len = min(len(lst) for lst in jornada_times_list)
+                for i in range(min_len):
+                    val = jornada_times_list[0][i]
+                    if all(len(lst) > i and lst[i] == val for lst in jornada_times_list):
+                        scheduled_shift.append(val)
+                    else:
+                        break
+                        
+            # Parse markings for each day number
+            presences = {}
+            for line in day_lines:
+                match = day_weekday_pattern.search(line)
+                if not match:
+                    continue
+                day_num = int(match.group(1))
+                
+                # Find all timestamps on this line
+                all_times = re.findall(r"\b\d{2}:\d{2}", line)
+                
+                # Check for Jornada part
+                jornada_match = re.search(r"\b(?:Jornada|Horário|Horario|Escala)\s*:?\s*(.*)$", line, re.IGNORECASE)
+                has_jornada_keyword = False
+                jornada_part_str = ""
+                if jornada_match:
+                    has_jornada_keyword = True
+                    jornada_part_str = jornada_match.group(1)
+                    
+                actual_markings = []
+                if has_jornada_keyword:
+                    times_after_jornada = re.findall(r"\b\d{2}:\d{2}", jornada_part_str)
+                    num_scheduled = len(scheduled_shift)
+                    if len(times_after_jornada) > num_scheduled:
+                        actual_markings = times_after_jornada[num_scheduled:]
+                    else:
+                        actual_markings = []
+                else:
+                    actual_markings = all_times
+                
+                # Calculate Alimentação Presence
+                if tipo_refeicao == "almoco":
+                    presence_val = 1 if len(actual_markings) > 0 else 0
+                else:  # jantar
+                    has_marking_after_18 = False
+                    for t in actual_markings:
+                        try:
+                            h, m = map(int, t.split(":"))
+                            if h >= 18:
+                                has_marking_after_18 = True
+                                break
+                        except Exception:
+                            pass
+                    presence_val = 1 if has_marking_after_18 else 0
+                
+                presences[day_num] = presence_val
+                
+            if presences or (nome and matricula and matricula != "Desconhecido"):
+                collaborators_data.append({
+                    "start_date": start_date_str,
+                    "end_date": end_date_str,
+                    "matricula": matricula,
+                    "nome": nome,
+                    "local_trab": local_trab,
+                    "presences": presences
+                })
+                
+        if not collaborators_data:
+            raise ValueError("Nenhum dado de colaborador pôde ser extraído do PDF.")
+            
+        collaborators_data.sort(key=lambda x: x["nome"].lower())
+        
+        # Find period
+        periods = [(c["start_date"], c["end_date"]) for c in collaborators_data if c["start_date"] and c["end_date"]]
+        if periods:
+            master_start, master_end = Counter(periods).most_common(1)[0][0]
+        else:
+            raise ValueError("Não foi possível detectar o período do espelho de ponto no PDF.")
+            
+        # Generate dates list
+        start_date = datetime.datetime.strptime(master_start, "%d/%m/%Y").date()
+        end_date = datetime.datetime.strptime(master_end, "%d/%m/%Y").date()
+        
+        dates_list = []
+        curr = start_date
+        while curr <= end_date:
+            dates_list.append(curr)
+            curr += datetime.timedelta(days=1)
+            
+        # 2. Fetch or Auto-Detect Obra & Planilha info for report metadata
+        if not obra_id or not planilha_id:
+            # Query all active Obras
+            all_obras = db.query(Obra).filter(Obra.status == "ATIVO").all()
+            
+            # Determine the most common local_trab
+            local_trabs = [c["local_trab"] for c in collaborators_data if c.get("local_trab") and c["local_trab"] != "Desconhecido"]
+            
+            if not local_trabs:
+                raise ValueError("Não foi possível identificar o Local de Trabalho (Obra) no PDF.")
+                
+            most_common_local = Counter(local_trabs).most_common(1)[0][0]
+            
+            # Clean string helper
+            def normalize_str(s: str) -> str:
+                import unicodedata
+                if not s:
+                    return ""
+                s = s.strip().lower()
+                # Remove accents
+                s = "".join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+                return s
+                
+            norm_local = normalize_str(most_common_local)
+            
+            matched_obra = None
+            for o in all_obras:
+                norm_obra_name = normalize_str(o.nome)
+                norm_obra_code = normalize_str(o.codigo)
+                
+                # Match if names are equal, or one is substring of the other, or matches code
+                if norm_local == norm_obra_name or norm_obra_name in norm_local or norm_local in norm_obra_name:
+                    matched_obra = o
+                    break
+                if norm_obra_code and norm_obra_code in norm_local:
+                    matched_obra = o
+                    break
+                    
+            if not matched_obra:
+                raise ValueError(f"Não foi possível encontrar uma Obra cadastrada correspondente a '{most_common_local}' no PDF.")
+                
+            obra = matched_obra
+            obra_id = matched_obra.id
+            
+            # Now find the planilha for this Obra
+            planilha = db.query(Planilha).filter(
+                Planilha.obra_id == matched_obra.id,
+                Planilha.automacao == "ALIMENTACAO",
+                Planilha.status == "ATIVO"
+            ).first()
+            
+            if not planilha:
+                raise ValueError(f"Não foi encontrada nenhuma Planilha ativa de Alimentação configurada para a Obra '{matched_obra.nome}'.")
+                
+            planilha_id = planilha.id
+        else:
+            obra = obra_repository.get(db, obra_id)
+            planilha = planilha_repository.get(db, planilha_id)
+            
+        obra_nome = obra.nome if obra else "Desconhecida"
+        planilha_nome = planilha.nome if planilha else "Desconhecida"
+        
+        # Fetch DB active colaboradores for matching
+        active_colabs = colaborador_repository.get_multi(db, limit=1000, obra_id=obra_id, status="ATIVO")
+        db_mats = {c.matricula.strip().lstrip("0"): c for c in active_colabs}
+        
+        # Build list of final output records
+        final_list = []
+        processed_db_mats = set()
+        
+        # Add PDF collaborators
+        for colab in collaborators_data:
+            mat_clean = colab["matricula"].strip().lstrip("0")
+            matched_c = db_mats.get(mat_clean)
+            
+            nome_final = matched_c.nome if matched_c else colab["nome"]
+            local_trab_final = colab["local_trab"]
+            
+            if matched_c:
+                processed_db_mats.add(mat_clean)
+                
+            final_list.append({
+                "matricula": colab["matricula"],
+                "nome": nome_final,
+                "local_trab": local_trab_final,
+                "presences": colab["presences"]
+            })
+            
+        # Add active DB colaboradores not in PDF (marked with 0 meals)
+        for c_mat, c_obj in db_mats.items():
+            if c_mat not in processed_db_mats:
+                final_list.append({
+                    "matricula": c_obj.matricula,
+                    "nome": c_obj.nome,
+                    "local_trab": obra_nome,
+                    "presences": {}
+                })
+                
+        # Sort again by name
+        final_list.sort(key=lambda x: x["nome"].lower())
+        
+        # Generate Styled Excel Spreadsheet
+        wb = Workbook()
+        ws = wb.active
+        ws.title = f"Alimentacao {tipo_refeicao.capitalize()}"
+        ws.views.sheetView[0].showGridLines = True
+        
+        font_family = "Segoe UI"
+        title_font = Font(name=font_family, size=16, bold=True, color="2E7D32") # Green for food
+        subtitle_font = Font(name=font_family, size=10, italic=True, color="555555")
+        header_font = Font(name=font_family, size=11, bold=True, color="FFFFFF")
+        data_font = Font(name=font_family, size=10)
+        bold_data_font = Font(name=font_family, size=10, bold=True)
+        
+        header_fill = PatternFill(start_color="2E7D32", end_color="2E7D32", fill_type="solid")
+        zebra_fill = PatternFill(start_color="F1F8E9", end_color="F1F8E9", fill_type="solid") # Soft green zebra tint
+        white_fill = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
+        summary_fill = PatternFill(start_color="DCEDC8", end_color="DCEDC8", fill_type="solid")
+        
+        presence_1_fill = PatternFill(start_color="C8E6C9", end_color="C8E6C9", fill_type="solid")
+        presence_1_font = Font(name=font_family, size=10, color="1B5E20", bold=True)
+        
+        presence_0_fill = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")
+        presence_0_font = Font(name=font_family, size=10, color="9E9E9E")
+        
+        thin_border_side = Side(border_style="thin", color="D9D9D9")
+        thin_border = Border(left=thin_border_side, right=thin_border_side, top=thin_border_side, bottom=thin_border_side)
+        
+        # Title Block
+        ws.merge_cells("A1:G1")
+        refeicao_title = "ALMOÇO" if tipo_refeicao == "almoco" else "JANTAR"
+        ws["A1"] = f"CONTROLE DE ALIMENTAÇÃO - {refeicao_title}"
+        ws["A1"].font = title_font
+        
+        ws.merge_cells("A2:G2")
+        ws["A2"] = f"Obra: {obra_nome}  |  Planilha: {planilha_nome}  |  Período: {master_start} até {master_end}"
+        ws["A2"].font = subtitle_font
+        
+        # Headers Setup
+        headers = ["Matrícula", "Nome do Colaborador", "Centro de Custo"]
+        for d in dates_list:
+            headers.append(d.strftime("%d/%m"))
+        headers += ["Total Refeições"]
+        
+        header_row = 4
+        for col_idx, h in enumerate(headers, start=1):
+            cell = ws.cell(row=header_row, column=col_idx)
+            cell.value = h
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+            cell.border = thin_border
+            
+        ws.row_dimensions[header_row].height = 28
+        
+        # Data Rows
+        start_data_row = 5
+        for row_idx, colab in enumerate(final_list, start=start_data_row):
+            row_fill = zebra_fill if row_idx % 2 == 0 else white_fill
+            
+            # Col A: Matricula
+            cell_mat = ws.cell(row=row_idx, column=1, value=colab["matricula"])
+            cell_mat.font = data_font
+            cell_mat.fill = row_fill
+            cell_mat.border = thin_border
+            cell_mat.alignment = Alignment(horizontal="center")
+            
+            # Col B: Nome
+            cell_nome = ws.cell(row=row_idx, column=2, value=colab["nome"])
+            cell_nome.font = data_font
+            cell_nome.fill = row_fill
+            cell_nome.border = thin_border
+            cell_nome.alignment = Alignment(horizontal="left")
+            
+            # Col C: Centro de Custo
+            cell_cc = ws.cell(row=row_idx, column=3, value=colab["local_trab"])
+            cell_cc.font = data_font
+            cell_cc.fill = row_fill
+            cell_cc.border = thin_border
+            cell_cc.alignment = Alignment(horizontal="left")
+            
+            # Presence columns
+            num_date_cols = len(dates_list)
+            presences_dict = colab.get("presences", {})
+            
+            for date_idx, d in enumerate(dates_list):
+                day_num = d.day
+                presence_val = presences_dict.get(day_num, 0)
+                col_pos = 4 + date_idx
+                
+                cell_pres = ws.cell(row=row_idx, column=col_pos, value=presence_val)
+                cell_pres.border = thin_border
+                cell_pres.alignment = Alignment(horizontal="center")
+                
+                if presence_val == 1:
+                    cell_pres.fill = presence_1_fill
+                    cell_pres.font = presence_1_font
+                else:
+                    cell_pres.fill = row_fill
+                    cell_pres.font = presence_0_font
+                    
+            # Total Refeições formula
+            first_date_col = get_column_letter(4)
+            last_date_col = get_column_letter(3 + num_date_cols)
+            col_total = 4 + num_date_cols
+            
+            cell_total = ws.cell(row=row_idx, column=col_total)
+            cell_total.value = f"=SUM({first_date_col}{row_idx}:{last_date_col}{row_idx})"
+            cell_total.font = bold_data_font
+            cell_total.fill = summary_fill
+            cell_total.border = thin_border
+            cell_total.alignment = Alignment(horizontal="center")
+            
+            ws.row_dimensions[row_idx].height = 20
+            
+        # Summary Row at the bottom
+        last_row = start_data_row + len(final_list) - 1
+        total_row_idx = last_row + 2
+        
+        cell_total_label = ws.cell(row=total_row_idx, column=3, value="Total Geral")
+        cell_total_label.font = Font(name=font_family, size=11, bold=True, color="2E7D32")
+        cell_total_label.alignment = Alignment(horizontal="right")
+        
+        # SUM of Total Refeições
+        col_total = 4 + len(dates_list)
+        total_letter = get_column_letter(col_total)
+        cell_total_val = ws.cell(row=total_row_idx, column=col_total)
+        cell_total_val.value = f"=SUM({total_letter}5:{total_letter}{last_row})"
+        cell_total_val.font = Font(name=font_family, size=11, bold=True)
+        cell_total_val.border = Border(top=Side(style="double", color="2E7D32"))
+        cell_total_val.alignment = Alignment(horizontal="center")
+        
+        # Auto-fit columns
+        for col in ws.columns:
+            col_letter = get_column_letter(col[0].column)
+            max_len = 0
+            for cell in col:
+                if cell.row in (1, 2, total_row_idx):
+                    continue
+                if cell.value is not None:
+                    val_str = str(cell.value)
+                    if val_str.startswith("="):
+                        max_len = max(max_len, 10)
+                    else:
+                        max_len = max(max_len, len(val_str))
+            ws.column_dimensions[col_letter].width = max(max_len + 4, 10)
+            
+        ws.column_dimensions['B'].width = 30
+        ws.column_dimensions['C'].width = 25
+        
+        # Save to bytes
+        excel_buf = io.BytesIO()
+        wb.save(excel_buf)
+        excel_buf.seek(0)
+        return excel_buf.getvalue(), obra_id, planilha_id, obra_nome, planilha_nome
 
 upload_service = UploadService()

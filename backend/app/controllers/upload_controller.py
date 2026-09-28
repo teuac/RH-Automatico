@@ -7,57 +7,11 @@ from app.database.session import get_db
 from app.services.upload_service import upload_service
 from app.repositories.upload import upload_repository
 from app.repositories.pending_record import pending_record_repository
-from app.schemas.upload import UploadCommitRequest, UploadResponse
+from app.schemas.upload import UploadResponse
 from app.auth.rbac import get_active_user
 from app.models.user import User
 
 class UploadController:
-    @staticmethod
-    async def preview(
-        obra_id: int = Form(...),
-        planilha_id: int = Form(...),
-        override_date: Optional[str] = Form(None),
-        file: UploadFile = File(...),
-        db: Session = Depends(get_db)
-    ):
-        file_bytes = await file.read()
-        return upload_service.generate_preview(
-            db=db,
-            obra_id=obra_id,
-            planilha_id=planilha_id,
-            file_bytes=file_bytes,
-            filename=file.filename,
-            content_type=file.content_type,
-            override_date=override_date
-        )
-
-    @staticmethod
-    def commit(
-        request: Request,
-        payload: UploadCommitRequest,
-        db: Session,
-        current_user: User
-    ):
-        ip_address = request.client.host if request.client else "unknown"
-        user_agent = request.headers.get("user-agent", "unknown")
-        
-        funcs = payload.funcionarios or payload.linhas_preview or []
-        employees = [emp.model_dump() for emp in funcs]
-        date_val = payload.date or payload.date_str or ""
-        filename_val = payload.filename or "upload.txt"
-        
-        return upload_service.commit_sync(
-            db=db,
-            user=current_user,
-            ip_address=ip_address,
-            user_agent=user_agent,
-            obra_id=payload.obra_id,
-            planilha_id=payload.planilha_id,
-            date_str=date_val,
-            filename=filename_val,
-            funcionarios_data=employees
-        )
-
     @staticmethod
     def get_history(
         skip: int = 0,
